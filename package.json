@@ -1,0 +1,32 @@
+{
+  "name": "hotelmanagermentsystem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "beautiful": "prettier 'src/**/*.{js,json,scss}' --write --single-quote --trailing-comma all --tab-width 4",
+    "start": "node --inspect --watch ./src/index",
+    "watch": "sass -w src/resources/scss/:src/public/css/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1",
+    "handlebars": "^4.7.8",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.13.2",
+    "mongoose-slug-generator": "^1.0.4",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.14.0"
+  },
+  "devDependencies": {
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
