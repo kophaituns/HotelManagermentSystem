@@ -1,0 +1,472 @@
+$primary-color: #007bff;
+$danger-color: #dc3545;
+$bg-color: #f8f9fa;
+$text-color: #333;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: #fff;
+
+    .header__left, .header__center, .header__right {
+        display: flex;
+        align-items: center;
+    }
+
+    .menu-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 24px;
+        height: 18px;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        span {
+            height: 3px;
+            background-color: black;
+        }
+    }
+
+    .menu-text {
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    .language-selector {
+        margin-left: 10px;
+    }
+
+    .logo {
+        height: 40px;
+        margin-right: 12px;
+    }
+
+    .resort-name {
+        font-weight: bold;
+        text-align: center;
+
+        small {
+            display: block;
+            font-weight: normal;
+            font-size: 0.8em;
+        }
+    }
+
+    .btn {
+        padding: 10px 16px;
+        text-decoration: none;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    .btn-login {
+        background-color: #e3e5e3;
+        color: #222;
+    }
+
+    .btn-booking {
+        background-color: #d3ab95;
+        color: #222;
+    }
+}
+// Admin Styles
+.dashboard {
+  display: flex;
+
+  &__sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    padding: 20px;
+    color: #fff;
+    min-height: 100vh;
+  }
+
+  &__brand {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  &__management-btn {
+    background: #34495e;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background: #3d5a73;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__nav-link {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background 0.3s;
+
+    i {
+      font-size: 16px;
+    }
+
+    span {
+      font-size: 16px;
+    }
+
+    &:hover {
+      background: white;
+      text-decoration: none;
+    }
+
+    &--logout {
+      color: #e74c3c;
+
+      &:hover {
+        background: white;
+      }
+    }
+  }
+
+  &__content {
+    flex: 1;
+    padding: 30px;
+  }
+
+  &__title {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  &__info {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+
+  i {
+    font-size: 16px;
+  }
+
+  &--primary {
+    background-color: #3498db;
+    color: white;
+
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+
+  &--edit {
+    background-color: #f1c40f;
+    color: white;
+
+    &:hover {
+      background-color: #d4ac0d;
+    }
+  }
+
+  &--delete {
+    background-color: #e74c3c;
+    color: white;
+
+    &:hover {
+      background-color: #c0392b;
+    }
+  }
+
+  &--back {
+    background-color: #7f8c8d;
+    color: white;
+
+    &:hover {
+      background-color: #626e70;
+    }
+  }
+}
+
+  
+// End of Admin Styles
+
+// Employee Management Styles
+.user-manager {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  .user-manager__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .btn--back {
+      background-color: #7f8c8d;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-flex;
+      gap: 5px;
+    }
+
+    .user-manager__title {
+      margin-left: 250px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .user-manager__actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      .search-container {
+        position: relative;
+        display: flex;
+      }
+
+      .search-input {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 200px;
+      }
+
+      .search-btn {
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+
+      .search-icon {
+        font-size: 18px;
+        color: #3498db;
+      }
+
+      .btn--primary {
+        padding: 8px 12px;
+        background-color: #3498db;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .btn--trash {
+        padding: 8px 12px;
+        background-color: #e74c3c;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        gap: 5px;
+      }
+    }
+  }
+
+  .user-manager__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .btn {
+      background-color: #f1c40f;
+      border: none;
+      padding: 6px 10px;
+      margin-right: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &--view {
+        background-color: #2ecc71;
+        color: white;
+      }
+
+      &--edit {
+        background-color: #f39c12;
+        color: white;
+      }
+
+      &--delete {
+        background-color: #e74c3c;
+        color: white;
+      }
+    }
+  }
+
+  /* CSS cho khi không có người dùng */
+  .no-data {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  .no-data a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  /* Thêm hiệu ứng hover cho nút "Thêm người dùng" */
+  .no-data a:hover {
+    background-color: #2980b9;
+  }
+}
+
+.no-data{
+  text-align: center;
+}
+
+
+// End of Employee Management Styles
+
+
+// Create Employee Styles
+.user-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2c3e50;
+  }
+
+  &__form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #34495e;
+    }
+
+    input,
+    select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s;
+
+      &:focus {
+        border-color: #3498db;
+        outline: none;
+      }
+    }
+
+    input[type="file"] {
+      padding: 6px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  gap: 6px;
+
+  &--primary {
+    background-color: #3498db;
+    color: #fff;
+
+    &:hover {
+      background-color: #2980b9;
+    }
+  }
+
+  &--secondary {
+    background-color: #bdc3c7;
+    color: #2c3e50;
+
+    &:hover {
+      background-color: #95a5a6;
+    }
+  }
+}
+
+
+
+// End of Create Employee Styles

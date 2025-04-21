@@ -1,0 +1,68 @@
+
+  <div class="user-manager">
+    <div class="user-manager__header">
+      <a href="/admin" class="btn btn--back">
+        <i class="ti-arrow-left"></i> Quay lại
+      </a>
+
+      <h1 class="user-manager__title">
+        <i class="ti-user"></i> Quản lý người dùng
+      </h1>
+
+      <div class="user-manager__actions">
+        <div class="search-container">
+  <input type="text" class="search-input" placeholder="Tìm kiếm người dùng..." id="searchUser">
+  <button class="search-btn">
+    <i class="ti-search search-icon"></i>
+  </button>
+</div>
+        <a href="/admin/employee/create" class="btn btn--primary">
+  <i class="ti-plus"></i> Thêm người dùng 
+        <a href="/trash" class="btn btn--trash">
+          <i class="ti-trash"></i> Thùng rác
+        </a>
+      </div>
+    </div>
+
+    <table class="user-manager__table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Ảnh</th>
+          <th>Họ tên</th>
+          <th>Email</th>
+          <th>Ngày sinh</th>
+          <th>Số điện thoại</th>
+          <th>Vai trò</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#if users}}
+  {{#each users}}
+    <tr>
+      <td>{{@index}}</td>
+      <td><img src="{{this.avatar}}" alt="Ảnh đại diện" class="user-avatar"></td>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.dob}}</td>
+      <td>{{this.phone}}</td>
+      <td>{{this.role}}</td>
+      <td>
+        <button class="btn btn--view"><i class="ti-eye"></i> Xem</button>
+        <button class="btn btn--edit"><i class="ti-pencil"></i> Sửa</button>
+        <button class="btn btn--delete"><i class="ti-trash"></i> Xóa</button>
+      </td>
+    </tr>
+  {{/each}}
+{{else}}
+ <tr>
+    <td colspan="8" class="no-data text-center">
+      Không có người dùng nào! <br>
+      <a href="/admin/employee/create" class="btn btn--primary">Thêm người dùng</a>
+    </td>
+  </tr>
+{{/if}}
+      </tbody>
+    </table>
+  </div>

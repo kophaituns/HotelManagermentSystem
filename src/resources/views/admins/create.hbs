@@ -1,0 +1,62 @@
+<div class="user-form">
+  <h2 class="user-form__title"><i class="ti-plus"></i> Thêm người dùng mới</h2>
+
+  <form action="/admin/employee/store" method="POST" enctype="multipart/form-data">
+    <div class="user-form__form-group">
+      <label for="username">Tên đăng nhập</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="password">Mật khẩu</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="name">Họ tên</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="dob">Ngày sinh</label>
+      <input type="date" id="dob" name="dob">
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email">
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="phone">Số điện thoại</label>
+      <input type="tel" id="phone" name="phone">
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="avatar">Ảnh đại diện</label>
+      <input type="file" id="avatar" name="avatar" accept="image/*">
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="position">Chức vụ</label>
+      <input type="text" id="position" name="position">
+    </div>
+
+    <div class="user-form__form-group">
+      <label for="isAdmin">Vai trò</label>
+      <select id="isAdmin" name="isAdmin">
+        <option value="false">Nhân viên</option>
+        <option value="true">Quản trị viên</option>
+      </select>
+    </div>
+
+    <div class="user-form__buttons">
+      <button type="submit" class="btn btn--primary">
+        <i class="ti-save"></i> Lưu
+      </button>
+      <a href="/admin/employee" class="btn btn--secondary">
+        <i class="ti-arrow-left"></i> Quay lại
+      </a>
+    </div>
+  </form>
+</div>

@@ -1,39 +1,26 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const slug = require('mongoose-slug-generator');
-const User = new Schema(
-    {
+const mongooseDelete = require('mongoose-delete');
 
-        username: {
-            type: String,
-            required: true,
-            minlength: 6,
-            maxlength: 20,
-            unique: true,
-        },
-        password: {
-            type: String,
-            required: true,
-            minlength: 6,
-            maxlength: 60,
-        },
-        email: {
-            type: String,
-            required: true,
-            minlength: 6,
-            maxlength: 20,
-            unique: true,
-        },
-        admin: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    {
-        versionKey: false,
-        timestamps: true,
-    },
-);
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },      // Tài khoản đăng nhập
+  passwordHash: { type: String, required: true },                // Mật khẩu đã mã hóa
+  isAdmin: { type: Boolean, default: false },                    // true = Admin, false = Staff
 
-mongoose.plugin(slug);
-module.exports = mongoose.model('User', User);
+  // Thông tin nhân viên
+  name: { type: String, required: true },                        // Họ tên
+  email: { type: String, required: true, unique: true },         // Email
+  dob: { type: Date },                                         // Ngày sinh (có thể lưu dạng chuỗi)
+  phone: { type: String },                                       // Số điện thoại
+  role: { type: String, default: 'Nhân viên' },                  // Vai trò hiển thị (Admin/Nhân viên)
+  avatar: { type: String, default: '/images/default-avatar.jpg' } // Ảnh đại diện
+}, {
+  timestamps: true
+});
+
+// Plugin xóa mềm
+userSchema.plugin(mongooseDelete, {
+  deletedAt: true,
+  overrideMethods: 'all',
+});
+
+module.exports = mongoose.model('User', userSchema);

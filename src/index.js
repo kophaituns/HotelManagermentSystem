@@ -32,11 +32,8 @@ app.engine(
     'hbs',
     engine({
         extname: '.hbs',
+     
         helpers: {
-            eq: function (a, b) {
-                return a === b;
-            },
-            sum: (a, b) => a + b,
         },
     }),
 );

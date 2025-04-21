@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const authController = require('../app/controller/authController');
+const authController = require('../app/controllers/AuthController');
 
 
 router.post('/login',authController.login);

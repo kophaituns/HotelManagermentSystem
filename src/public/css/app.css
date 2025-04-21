@@ -1,0 +1,393 @@
+@charset "UTF-8";
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #fff;
+}
+.header .header__left, .header .header__center, .header .header__right {
+  display: flex;
+  align-items: center;
+}
+.header .menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.header .menu-icon span {
+  height: 3px;
+  background-color: black;
+}
+.header .menu-text {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.header .language-selector {
+  margin-left: 10px;
+}
+.header .logo {
+  height: 40px;
+  margin-right: 12px;
+}
+.header .resort-name {
+  font-weight: bold;
+  text-align: center;
+}
+.header .resort-name small {
+  display: block;
+  font-weight: normal;
+  font-size: 0.8em;
+}
+.header .btn {
+  padding: 10px 16px;
+  text-decoration: none;
+  margin-left: 10px;
+  font-weight: bold;
+}
+.header .btn-login {
+  background-color: #e3e5e3;
+  color: #222;
+}
+.header .btn-booking {
+  background-color: #d3ab95;
+  color: #222;
+}
+
+.dashboard {
+  display: flex;
+}
+.dashboard__sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  padding: 20px;
+  color: #fff;
+  min-height: 100vh;
+}
+.dashboard__brand {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.dashboard__management-btn {
+  background: #34495e;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.dashboard__management-btn:hover {
+  background: #3d5a73;
+}
+.dashboard__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dashboard__nav-link {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+.dashboard__nav-link i {
+  font-size: 16px;
+}
+.dashboard__nav-link span {
+  font-size: 16px;
+}
+.dashboard__nav-link:hover {
+  background: white;
+  text-decoration: none;
+}
+.dashboard__nav-link--logout {
+  color: #e74c3c;
+}
+.dashboard__nav-link--logout:hover {
+  background: white;
+}
+.dashboard__content {
+  flex: 1;
+  padding: 30px;
+}
+.dashboard__title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.dashboard__info {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn i {
+  font-size: 16px;
+}
+.btn--primary {
+  background-color: #3498db;
+  color: white;
+}
+.btn--primary:hover {
+  background-color: #2980b9;
+}
+.btn--edit {
+  background-color: #f1c40f;
+  color: white;
+}
+.btn--edit:hover {
+  background-color: #d4ac0d;
+}
+.btn--delete {
+  background-color: #e74c3c;
+  color: white;
+}
+.btn--delete:hover {
+  background-color: #c0392b;
+}
+.btn--back {
+  background-color: #7f8c8d;
+  color: white;
+}
+.btn--back:hover {
+  background-color: #626e70;
+}
+
+.user-manager {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  /* CSS cho khi không có người dùng */
+  /* Thêm hiệu ứng hover cho nút "Thêm người dùng" */
+}
+.user-manager .user-manager__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.user-manager .user-manager__header .btn--back {
+  background-color: #7f8c8d;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 5px;
+}
+.user-manager .user-manager__header .user-manager__title {
+  margin-left: 250px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.user-manager .user-manager__header .user-manager__actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.user-manager .user-manager__header .user-manager__actions .search-container {
+  position: relative;
+  display: flex;
+}
+.user-manager .user-manager__header .user-manager__actions .search-input {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+.user-manager .user-manager__header .user-manager__actions .search-btn {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.user-manager .user-manager__header .user-manager__actions .search-icon {
+  font-size: 18px;
+  color: #3498db;
+}
+.user-manager .user-manager__header .user-manager__actions .btn--primary {
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.user-manager .user-manager__header .user-manager__actions .btn--trash {
+  padding: 8px 12px;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 5px;
+}
+.user-manager .user-manager__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.user-manager .user-manager__table th, .user-manager .user-manager__table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+.user-manager .user-manager__table th {
+  background-color: #f4f4f4;
+}
+.user-manager .user-manager__table .user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.user-manager .user-manager__table .btn {
+  background-color: #f1c40f;
+  border: none;
+  padding: 6px 10px;
+  margin-right: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.user-manager .user-manager__table .btn:hover {
+  opacity: 0.8;
+}
+.user-manager .user-manager__table .btn--view {
+  background-color: #2ecc71;
+  color: white;
+}
+.user-manager .user-manager__table .btn--edit {
+  background-color: #f39c12;
+  color: white;
+}
+.user-manager .user-manager__table .btn--delete {
+  background-color: #e74c3c;
+  color: white;
+}
+.user-manager .no-data {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+  font-size: 16px;
+}
+.user-manager .no-data a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.user-manager .no-data a:hover {
+  background-color: #2980b9;
+}
+
+.no-data {
+  text-align: center;
+}
+
+.user-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", sans-serif;
+}
+.user-form__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2c3e50;
+}
+.user-form__form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+.user-form__form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #34495e;
+}
+.user-form__form-group input,
+.user-form__form-group select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+.user-form__form-group input:focus,
+.user-form__form-group select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+.user-form__form-group input[type=file] {
+  padding: 6px;
+}
+.user-form__buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  gap: 6px;
+}
+.btn--primary {
+  background-color: #3498db;
+  color: #fff;
+}
+.btn--primary:hover {
+  background-color: #2980b9;
+}
+.btn--secondary {
+  background-color: #bdc3c7;
+  color: #2c3e50;
+}
+.btn--secondary:hover {
+  background-color: #95a5a6;
+}
+
+/*# sourceMappingURL=app.css.map */
