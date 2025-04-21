@@ -2,77 +2,156 @@ $primary-color: #007bff;
 $danger-color: #dc3545;
 $bg-color: #f8f9fa;
 $text-color: #333;
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 32px;
-    background-color: #fff;
 
-    .header__left, .header__center, .header__right {
-        display: flex;
-        align-items: center;
+// General Styles
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+
+  i {
+    font-size: 16px;
+  }
+
+  &--primary {
+    background-color: #3498db;
+    color: white;
+
+    &:hover {
+      background-color: #2980b9;
     }
+  }
 
-    .menu-icon {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 24px;
-        height: 18px;
-        border: none;
-        background: none;
-        cursor: pointer;
+  &--edit {
+    background-color: #f1c40f;
+    color: white;
 
-        span {
-            height: 3px;
-            background-color: black;
-        }
+    &:hover {
+      background-color: #d4ac0d;
     }
+  }
 
-    .menu-text {
-        margin-left: 10px;
-        font-weight: bold;
+  &--delete {
+    background-color: #e74c3c;
+    color: white;
+
+    &:hover {
+      background-color: #c0392b;
     }
+  }
 
-    .language-selector {
-        margin-left: 10px;
+  &--view {
+    background-color: #2ecc71;
+    color: white;
+
+    &:hover {
+      opacity: 0.8;
     }
+  }
 
-    .logo {
-        height: 40px;
-        margin-right: 12px;
+  &--back {
+    background-color: #7f8c8d;
+    color: white;
+
+    &:hover {
+      background-color: #626e70;
     }
+  }
 
-    .resort-name {
-        font-weight: bold;
-        text-align: center;
+  &--secondary {
+    background-color: #bdc3c7;
+    color: #2c3e50;
 
-        small {
-            display: block;
-            font-weight: normal;
-            font-size: 0.8em;
-        }
+    &:hover {
+      background-color: #95a5a6;
     }
+  }
 
-    .btn {
-        padding: 10px 16px;
-        text-decoration: none;
-        margin-left: 10px;
-        font-weight: bold;
-    }
-
-    .btn-login {
-        background-color: #e3e5e3;
-        color: #222;
-    }
-
-    .btn-booking {
-        background-color: #d3ab95;
-        color: #222;
-    }
+  &--trash {
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    gap: 5px;
+  }
 }
-// Admin Styles
+
+// Header
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #fff;
+
+  .header__left, .header__center, .header__right {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    span {
+      height: 3px;
+      background-color: black;
+    }
+  }
+
+  .menu-text {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+
+  .language-selector {
+    margin-left: 10px;
+  }
+
+  .logo {
+    height: 40px;
+    margin-right: 12px;
+  }
+
+  .resort-name {
+    font-weight: bold;
+    text-align: center;
+
+    small {
+      display: block;
+      font-weight: normal;
+      font-size: 0.8em;
+    }
+  }
+
+  .btn-login {
+    background-color: #e3e5e3;
+    color: #222;
+    margin-left: 10px;
+  }
+
+  .btn-booking {
+    background-color: #d3ab95;
+    color: #222;
+    margin-left: 10px;
+  }
+}
+
+// Dashboard (Admin)
 .dashboard {
   display: flex;
 
@@ -122,11 +201,7 @@ $text-color: #333;
     border-radius: 4px;
     transition: background 0.3s;
 
-    i {
-      font-size: 16px;
-    }
-
-    span {
+    i, span {
       font-size: 16px;
     }
 
@@ -159,81 +234,17 @@ $text-color: #333;
     margin-bottom: 6px;
   }
 }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: none;
 
-  i {
-    font-size: 16px;
-  }
-
-  &--primary {
-    background-color: #3498db;
-    color: white;
-
-    &:hover {
-      background-color: #2980b9;
-    }
-  }
-
-  &--edit {
-    background-color: #f1c40f;
-    color: white;
-
-    &:hover {
-      background-color: #d4ac0d;
-    }
-  }
-
-  &--delete {
-    background-color: #e74c3c;
-    color: white;
-
-    &:hover {
-      background-color: #c0392b;
-    }
-  }
-
-  &--back {
-    background-color: #7f8c8d;
-    color: white;
-
-    &:hover {
-      background-color: #626e70;
-    }
-  }
-}
-
-  
-// End of Admin Styles
-
-// Employee Management Styles
+// User Manager
 .user-manager {
   padding: 20px;
   font-family: Arial, sans-serif;
 
-  .user-manager__header {
+  &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-
-    .btn--back {
-      background-color: #7f8c8d;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 5px;
-      text-decoration: none;
-      display: inline-flex;
-      gap: 5px;
-    }
 
     .user-manager__title {
       margin-left: 250px;
@@ -249,53 +260,34 @@ $text-color: #333;
       .search-container {
         position: relative;
         display: flex;
-      }
 
-      .search-input {
-        padding: 8px;
-        font-size: 14px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        width: 200px;
-      }
+        .search-input {
+          padding: 8px;
+          font-size: 14px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          width: 200px;
+        }
 
-      .search-btn {
-        background-color: transparent;
-        border: none;
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-      }
+        .search-btn {
+          background-color: transparent;
+          border: none;
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
 
-      .search-icon {
-        font-size: 18px;
-        color: #3498db;
-      }
-
-      .btn--primary {
-        padding: 8px 12px;
-        background-color: #3498db;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .btn--trash {
-        padding: 8px 12px;
-        background-color: #e74c3c;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-flex;
-        gap: 5px;
+          .search-icon {
+            font-size: 18px;
+            color: #3498db;
+          }
+        }
       }
     }
   }
 
-  .user-manager__table {
+  &__table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -318,72 +310,45 @@ $text-color: #333;
     }
 
     .btn {
-      background-color: #f1c40f;
-      border: none;
       padding: 6px 10px;
       margin-right: 5px;
       border-radius: 5px;
-      cursor: pointer;
       font-size: 14px;
 
       &:hover {
         opacity: 0.8;
       }
-
-      &--view {
-        background-color: #2ecc71;
-        color: white;
-      }
-
-      &--edit {
-        background-color: #f39c12;
-        color: white;
-      }
-
-      &--delete {
-        background-color: #e74c3c;
-        color: white;
-      }
     }
   }
 
-  /* CSS cho khi không có người dùng */
   .no-data {
     text-align: center;
     color: #999;
     font-style: italic;
     padding: 20px;
     font-size: 16px;
-  }
 
-  .no-data a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-weight: bold;
-  }
+    a {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-weight: bold;
 
-  /* Thêm hiệu ứng hover cho nút "Thêm người dùng" */
-  .no-data a:hover {
-    background-color: #2980b9;
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
   }
 }
 
-.no-data{
-  text-align: center;
-}
-
-
-// End of Employee Management Styles
-
-
-// Create Employee Styles
-.user-form {
-  max-width: 700px;
+// Create & Edit Form Shared Styles
+.user-form,
+.user-edit__card {
+  max-width: 900px;
   margin: 0 auto;
   padding: 32px;
   background-color: #fff;
@@ -418,7 +383,6 @@ $text-color: #333;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
-      transition: all 0.3s;
 
       &:focus {
         border-color: #3498db;
@@ -438,35 +402,310 @@ $text-color: #333;
   }
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 18px;
-  font-size: 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  gap: 6px;
+// Show User Detail
+.user-detail {
+  &__card {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-  &--primary {
-    background-color: #3498db;
-    color: #fff;
+  &__avatar {
+    max-width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #dee2e6;
+  }
 
-    &:hover {
-      background-color: #2980b9;
+  &__name {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+// Trash Page
+.user-trash {
+  padding: 24px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    gap: 12px;
+
+    .btn--back {
+      background-color: #f1f1f1;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+
+    .user-trash__title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
   }
 
-  &--secondary {
-    background-color: #bdc3c7;
-    color: #2c3e50;
+  .table-responsive {
+    overflow-x: auto;
+  }
 
-    &:hover {
-      background-color: #95a5a6;
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+
+    thead {
+      background-color: #f8f9fa;
+
+      th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+      }
+    }
+
+    tbody {
+      td {
+        padding: 12px;
+        vertical-align: middle;
+        border-bottom: 1px solid #dee2e6;
+      }
+    }
+
+    img.user-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #ddd;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .btn {
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+
+      &--success {
+        background-color: #28a745;
+        color: #fff;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
+
+      &--danger {
+        background-color: #dc3545;
+        color: #fff;
+
+        &:hover {
+          background-color: #c82333;
+        }
+      }
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    font-size: 16px;
+    margin-top: 32px;
+
+    i {
+      font-size: 20px;
+      margin-right: 6px;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .user-trash {
+    padding: 16px;
+
+    &__table {
+      min-width: unset;
+    }
+
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .user-trash__title {
+        font-size: 20px;
+      }
     }
   }
 }
 
 
+// Modal
+.modal-header {
+  background-color: #f8d7da;
+  color: #721c24;
+}
 
-// End of Create Employee Styles
+.modal-footer {
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+}
+
+.modal-content {
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%;
+  }
+}
+
+
+
+// Room Style
+.room-manager {
+  padding: 2rem;
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .btn--back {
+      color: #007bff;
+      font-weight: bold;
+      i {
+        margin-right: 5px;
+      }
+    }
+
+    .room-manager__title {
+      flex: 1;
+      font-size: 2rem;
+      font-weight: bold;
+      i {
+        margin-right: 10px;
+      }
+    }
+
+    .room-manager__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .search-container {
+        display: flex;
+        align-items: center;
+        input {
+          padding: 0.4rem 0.6rem;
+          border: 1px solid #ccc;
+          border-radius: 4px 0 0 4px;
+        }
+
+        .search-btn {
+          padding: 0.4rem 0.6rem;
+          border: none;
+          background: #007bff;
+          color: #fff;
+          border-radius: 0 4px 4px 0;
+        }
+      }
+    }
+  }
+
+  &__table {
+    width: 100%;
+
+    .room-thumb {
+      width: 60px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .badge {
+      &-available { background: #28a745; color: white; }
+      &-booked { background: #ffc107; color: black; }
+      &-occupied { background: #dc3545; color: white; }
+      &-unavailable { background: #6c757d; color: white; }
+    }
+
+    .btn {
+      margin: 0 2px;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+      i {
+        font-size: 1rem;
+      }
+
+      &--view { background-color: #17a2b8; color: white; }
+      &--edit { background-color: #ffc107; color: black; }
+      &--delete { background-color: #dc3545; color: white; }
+    }
+
+    .no-data {
+      padding: 2rem 0;
+      font-weight: bold;
+      color: #888;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    &__actions {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .room-manager__table {
+      font-size: 0.9rem;
+
+      th, td {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+// End of Room Style

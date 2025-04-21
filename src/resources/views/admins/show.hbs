@@ -1,0 +1,42 @@
+<div class="user-detail container py-4">
+  <div class="user-detail__back mb-4">
+    <a href="/admin/employee" class="btn btn-outline-secondary">
+      <i class="ti-arrow-left"></i> Quay lại danh sách
+    </a>
+  </div>
+
+  <div class="card shadow user-detail__card p-4">
+    <div class="row">
+      <!-- Ảnh đại diện (chiếm 4 cột trên PC, full width mobile) -->
+      <div class="col-md-4 text-center mb-4 mb-md-0">
+        <img src="{{user.avatar}}" alt="Avatar" class="user-detail__avatar mb-3">
+        <h5 class="user-detail__name">{{user.name}}</h5>
+        <span class="badge {{#if user.isAdmin}}bg-danger{{else}}bg-secondary{{/if}}">
+          {{#if user.isAdmin}}Admin{{else}}Nhân viên{{/if}}
+        </span>
+      </div>
+
+      <!-- Thông tin chi tiết -->
+      <div class="col-md-8">
+        <h4 class="mb-3"><i class="ti-info-alt"></i> Thông tin chi tiết</h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Tài khoản:</strong> {{user.username}}</li>
+          <li class="list-group-item"><strong>Email:</strong> {{user.email}}</li>
+          <li class="list-group-item"><strong>Ngày sinh:</strong> {{user.dob}}</li>
+          <li class="list-group-item"><strong>Số điện thoại:</strong> {{user.phone}}</li>
+          <li class="list-group-item"><strong>Vai trò:</strong> {{user.role}}</li>
+          <li class="list-group-item"><strong>Ngày tạo:</strong> {{user.createdAt}}</li>
+          <li class="list-group-item"><strong>Cập nhật lần cuối:</strong> {{user.updatedAt}}</li>
+        </ul>
+
+        <div class="mt-4">
+             <a href="/admin/employee/edit/{{user._id}}" class="btn__link-edit">
+            <button class="btn btn--edit"><i class="ti-pencil"></i> Sửa</button>
+
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

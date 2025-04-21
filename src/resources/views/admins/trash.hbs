@@ -1,0 +1,117 @@
+<div class="user-trash">
+  <div class="user-trash__header">
+    <a href="/admin/employee" class="btn btn--back">
+      <i class="ti-arrow-left"></i> Quay lại
+    </a>
+    <h1 class="user-trash__title">
+      <i class="ti-trash"></i> Thùng rác người dùng
+    </h1>
+  </div>
+
+  {{#if users.length}}
+  <div class="table-responsive">
+    <table class="user-trash__table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Ảnh</th>
+          <th>Họ tên</th>
+          <th>Email</th>
+          <th>Vai trò</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+        <tr>
+          <td>{{increment @index}}</td>
+          <td><img src="{{this.avatar}}" alt="Avatar" class="user-avatar" /></td>
+          <td>{{this.name}}</td>
+          <td>{{this.email}}</td>
+          <td>{{this.role}}</td>
+          <td class="user-trash__actions">
+          <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">
+                <button class="btn btn--success" title="Khôi phục">
+                  <i class="ti-reload"></i> Khôi phục
+                </button>
+            
+
+          </a>
+
+            <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
+              data-target="#delete-user-modal">
+              <button class="btn btn--danger" title="Xóa vĩnh viễn">
+                <i class="ti-close"></i> Xóa
+              </button>
+            </a>
+
+
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{else}}
+  <div class="user-trash__empty">
+    <i class="ti-info-alt"></i> Không có người dùng nào trong thùng rác.
+  </div>
+  {{/if}}
+</div>
+
+
+{{!-- Confirm delete user --}}
+<div id="delete-user-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa người dùng?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Hành động này không thể khôi phục. Bạn vẫn muốn xóa người dùng này?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button id="btn-delete-user" type="button" class="btn btn-danger">Xóa vĩnh viễn</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<form name="delete-user-form" method="POST"></form>
+<form name="restore-user-form" method="POST"></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var userId;
+    var deleteForm = document.forms['delete-user-form'];
+    var restoreForm = document.forms['restore-user-form'];
+    var btnDeleteUser = document.getElementById('btn-delete-user');
+    var restoreBtn = $('.btn-restore');
+
+    // When dialog confirm clicked
+    $('#delete-user-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      userId = button.data('id');
+    });
+
+    // When delete course btn clicked
+    btnDeleteUser.onclick = function () {
+      deleteForm.action = 'employee/forceDelete/' + userId + '?_method=DELETE';
+      deleteForm.submit();
+    }
+
+    // Restore btn clicked
+    restoreBtn.click(function (e) {
+      e.preventDefault();
+
+      var userId = $(this).data('id');
+      restoreForm.action = 'employee/restore/' + userId + '?_method=PATCH';
+      restoreForm.submit();
+    });
+  });
+</script>

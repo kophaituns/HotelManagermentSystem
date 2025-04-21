@@ -9,7 +9,7 @@ const db = require('./config/db/index.js');
 const route = require('./routes');
 const morgan = require('morgan');
 const AuthMiddleWare = require('./app/midleware/AuthMiddleWare.js');
-const { helpers } = require('handlebars');
+const hbshelpers = require('./app/helpers/DateHelper.js');
 dotenv.config();
 
 // Connect to DB
@@ -22,19 +22,17 @@ app.use(
     express.urlencoded({
         extended: true,
     }),
-);
-app.use(methodOverride('_method'));
+);  
+app.use(methodOverride('_method'));    
 // HTTP logger
 app.use(morgan('combined'));
-
 // Template engine
 app.engine(
     'hbs',
     engine({
         extname: '.hbs',
      
-        helpers: {
-        },
+        helpers: hbshelpers,
     }),
 );
 app.use(cors());

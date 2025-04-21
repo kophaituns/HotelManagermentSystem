@@ -8,12 +8,10 @@
         <i class="ti-user"></i>
         <span>Quản lý người dùng</span>
       </a>
-
-      <a href="/rooms" class="dashboard__nav-link">
+      <a href="/room" class="dashboard__nav-link">
         <i class="ti-home"></i>
         <span>Quản lý phòng</span>
       </a>
-
       <a href="/logout" class="dashboard__nav-link dashboard__nav-link--logout">
         <i class="ti-power-off"></i>
         <span>Đăng xuất</span>
@@ -22,8 +20,8 @@
   </aside>
 
   <main class="dashboard__content">
-    <h2 class="dashboard__title">Trang chủ</h2>
-    <p class="dashboard__info">Tên: {{employees.name}}</p>
-    <p class="dashboard__info">Quyền: {{user.isAdmin}}</p>
+    <h2 class="dashboard__title">Chào mừng Admin</h2>
+    <p class="dashboard__info">Tên: {{user.name}}</p>
+    <p class="dashboard__info">Quyền: {{user.role}}</p>
   </main>
 </div>
