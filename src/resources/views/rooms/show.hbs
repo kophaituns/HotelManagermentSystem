@@ -1,0 +1,54 @@
+<div class="room-detail container mt-4 mb-5">
+  <a href="/admin/room" class="btn btn--back mb-3">
+    <i class="ti-arrow-left"></i> Quay lại
+  </a>
+
+  <h1 class="room-detail__title mb-4">
+    <i class="ti-home"></i> Chi tiết phòng: {{room.number}}
+  </h1>
+
+  <div class="room-detail__content row">
+    <div class="col-lg-6">
+      <div class="room-detail__images mb-4">
+        {{#each room.images}}
+          <img src="{{this}}" alt="Ảnh phòng" class="img-fluid room-image mb-2" />
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <ul class="room-detail__info list-group">
+        <li class="list-group-item"><strong>Loại phòng:</strong> {{room.typeId.name}}</li>
+        <li class="list-group-item"><strong>Giá:</strong> {{room.price}} VND / đêm</li>
+        <li class="list-group-item"><strong>Sức chứa:</strong> {{room.capacity}} người</li>
+        <li class="list-group-item"><strong>Diện tích:</strong> {{room.size}} m²</li>
+        <li class="list-group-item"><strong>Tầng:</strong> {{room.floor}}</li>
+        <li class="list-group-item"><strong>Hướng nhìn:</strong> {{room.view}}</li>
+        <li class="list-group-item"><strong>Trạng thái:</strong> 
+          <span class="badge badge-{{statusClass room.status}}">{{room.status}}</span>
+        </li>
+        <li class="list-group-item"><strong>Số lượng còn:</strong> {{room.remaining}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="room-detail__description mt-4">
+    <h4><i class="ti-info-alt"></i> Mô tả</h4>
+    <p>{{room.description}}</p>
+  </div>
+
+  <div class="room-detail__amenities mt-4">
+    <h4><i class="ti-layout-grid2"></i> Tiện nghi</h4>
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Giường:</strong> {{room.amenities.beds}}</p>
+        <p><strong>Phòng tắm:</strong> {{#each room.amenities.bathroom}}{{this}}, {{/each}}</p>
+        <p><strong>Thiết bị:</strong> {{#each room.amenities.appliances}}{{this}}, {{/each}}</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Ngoài trời:</strong> {{#each room.amenities.outdoorItems}}{{this}}, {{/each}}</p>
+        <p><strong>Hút thuốc:</strong> {{room.amenities.smokingPolicy}}</p>
+      </div>
+    </div>
+  </div>
+</div>

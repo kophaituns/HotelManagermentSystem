@@ -1,0 +1,94 @@
+<div class="form-group">
+  <label for="number">Số phòng</label>
+  <input type="text" id="number" name="number" class="form-control" value="{{room.number}}" required>
+</div>
+
+<div class="form-group">
+  <label for="typeId">Loại phòng</label>
+  <select id="typeId" name="typeId" class="form-control" required>
+    {{#each roomTypes}}
+      <option value="{{this._id}}" {{#ifEquals this._id ../room.typeId}}selected{{/ifEquals}}>{{this.name}}</option>
+    {{/each}}
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="status">Trạng thái</label>
+  <select id="status" name="status" class="form-control">
+    {{#each (array "available" "booked" "occupied" "unavailable")}}
+      <option value="{{this}}" {{#ifEquals this ../room.status}}selected{{/ifEquals}}>{{this}}</option>
+    {{/each}}
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="images">Ảnh (có thể chọn nhiều)</label>
+  <input type="file" id="images" name="images" class="form-control" multiple>
+  {{#if room.images}}
+    <div class="preview-images mt-2">
+      {{#each room.images}}
+        <img src="{{this}}" alt="Room Image" class="img-thumbnail me-2 mb-2" width="120">
+      {{/each}}
+    </div>
+  {{/if}}
+</div>
+
+<div class="form-group">
+  <label for="capacity">Sức chứa</label>
+  <input type="number" id="capacity" name="capacity" class="form-control" value="{{room.capacity}}" required>
+</div>
+
+<div class="form-group">
+  <label for="size">Diện tích (m²)</label>
+  <input type="number" id="size" name="size" class="form-control" value="{{room.size}}">
+</div>
+
+<div class="form-group">
+  <label for="view">Hướng nhìn</label>
+  <input type="text" id="view" name="view" class="form-control" value="{{room.view}}">
+</div>
+
+<div class="form-group">
+  <label for="floor">Tầng</label>
+  <input type="text" id="floor" name="floor" class="form-control" value="{{room.floor}}">
+</div>
+
+<div class="form-group">
+  <label for="beds">Loại giường</label>
+  <input type="text" id="beds" name="amenities[beds]" class="form-control" value="{{room.amenities.beds}}">
+</div>
+
+<div class="form-group">
+  <label for="bathroom">Phòng tắm</label>
+  <input type="text" id="bathroom" name="amenities[bathroom]" class="form-control" value="{{room.amenities.bathroom}}" placeholder="Ngăn cách bằng dấu phẩy">
+</div>
+
+<div class="form-group">
+  <label for="appliances">Tiện nghi</label>
+  <input type="text" id="appliances" name="amenities[appliances]" class="form-control" value="{{room.amenities.appliances}}" placeholder="Stocked Minibar, Smart TV...">
+</div>
+
+<div class="form-group">
+  <label for="outdoorItems">Đồ ngoài trời</label>
+  <input type="text" id="outdoorItems" name="amenities[outdoorItems]" class="form-control" value="{{room.amenities.outdoorItems}}" placeholder="Ban công, Bàn ghế...">
+</div>
+
+<div class="form-group">
+  <label for="smokingPolicy">Chính sách hút thuốc</label>
+  <input type="text" id="smokingPolicy" name="amenities[smokingPolicy]" class="form-control" value="{{room.amenities.smokingPolicy}}">
+</div>
+
+<div class="form-group">
+  <label for="description">Mô tả</label>
+  <textarea id="description" name="description" class="form-control">{{room.description}}</textarea>
+</div>
+
+<div class="form-group">
+  <label for="price">Giá tiền (1 đêm)</label>
+  <input type="number" id="price" name="price" class="form-control" value="{{room.price}}" required>
+</div>
+
+<div class="form-group">
+  <label for="remaining">Số lượng còn lại</label>
+  <input type="number" id="remaining" name="remaining" class="form-control" value="{{room.remaining}}">
+</div>

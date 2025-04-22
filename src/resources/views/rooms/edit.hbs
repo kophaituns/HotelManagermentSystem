@@ -1,0 +1,18 @@
+<div class="edit-room container">
+  <div class="edit-room__header">
+    <a href="/admin/room" class="btn btn--back">
+      <i class="ti-arrow-left"></i> Quay lại
+    </a>
+
+    <h1 class="edit-room__title">
+      <i class="ti-pencil"></i> Chỉnh sửa phòng {{room.number}}
+    </h1>
+  </div>
+
+  <form action="/admin/room/{{room._id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+    {{> formFields room=room roomTypes=roomTypes }}
+    <div class="form-group mt-3">
+      <button type="submit" class="btn btn--primary">Cập nhật</button>
+    </div>
+  </form>
+</div>

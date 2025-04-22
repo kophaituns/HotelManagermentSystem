@@ -1,16 +1,16 @@
-<div class="room-manager">
-  <div class="room-manager__header">
-    <a href="/admin" class="btn btn--back">
-      <i class="ti-arrow-left"></i> Quay lại
+<div class="room-manager container-fluid">
+  <div class="room-manager__header d-flex justify-content-between align-items-center my-4">
+    <a href="/admin" class="btn btn-outline-secondary ">
+      <i class="ti-arrow-left"></i> Quay lại danh sách
     </a>
 
-    <h1 class="room-manager__title">
+    <h2 class="room-manager__title mb-0">
       <i class="ti-home"></i> Quản lý phòng
-    </h1>
+    </h2>
 
-    <div class="room-manager__actions">
-      <div class="search-container">
-        <input type="text" class="search-input" placeholder="Tìm kiếm phòng..." id="searchRoom">
+    <div class="room-manager__actions d-flex align-items-center justify-content-center gap-4">
+      <div class="search-container ">
+        <input type="text" class="search-input" placeholder="Tìm kiếm phòng..." id="searchUser">
         <button class="search-btn">
           <i class="ti-search search-icon"></i>
         </button>
@@ -22,73 +22,75 @@
         <i class="ti-trash"></i> Thùng rác
       </a>
     </div>
+
   </div>
 
-  <table class="room-manager__table table table-bordered table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>STT</th>
-        <th>Ảnh</th>
-        <th>Số phòng</th>
-        <th>Loại phòng</th>
-        <th>Giá</th>
-        <th>Trạng thái</th>
-        <th>Tầng</th>
-        <th>Sức chứa</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#if rooms}}
-      {{#each rooms}}
-      <tr>
-        <td>{{@index}}</td>
-        <td>
-          <img src="{{this.images.[0]}}" alt="Ảnh phòng" class="room-thumb">
-        </td>
-        <td>{{this.number}}</td>
-        <td>{{this.typeId.name}}</td>
-        <td>{{this.price}}đ</td>
-        <td>
-          <span class="badge badge-{{this.status}}">
-            {{this.status}}
-          </span>
-        </td>
-        <td>{{this.floor}}</td>
-        <td>{{this.capacity}} người</td>
-        <td>
-          <a href="/admin/room/show/{{this._id}}" class="btn__link-show">
-            <button class="btn btn--view"><i class="ti-eye"></i></button>
-          </a>
-          <a href="/admin/room/edit/{{this._id}}" class="btn__link-edit">
-            <button class="btn btn--edit"><i class="ti-pencil"></i></button>
-          </a>
-          <a href="#" class="btn__link-delete" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-room-modal">
-            <button class="btn btn--delete"><i class="ti-trash"></i></button>
-          </a>
-        </td>
-      </tr>
-      {{/each}}
-      {{else}}
-      <tr>
-        <td colspan="9" class="text-center no-data">
-          Không có phòng nào! <br>
-          <a href="/admin/room/create" class="btn btn--primary">Thêm phòng</a>
-        </td>
-      </tr>
-      {{/if}}
-    </tbody>
-  </table>
+  {{#if rooms.length}}
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>STT</th>
+          <th>Số phòng</th>
+          <th>Loại phòng</th>
+          <th>Giá (VNĐ)</th>
+          <th>Trạng thái</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rooms}}
+        <tr>
+          <td>{{increment @index}}</td>
+          <td>{{this.number}}</td>
+          <td>{{this.typeId.name}}</td>
+          <td>{{this.price}}</td>
+          <td>
+            {{#if (eq this.status "available")}}
+            <span class="badge badge-success">Còn trống</span>
+            {{else if (eq this.status "booked")}}
+            <span class="badge badge-warning">Đã đặt</span>
+            {{else if (eq this.status "occupied")}}
+            <span class="badge badge-danger">Đang sử dụng</span>
+            {{else}}
+            <span class="badge badge-secondary">Không khả dụng</span>
+            {{/if}}
+          </td>
+          <td>
+            <a href="/admin/room/{{this._id}}" class="btn btn-info btn-sm" title="Xem chi tiết">
+              <i class="ti-eye"></i>
+            </a>
+            <a href="/admin/room/{{this._id}}/edit" class="btn btn-warning btn-sm" title="Chỉnh sửa">
+              <i class="ti-pencil"></i>
+            </a>
+            <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-room-modal">
+              <button class="btn btn-danger btn-sm">
+                <i class="ti-trash"></i>
+              </button>
+            </a>
+
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{else}}
+  <div class="alert alert-info text-center">
+    <i class="ti-info-alt"></i> Chưa có phòng nào được tạo.
+  </div>
+  {{/if}}
 </div>
 
-<!-- Modal Delete Room -->
+
+{{!-- Confirm delete course --}}
 <div id="delete-room-modal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Xóa phòng?</h5>
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
+        <h5 class="modal-title">Xóa phòng này?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -96,28 +98,31 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button id="btn-delete-room" type="button" class="btn btn-danger">Xóa</button>
+        <button id="btn-delete-room" type="button" class="btn btn-danger">Xóa bỏ</button>
       </div>
     </div>
   </div>
 </div>
 
-<form name="delete-room-form" method="POST"></form>
+{{!-- Delete hidden form --}}
+<form name="delete-course-form" method="POST"></form>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    let roomId;
-    const deleteForm = document.forms['delete-room-form'];
-    const btnDeleteRoom = document.getElementById('btn-delete-room');
+    var roomId;
+    var deleteForm = document.forms['delete-course-form'];
+    var btnDeleteRoom = document.getElementById('btn-delete-room');
 
+    // When dialog confirm clicked
     $('#delete-room-modal').on('show.bs.modal', function (event) {
-      const button = $(event.relatedTarget);
+      var button = $(event.relatedTarget);
       roomId = button.data('id');
     });
 
+    // When delete course btn clicked
     btnDeleteRoom.onclick = function () {
       deleteForm.action = '/admin/room/delete/' + roomId + '?_method=DELETE';
       deleteForm.submit();
-    };
+    }
   });
 </script>

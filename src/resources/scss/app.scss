@@ -597,115 +597,495 @@ $text-color: #333;
 
 // Room Style
 .room-manager {
-  padding: 2rem;
+  padding: 1rem;
 
   &__header {
-    display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    row-gap: 1rem;
 
-    .btn--back {
-      color: #007bff;
-      font-weight: bold;
+    .btn {
       i {
         margin-right: 5px;
       }
     }
 
-    .room-manager__title {
-      flex: 1;
-      font-size: 2rem;
-      font-weight: bold;
-      i {
-        margin-right: 10px;
-      }
-    }
-
-    .room-manager__actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-
-      .search-container {
-        display: flex;
-        align-items: center;
-        input {
-          padding: 0.4rem 0.6rem;
-          border: 1px solid #ccc;
-          border-radius: 4px 0 0 4px;
-        }
-
-        .search-btn {
-          padding: 0.4rem 0.6rem;
-          border: none;
-          background: #007bff;
-          color: #fff;
-          border-radius: 0 4px 4px 0;
-        }
-      }
-    }
-  }
-
-  &__table {
-    width: 100%;
-
-    .room-thumb {
-      width: 60px;
-      height: 45px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-
-    .badge {
-      &-available { background: #28a745; color: white; }
-      &-booked { background: #ffc107; color: black; }
-      &-occupied { background: #dc3545; color: white; }
-      &-unavailable { background: #6c757d; color: white; }
-    }
-
-    .btn {
-      margin: 0 2px;
-      padding: 0.3rem 0.6rem;
-      border-radius: 5px;
-      i {
-        font-size: 1rem;
-      }
-
-      &--view { background-color: #17a2b8; color: white; }
-      &--edit { background-color: #ffc107; color: black; }
-      &--delete { background-color: #dc3545; color: white; }
-    }
-
-    .no-data {
-      padding: 2rem 0;
-      font-weight: bold;
-      color: #888;
-    }
-  }
-
-  @media (max-width: 768px) {
-    &__header {
+    @media (max-width: 576px) {
       flex-direction: column;
       align-items: flex-start;
     }
+  }
 
-    &__actions {
-      width: 100%;
-      flex-direction: column;
-      align-items: stretch;
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-left: 12%;
+
+    i {
+      color: #007bff;
+      margin-right: 8px;
+    }
+  }
+
+  table {
+    background: #fff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+    th, td {
+      vertical-align: middle;
+      font-size: 0.95rem;
     }
 
-    .room-manager__table {
-      font-size: 0.9rem;
+    th {
+      background-color: #343a40;
+      color: #fff;
+    }
 
-      th, td {
-        white-space: nowrap;
-      }
+    img {
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+
+  .badge {
+    font-size: 0.85rem;
+    padding: 0.4em 0.6em;
+    border-radius: 1rem;
+  }
+
+  .btn {
+    margin: 0 0.2rem;
+
+    i {
+      vertical-align: middle;
+    }
+
+    &.btn-sm {
+      padding: 0.35rem 0.6rem;
+    }
+  }
+
+  .alert {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+
+    i {
+      margin-right: 6px;
     }
   }
 }
 
 // End of Room Style
+
+// Create Room 
+.create-room {
+  padding: 2rem 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    .btn--back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #f8f9fa;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+
+      i {
+        font-size: 1rem;
+      }
+
+      &:hover {
+        background-color: #e2e6ea;
+        text-decoration: none;
+      }
+    }
+
+    &__title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #343a40;
+
+      i {
+        color: #007bff;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      input,
+      select,
+      textarea {
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        width: 100%;
+
+        &:focus {
+          border-color: #007bff;
+          outline: none;
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+    }
+
+    .btn--primary {
+      background-color: #007bff;
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-weight: 600;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+
+      i {
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+
+
+// End of Create Room Style
+
+// Show Room
+.room-detail,
+.edit-room {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  .room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  }
+
+  .room-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .room-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      img {
+        max-width: 100px;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .room-info {
+      display: grid;
+      gap: 0.75rem;
+
+      p {
+        margin: 0;
+        font-size: 1rem;
+
+        span {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  .btn--primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+/* Page-specific styles */
+.room-detail {
+  &__title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+
+    i {
+      margin-right: 8px;
+      color: #007bff;
+    }
+  }
+
+  &__images {
+    img.room-image {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+  }
+
+  &__info {
+    font-size: 1rem;
+
+    .list-group-item {
+      border: none;
+      padding: 0.75rem 1rem;
+      background-color: #f9f9f9;
+      margin-bottom: 5px;
+      border-radius: 8px;
+    }
+
+    .badge {
+      font-size: 0.9rem;
+      padding: 0.4em 0.7em;
+      border-radius: 1rem;
+    }
+
+    .badge-available {
+      background-color: #28a745;
+    }
+
+    .badge-booked {
+      background-color: #ffc107;
+    }
+
+    .badge-occupied {
+      background-color: #dc3545;
+    }
+
+    .badge-unavailable {
+      background-color: #6c757d;
+    }
+  }
+
+  &__description,
+  &__amenities {
+    background-color: #fefefe;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+
+    h4 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      i {
+        margin-right: 6px;
+        color: #007bff;
+      }
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .btn--back {
+    background-color: #e9ecef;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    i {
+      margin-right: 5px;
+    }
+
+    &:hover {
+      background-color: #d6d8db;
+      text-decoration: none;
+    }
+  }
+}
+
+// Responsive tweaks
+@media (max-width: 768px) {
+  .room-detail__title {
+    font-size: 1.5rem;
+  }
+
+  .room-detail__images img {
+    margin-bottom: 1rem;
+  }
+}
+
+
+// End of Show Room Style
+
+// Edit Room Styles
+.edit-room {
+  margin-top: 2rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+
+    .btn--back {
+      background-color: #ddd;
+      color: #333;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 500;
+      i {
+        margin-right: 6px;
+      }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+  }
+
+  form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-group label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .form-control {
+    border-radius: 0.5rem;
+    box-shadow: none;
+  }
+
+  .btn--primary {
+    background-color: #007bff;
+    color: white;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    padding: 10px 20px;
+  }
+}
+.preview-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  img {
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+  }
+}
+
+
+// End of Edit Room Styles
+
+// Trash Room Styles
+.room-trash {
+  &__header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+  }
+
+  .table th,
+  .table td {
+    vertical-align: middle;
+  }
+
+  .btn {
+    margin: 0 2px;
+    i {
+      vertical-align: middle;
+    }
+  }
+
+  .alert {
+    margin-top: 3rem;
+  }
+  &__title{
+    margin-right: 16%;
+  }
+}
+
+// End of Trash Room Styles

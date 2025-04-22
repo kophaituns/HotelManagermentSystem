@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongooseDelete = require('mongoose-delete');
 
 const roomSchema = new mongoose.Schema({
   number: { type: String, required: true }, // Số phòng
@@ -25,5 +26,11 @@ const roomSchema = new mongoose.Schema({
   price: { type: Number, required: true }, // Giá tiền 1 đêm  
   remaining: { type: Number }, // Số lượng còn lại
 });
+
+roomSchema.plugin(mongooseDelete, {
+  deletedAt: true,
+  overrideMethods: 'all',
+});
+
 
 module.exports = mongoose.model('Room', roomSchema);

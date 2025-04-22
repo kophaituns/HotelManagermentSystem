@@ -1,0 +1,95 @@
+<div class="room-trash container-fluid">
+  <div class="room-trash__header d-flex justify-content-between align-items-center my-4">
+    <a href="/admin/room" class="btn btn-outline-secondary">
+      <i class="ti-arrow-left"></i> Quay lại danh sách
+    </a>
+    <h2 class="room-trash__title mb-0 flex-2">
+      <i class="ti-trash"></i> Phòng đã xóa
+    </h2>
+    <div>
+      
+    </div>
+  </div>
+
+  {{#if rooms.length}}
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>STT</th>
+          <th>Số phòng</th>
+          <th>Loại phòng</th>
+          <th>Giá (VNĐ)</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each rooms}}
+        <tr>
+          <td>{{increment @index}}</td>
+          <td>{{this.number}}</td>
+          <td>{{this.typeId.name}}</td>
+          <td>{{this.price}}</td>
+          <td>
+            <form action="/admin/room/restore/{{this._id}}?_method=PATCH" method="POST" class="d-inline">
+              <button type="submit" class="btn btn-success btn-sm" title="Khôi phục">
+                <i class="ti-reload"></i>
+              </button>
+            </form>
+
+            <button class="btn btn-danger btn-sm" title="Xóa vĩnh viễn" data-toggle="modal" data-id="{{this._id}}" data-target="#force-delete-room-modal">
+              <i class="ti-close"></i>
+            </button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{else}}
+    <div class="alert alert-info text-center">
+      <i class="ti-info-alt"></i> Không có phòng nào trong thùng rác.
+    </div>
+  {{/if}}
+</div>
+
+{{!-- Modal xác nhận xóa vĩnh viễn --}}
+<div id="force-delete-room-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa vĩnh viễn phòng này?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn chắc chắn muốn xóa vĩnh viễn phòng này? Hành động này không thể hoàn tác.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button id="btn-force-delete-room" type="button" class="btn btn-danger">Xóa vĩnh viễn</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form name="force-delete-form" method="POST"></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var roomId;
+    var forceDeleteForm = document.forms['force-delete-form'];
+    var btnForceDeleteRoom = document.getElementById('btn-force-delete-room');
+
+    $('#force-delete-room-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      roomId = button.data('id');
+    });
+
+    btnForceDeleteRoom.onclick = function () {
+      forceDeleteForm.action = '/admin/room/force-delete/' + roomId + '?_method=DELETE';
+      forceDeleteForm.submit();
+    };
+  });
+</script>

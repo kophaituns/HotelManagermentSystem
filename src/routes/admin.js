@@ -3,9 +3,18 @@ const router = require('express').Router();
 const upload = require('../app/midleware/UploadMiddleWare');
 const roomController = require('../app/controllers/admins/RoomController');
 
-// Room Controller
-router.get('/room', roomController.getRoom); // /admin => /room
 
+// Room Controller
+router.get('/room/trash', roomController.trashRoom); // /admin => /trashRoom
+router.post('/room/store', upload.array('images',5), roomController.storeRoom); // Post Store Room
+router.get('/room/create', roomController.createRoom); // /admin => /createRoom
+router.patch('/room/restore/:id', roomController.restoreRoom);  // /admin => /restoreRoom/:id
+router.delete('/room/force-delete/:id', roomController.forceDeleteRoom); // /admin => /forceDelete/:id
+router.delete('/room/delete/:id', roomController.deleteRoom); // /admin => /deleteRoom/:id
+router.get('/room/:id/edit', roomController.editRoom); // /admin => /editRoom/:id
+router.put('/room/:id', upload.array('images',5), roomController.updateRoom); // /admin => /updateRoom/:id
+router.get('/room/:id', roomController.showRoom); // /admin => /room/:id
+router.get('/room', roomController.getRoom); // /admin => /room
 
 
 
