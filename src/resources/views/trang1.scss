@@ -10,14 +10,14 @@
   }
   
   .page1_image {
-    flex: 0.65; 
+    flex: 0.50; 
     background: url('https://www.chudu24.com/wp-content/uploads/2023/01/295184410_874300446878464_4837227104275126115_n.jpg') no-repeat center center/cover;
     position: relative;
   }
   
   .page1_image .btn-dive {
     position: absolute;
-    bottom: 200px;
+    bottom: 100%;
     left: 500px;
     background-color: #e4c5bd;
     color: #000;
@@ -52,7 +52,7 @@
 
   .gallery-row {
     display: flex;
-    width: 100%;
+    width: 600%;
   }
   
   .gallery_image {
