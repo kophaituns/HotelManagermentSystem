@@ -1,0 +1,107 @@
+<div class="homepage container-fluid">
+    <!-- trang thu 1 -->
+    <div class="home">
+        <div class="home_video">
+            <video autoplay muted loop>
+                <source
+                    src="https://www.danang.intercontinental.com/wp-content/uploads/2023/04/IHG21_AMBIENT-HEADER_Apr21_FINAL.mp4"
+                    type="video/mp4">
+            </video>
+        </div>
+        <div class="home_text">
+            <h1>Khu nghỉ dưỡng biển đẳng cấp hoang sơ miền nhiệt đới</h1>
+        </div>
+        <form class="booking-form" name="bookingForm" action="/search" method="GET">
+            <div class="form-group">
+                <label for="checkin">Nhận phòng</label>
+                <input type="date" id="checkin" name="checkin" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout">Trả phòng</label>
+                <input type="date" id="checkout" name="checkout" required>
+            </div>
+            <div class="form-group">
+                <label for="roomCount">Số phòng</label>
+                <input type="number" id="roomCount" name="roomCount" value="1" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="adults">Người lớn</label>
+                <input type="number" id="adults" name="adults" value="2" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="children">Trẻ em</label>
+                <input type="number" id="children" name="children" value="0" min="0" required>
+            </div>
+            <button class="btn-search" type="submit">TÌM KIẾM</button>
+        </form>
+    </div>
+
+    <!-- trang thu 2 -->
+    <div class="page1 ">
+        <div class="left">
+            <div class="page1_image">
+                <button class="btn-dive">Dive In</button>
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="page1_text">
+                <h1>THIÊN ĐƯỜNG NGHỈ DƯỠNG RIÊNG TƯ</h1>
+                <p>
+                    Trải nghiệm kỳ nghỉ dưỡng riêng tư miền nhiệt đới với nắng vàng, biển xanh và cát trắng tại một
+                    trong những khu nghỉ dưỡng biển đẹp nhất Việt Nam. Còn gì tuyệt vời hơn khi được đắm mình vào trong
+                    thế giới thiên nhiên hoang sơ bên vịnh biển riêng tư và cảm nhận phong cách thiết kế độc đáo
+                    của khu nghỉ dưỡng là sự kết hợp hoàn hảo giữa văn hóa Việt Nam truyền thống và lối kiến trúc đương
+                    đại. Hãy trải nghiệm ẩm thực tinh túy và tận hưởng dịch vụ tận tâm từ đội ngũ nhân viên người địa
+                    phương.
+            </div>
+
+            <div class="gallery_image">
+                <div class="overlay-text">
+                    <h1>THƯ VIỆN HÌNH ẢNH</h1>
+                    <button class="btn-khampha">KHÁM PHÁ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trang thu 3 -->
+    <div class="suite">
+        <div class="suite_text">
+            <p>PHÒNG & SUITE</p>
+            <p>BIỆT THỰ</p>
+            <h1>PHÒNG & SUITE</h1>
+            <p>Nghỉ dưỡng gần gũi với thiên nhiên trong không gian trong lành, tinh khiết và tận hưởng dịch vụ đẳng cấp
+                từ đội ngũ nhân viên tận tâm của chúng tôi.</p>
+            <button class="btn-explore">EXPLORE</button>
+        </div>
+        <div class="suite_image"></div>
+    </div>
+
+    <!-- Trang thu 4 -->
+    <div class="next ">
+        <div class="next_video">
+            <iframe src="https://www.youtube.com/embed/-ujKdRnRmOs" title="youtube"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+  // Hàm để thiết lập ngày tối thiểu cho các trường ngày
+  function setMinDate() {
+    const today = new Date();
+    const day = ("0" + today.getDate()).slice(-2);
+    const month = ("0" + (today.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0
+    const year = today.getFullYear();
+    const minDate = year + "-" + month + "-" + day;
+
+    // Cập nhật giá trị tối thiểu cho ngày nhận phòng và ngày trả phòng
+    document.getElementById("checkin").setAttribute("min", minDate);
+    document.getElementById("checkout").setAttribute("min", minDate);
+  }
+
+  // Gọi hàm khi trang được tải
+  window.onload = setMinDate;
+</script>

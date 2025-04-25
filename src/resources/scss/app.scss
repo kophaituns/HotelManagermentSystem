@@ -1089,3 +1089,351 @@ $text-color: #333;
 }
 
 // End of Trash Room Styles
+
+////////////////////////////////////////// User Styles //////////////////////////////////////////
+.homepage {
+  display: flex;
+  flex-direction: column;
+}
+/* trang thu 1 */
+.home{
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.home_video{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.home_text h1{
+  position: absolute;
+  top: 70%; 
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  color: white; 
+  font-size: 2rem; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.booking-form {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 15000px;
+  width: 97%;
+  flex-wrap: wrap;
+  z-index: 19;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  min-width: 130px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+
+.btn-search {
+  padding: 10px 20px;
+  background-color: #e6d3c3;
+  color: black;
+  border: 1px solid #000;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  margin-top: 8px;
+}
+
+.btn-search:hover {
+  background-color: #d1bfae;
+}
+
+/* trang thu 2 */
+.page1 {
+  display: flex;
+  height: 100vh;
+  padding-top: 10%;
+}
+
+.left {
+  flex: 0.5;
+  position: relative;
+}
+
+.page1_image {
+  background: url("https://scontent.fdad3-5.fna.fbcdn.net/v/t39.30808-6/487171230_9440971329326243_2049659571080009192_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=-_RTTAnEyXQQ7kNvwHMmfN7&_nc_oc=Adldd1GOCYXb3kH4aMLfjb5xmdJNr9iBQ-zhVZX5UTuzE1S7foQMet-VpwZapHHMvRM&_nc_zt=23&_nc_ht=scontent.fdad3-5.fna&_nc_gid=GAUyIPfNl-B83XV1fL9hCg&oh=00_AfHI-T7PUT5KaRr9Ne4f4cYBtoLC_r5-Kjqcand6n6aMcA&oe=680FD738") no-repeat center center/cover;
+  height: 100%;
+  position: relative;
+}
+
+.btn-dive {
+  position: absolute;
+  bottom: 200px;
+  left: 450px;
+  background-color: #e4c5bd;
+  color: #000;
+  padding: 16px 24px;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.right {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.page1_text {
+  padding: 60px 80px;
+  background-color: white;
+}
+
+.page1_text h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.page1_text p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.gallery_image {
+  height: 400px;
+  background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat center center/cover;
+  position: relative;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: white;
+  text-align: left;
+}
+
+.overlay-text h1 {
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+
+.btn-khampha {
+  background-color: #e4c5bd;
+  color: #000;
+  padding: 12px 20px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+
+/* Trang tiep theo */
+
+.suite {
+  display: flex;
+  width: 100%;
+  height: 50vh;
+}
+
+.suite_text {
+  flex: 0.5;
+  padding: 60px 80px;
+  background-color: rgb(233, 230, 230);
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 10%;
+}
+
+.suite_text h1 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.suite_text p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.suite_image {
+  flex: 0.5;
+  background: url("https://image.nhandan.vn/1200x630/Uploaded/2025/igpcvcvjntc8510/2023_04_14/inter1-7122.jpg") no-repeat center center;
+  background-size: cover;
+}/*# sourceMappingURL=trang1.css.map */
+
+/* trang thu 4 */
+.next {
+  margin: 0;
+  padding-top: 16px;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  
+}
+
+.next_video {
+  width: 100%;
+  height: 100%;
+}
+
+.next_video iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+// Search Page Styles
+// Đặt cấu trúc chung cho toàn bộ trang tìm kiếm
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$background-light: #f8f9fa;
+
+.search-page {
+  font-family: 'Arial', sans-serif;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: $primary-color;
+  }
+
+  .booking-form {
+    max-width: 1200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .form-group {
+      .form-control {
+        border-radius: 5px;
+        border: 1px solid $secondary-color;
+        padding: 8px;
+      }
+
+      label {
+        font-weight: bold;
+        color: $secondary-color;
+      }
+    }
+
+    .btn-search {
+      background-color: $primary-color;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+
+  .search-results {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $primary-color;
+    }
+
+    .card {
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .card-img-top {
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 20px;
+
+        .card-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: $primary-color;
+        }
+
+        .card-text {
+          font-size: 1rem;
+          color: $secondary-color;
+        }
+
+        p {
+          margin-bottom: 10px;
+        }
+
+        .btn-primary {
+          background-color: $primary-color;
+          border: none;
+          padding: 10px 20px;
+          font-weight: bold;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: darken($primary-color, 10%);
+          }
+        }
+      }
+    }
+  }
+}
+.search-page .booking-form {
+  position: relative;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 15000px;
+  width: 97%;
+  flex-wrap: wrap;
+  z-index: 19;
+}
+.search-page .booking-form .btn-search {
+  margin-bottom: 13px;
+}
+// End of Search Page Styles
