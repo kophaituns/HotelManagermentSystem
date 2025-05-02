@@ -1,0 +1,228 @@
+<div class="dashboard">
+    <aside class="dashboard__sidebar">
+      <div class="dashboard__brand">Resort Biển 5 Sao</div>
+      <nav class="dashboard__nav">
+        <a href="/staff" class="dashboard__nav-link">
+          <i class="ti-ticket"></i>
+          <span>Quản lý đơn đặt phòng</span>
+        </a>
+        <a href="/staff/history" class="dashboard__nav-link">
+          <i class="ti-time"></i>
+          <span>Lịch sử đặt phòng</span>
+        </a>
+        <a href="/staff/bookAtCounter" class="dashboard__nav-link">
+          <i class="ti-calendar"></i>
+          <span>Đặt phòng tại quầy</span>
+        </a>
+        <a href="/logout" class="dashboard__nav-link">
+          <i class="ti-power-off"></i>
+          <span>Đăng xuất</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="dashboard__content">
+      <header class="dashboard__header">
+        <h2 class="dashboard__title"><i class="ti-home"></i> Chào mừng Nhân viên</h2>
+        <div class="dashboard__user-info">
+          <span><i class="ti-user"></i> Tên: {{user.name}}</span>
+          <span><i class="ti-id-badge"></i> Quyền: {{#if user.role}}Admin{{else}}Nhân viên{{/if}}</span>
+        </div>
+      </header>
+
+      {{#if bookings}}
+        <section class="dashboard__section">
+          <h3><i class="ti-list"></i> Quản lý đơn đặt phòng</h3>
+          {{#if error}}
+            <div class="alert alert-danger"><i class="ti-alert"></i> {{error}}</div>
+          {{/if}}
+          {{#if message}}
+            <div class="alert alert-success"><i class="ti-check"></i> {{message}}</div>
+          {{/if}}
+          <div class="table-responsive">
+            <table class="table table-bordered booking-table">
+              <thead>
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Phòng</th>
+                  <th>Khách hàng</th>
+                  <th>Ngày nhận phòng</th>
+                  <th>Ngày trả phòng</th>
+                  <th>Tổng giá</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each bookings}}
+                  <tr>
+                    <td>{{_id}}</td>
+                    <td>{{room.number}} ({{room.type}})</td>
+                    <td>{{customer.fullName}}</td>
+                    <td>{{checkin}}</td>
+                    <td>{{checkout}}</td>
+                    <td>{{totalPrice}} VND</td>
+                    <td>{{status}}</td>
+                    <td>
+                      {{#if (eq status "pending")}}
+                        <form action="/staff/{{_id}}/status" method="POST" style="display:inline;">
+                          <input type="hidden" name="status" value="confirmed">
+                          <button type="submit" class="btn btn-success btn-sm action-btn"><i class="ti-check"></i> Xác nhận</button>
+                        </form>
+                        <form action="/staff/{{_id}}/status" method="POST" style="display:inline;">
+                          <input type="hidden" name="status" value="cancelled">
+                          <button type="submit" class="btn btn-danger btn-sm action-btn"><i class="ti-close"></i> Hủy</button>
+                        </form>
+                      {{else}}
+                        <span>Đã xử lý</span>
+                      {{/if}}
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {{/if}}
+
+      {{#if history}}
+        <section class="dashboard__section">
+          <h3><i class="ti-time"></i> Lịch sử đặt phòng</h3>
+          <div class="table-responsive">
+            <table class="table table-bordered booking-table">
+              <thead>
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Phòng</th>
+                  <th>Khách hàng</th>
+                  <th>Ngày nhận phòng</th>
+                  <th>Ngày trả phòng</th>
+                  <th>Tổng giá</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each history}}
+                  <tr>
+                    <td>{{_id}}</td>
+                    <td>{{room.number}} ({{room.type}})</td>
+                    <td>{{customer.fullName}}</td>
+                    <td>{{checkin}}</td>
+                    <td>{{checkout}}</td>
+                    <td>{{totalPrice}} VND</td>
+                    <td>{{status}}</td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {{/if}}
+
+      {{#if bookAtCounter}}
+        <section class="dashboard__section">
+          <h3><i class="ti-plus"></i> Đặt phòng tại quầy</h3>
+          {{#if error}}
+            <div class="alert alert-danger"><i class="ti-alert"></i> {{error}}</div>
+          {{/if}}
+          {{#if message}}
+            <div class="alert alert-success"><i class="ti-check"></i> {{message}}</div>
+          {{/if}}
+          <form id="bookAtCounterForm" action="/staff/counter" method="POST">
+            <div class="mb-3">
+              <label for="roomId" class="form-label"><i class="ti-home"></i> Chọn phòng</label>
+              <select class="form-control" id="roomId" name="roomId" required>
+                <option value="">Chọn phòng</option>
+                {{#each availableRooms}}
+                  <option value="{{_id}}" data-price="{{price}}" {{#if (eq ../formData.roomId _id)}}selected{{/if}}>
+                    {{name}} - {{typeId.name}} - {{price}} VND/đêm (Còn: {{remaining}})
+                  </option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="fullName" class="form-label"><i class="ti-user"></i> Họ và tên</label>
+              <input type="text" class="form-control" id="fullName" name="fullName" value="{{formData.fullName}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label"><i class="ti-email"></i> Email</label>
+              <input type="email" class="form-control" id="email" name="email" value="{{formData.email}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label"><i class="ti-mobile"></i> Số điện thoại</label>
+              <input type="text" class="form-control" id="phone" name="phone" value="{{formData.phone}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label"><i class="ti-location-pin"></i> Địa chỉ</label>
+              <input type="text" class="form-control" id="address" name="address" value="{{formData.address}}">
+            </div>
+            <div class="mb-3">
+              <label for="idNumber" class="form-label"><i class="ti-id-badge"></i> CMND/CCCD</label>
+              <input type="text" class="form-control" id="idNumber" name="idNumber" value="{{formData.idNumber}}">
+            </div>
+            <div class="mb-3">
+              <label for="checkin" class="form-label"><i class="ti-arrow-right"></i> Ngày check-in</label>
+              <input type="date" class="form-control" id="checkin" name="checkin" value="{{formData.checkin}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="checkout" class="form-label"><i class="ti-arrow-left"></i> Ngày check-out</label>
+              <input type="date" class="form-control" id="checkout" name="checkout" value="{{formData.checkout}}" required>
+            </div>
+            <div class="mb-3">
+              <label for="roomCount" class="form-label"><i class="ti-home"></i> Số lượng phòng</label>
+              <input type="number" class="form-control" id="roomCount" name="roomCount" value="{{formData.roomCount}}" min="1" required>
+            </div>
+            <div class="mb-3">
+              <label for="adults" class="form-label"><i class="ti-user"></i> Số người lớn</label>
+              <input type="number" class="form-control" id="adults" name="adults" value="{{formData.adults}}" min="1" required>
+            </div>
+            <div class="mb-3">
+              <label for="children" class="form-label"><i class="ti-user"></i> Số trẻ em</label>
+              <input type="number" class="form-control" id="children" name="children" value="{{formData.children}}" min="0">
+            </div>
+            <div class="mb-3">
+              <label for="totalPrice" class="form-label"><i class="ti-money"></i> Tổng giá (VND)</label>
+              <input type="number" class="form-control" id="totalPrice" name="totalPrice" value="{{formData.totalPrice}}" readonly>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="ti-check"></i> Xác nhận đặt phòng</button>
+          </form>
+        </section>
+        <script>
+          function calculateTotalPrice() {
+            const roomSelect = document.getElementById('roomId');
+            const checkin = document.getElementById('checkin')?.value;
+            const checkout = document.getElementById('checkout')?.value;
+            const roomCount = document.getElementById('roomCount')?.value;
+            const totalPriceInput = document.getElementById('totalPrice');
+
+            if (roomSelect?.value && checkin && checkout && roomCount) {
+              const pricePerNight = parseFloat(roomSelect.selectedOptions[0].dataset.price);
+              const checkinDate = new Date(checkin);
+              const checkoutDate = new Date(checkout);
+              const days = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
+              if (days > 0) {
+                const totalPrice = pricePerNight * parseInt(roomCount) * days;
+                totalPriceInput.value = totalPrice;
+              } else {
+                totalPriceInput.value = 0;
+              }
+            } else {
+              totalPriceInput.value = 0;
+            }
+          }
+
+          document.getElementById('roomId')?.addEventListener('change', calculateTotalPrice);
+          document.getElementById('checkin')?.addEventListener('change', calculateTotalPrice);
+          document.getElementById('checkout')?.addEventListener('change', calculateTotalPrice);
+          document.getElementById('roomCount')?.addEventListener('change', calculateTotalPrice);
+
+          document.getElementById('bookAtCounterForm')?.addEventListener('submit', function(e) {
+            console.log('Form submitted with data:', Object.fromEntries(new FormData(this)));
+          });
+
+          // Tính lại totalPrice khi load trang nếu có formData
+          window.addEventListener('load', calculateTotalPrice);
+        </script>
+      {{/if}}
+    </main>
+</div>

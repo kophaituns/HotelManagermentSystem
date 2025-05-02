@@ -1,73 +1,95 @@
-<div class="user-trash">
-  <div class="user-trash__header">
-    <a href="/admin/employee" class="btn btn--back">
-      <i class="ti-arrow-left"></i> Quay lại
-    </a>
-    <h1 class="user-trash__title">
-      <i class="ti-trash"></i> Thùng rác người dùng
-    </h1>
-  </div>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">HOTEL</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý người dùng</span>
+      </a>
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/trash" class="dashboard__nav-link nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+      <a href="/logout" class="dashboard__nav-link nav-link dashboard__nav-link--logout">
+        <i class="ti-power-off"></i>
+        <span>Đăng xuất</span>
+      </a>
+    </nav>
+  </aside>
 
-  {{#if users.length}}
-  <div class="table-responsive">
-    <table class="user-trash__table">
-      <thead>
-        <tr>
-          <th>STT</th>
-          <th>Ảnh</th>
-          <th>Họ tên</th>
-          <th>Email</th>
-          <th>Vai trò</th>
-          <th>Thao tác</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each users}}
-        <tr>
-          <td>{{increment @index}}</td>
-          <td><img src="{{this.avatar}}" alt="Avatar" class="user-avatar" /></td>
-          <td>{{this.name}}</td>
-          <td>{{this.email}}</td>
-          <td>{{this.role}}</td>
-          <td class="user-trash__actions">
-          <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">
-                <button class="btn btn--success" title="Khôi phục">
-                  <i class="ti-reload"></i> Khôi phục
-                </button>
-            
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-trash"></i> Thùng rác người dùng</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{user.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{user.role}}</span>
+      </div>
+    </header>
 
+    <section class="dashboard__section">
+      <div class="user-trash">
+        <div class="user-trash__header">
+          <a href="/admin/employee" class="btn btn-outline-secondary btn-sm btn--back">
+            <i class="ti-arrow-left"></i> Quay lại
           </a>
+        </div>
 
-            <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}"
-              data-target="#delete-user-modal">
-              <button class="btn btn--danger" title="Xóa vĩnh viễn">
-                <i class="ti-close"></i> Xóa
-              </button>
-            </a>
-
-
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-  {{else}}
-  <div class="user-trash__empty">
-    <i class="ti-info-alt"></i> Không có người dùng nào trong thùng rác.
-  </div>
-  {{/if}}
+        {{#if users.length}}
+        <div class="table-responsive">
+          <table class="table user-trash__table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Ảnh</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>Vai trò</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each users}}
+              <tr>
+                <td>{{increment @index}}</td>
+                <td><img src="{{this.avatar}}" alt="Avatar" class="user-avatar" /></td>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{#if this.isAdmin}} Quản trị viên {{else}}Nhân viên{{/if}}</td>
+                <td class="user-trash__actions">
+                  <a href="#" class="btn btn-success btn-sm btn-restore" data-id="{{this._id}}">
+                    <i class="ti-reload"></i> Khôi phục
+                  </a>
+                  <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-user-modal">
+                    <i class="ti-close"></i> Xóa
+                  </a>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+        {{else}}
+        <div class="user-trash__empty">
+          <i class="ti-info-alt"></i> Không có người dùng nào trong thùng rác.
+        </div>
+        {{/if}}
+      </div>
+    </section>
+  </main>
 </div>
 
-
 {{!-- Confirm delete user --}}
-<div id="delete-user-modal" class="modal" tabindex="-1" role="dialog">
+<div id="delete-user-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Xóa người dùng?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
@@ -80,7 +102,6 @@
     </div>
   </div>
 </div>
-
 
 <form name="delete-user-form" method="POST"></form>
 <form name="restore-user-form" method="POST"></form>

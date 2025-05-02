@@ -1,128 +1,87 @@
-<div class="room-manager container-fluid">
-  <div class="room-manager__header d-flex justify-content-between align-items-center my-4">
-    <a href="/admin" class="btn btn-outline-secondary ">
-      <i class="ti-arrow-left"></i> Quay lại danh sách
-    </a>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">Resort Biển 5 Sao</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/rooms" class="dashboard__nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/employees" class="dashboard__nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý nhân viên</span>
+      </a>
+      <a href="/admin/trash" class="dashboard__nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+      <a href="/logout" class="dashboard__nav-link">
+        <i class="ti-power-off"></i>
+        <span>Đăng xuất</span>
+      </a>
+    </nav>
+  </aside>
 
-    <h2 class="room-manager__title mb-0">
-      <i class="ti-home"></i> Quản lý phòng
-    </h2>
-
-    <div class="room-manager__actions d-flex align-items-center justify-content-center gap-4">
-      <div class="search-container ">
-        <input type="text" class="search-input" placeholder="Tìm kiếm phòng..." id="searchUser">
-        <button class="search-btn">
-          <i class="ti-search search-icon"></i>
-        </button>
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-home"></i> Quản lý phòng</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{user.fullName}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{user.role}}</span>
       </div>
-      <a href="/admin/room/create" class="btn btn--primary">
-        <i class="ti-plus"></i> Thêm phòng
-      </a>
-      <a href="/admin/room/trash" class="btn btn--trash">
-        <i class="ti-trash"></i> Thùng rác
-      </a>
-    </div>
+    </header>
 
-  </div>
+    <section class="dashboard__section">
+      <h3><i class="ti-list"></i> Danh sách phòng</h3>
+      {{#if error}}
+        <div class="alert alert-danger"><i class="ti-alert"></i> {{error}}</div>
+      {{/if}}
+      {{#if message}}
+        <div class="alert alert-success"><i class="ti-check"></i> {{message}}</div>
+      {{/if}}
 
-  {{#if rooms.length}}
-  <div class="table-responsive">
-    <table class="table table-hover table-bordered text-center">
-      <thead class="thead-dark">
-        <tr>
-          <th>STT</th>
-          <th>Số phòng</th>
-          <th>Loại phòng</th>
-          <th>Giá (VNĐ)</th>
-          <th>Trạng thái</th>
-          <th>Thao tác</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each rooms}}
-        <tr>
-          <td>{{increment @index}}</td>
-          <td>{{this.number}}</td>
-          <td>{{this.typeId.name}}</td>
-          <td>{{this.price}}</td>
-          <td>
-            {{#if (eq this.status "available")}}
-            <span class="badge badge-success">Còn trống</span>
-            {{else if (eq this.status "booked")}}
-            <span class="badge badge-warning">Đã đặt</span>
-            {{else if (eq this.status "occupied")}}
-            <span class="badge badge-danger">Đang sử dụng</span>
+      <form action="/admin/rooms" method="GET" class="search-form mb-3">
+        <div class="mb-3">
+          <label for="name" class="form-label"><i class="ti-search"></i> Tìm kiếm theo tên phòng</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{searchQuery.name}}" placeholder="Nhập tên phòng">
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="ti-search"></i> Tìm kiếm</button>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Tên phòng</th>
+              <th>Loại phòng</th>
+              <th>Giá (VND/đêm)</th>
+              <th>Còn lại</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each rooms}}
+              <tr>
+                <td>{{name}}</td>
+                <td>{{typeId.name}}</td>
+                <td>{{price}}</td>
+                <td>{{remaining}}</td>
+                <td>
+                  <a href="/admin/rooms/{{_id}}" class="btn btn-primary btn-sm"><i class="ti-eye"></i> Xem</a>
+                  <a href="/admin/rooms/{{_id}}/edit" class="btn btn-success btn-sm"><i class="ti-pencil"></i> Sửa</a>
+                  <form action="/admin/rooms/{{_id}}/delete" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="ti-trash"></i> Xóa</button>
+                  </form>
+                </td>
+              </tr>
             {{else}}
-            <span class="badge badge-secondary">Không khả dụng</span>
-            {{/if}}
-          </td>
-          <td>
-            <a href="/admin/room/{{this._id}}" class="btn btn-info btn-sm" title="Xem chi tiết">
-              <i class="ti-eye"></i>
-            </a>
-            <a href="/admin/room/{{this._id}}/edit" class="btn btn-warning btn-sm" title="Chỉnh sửa">
-              <i class="ti-pencil"></i>
-            </a>
-            <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-room-modal">
-              <button class="btn btn-danger btn-sm">
-                <i class="ti-trash"></i>
-              </button>
-            </a>
-
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-  {{else}}
-  <div class="alert alert-info text-center">
-    <i class="ti-info-alt"></i> Chưa có phòng nào được tạo.
-  </div>
-  {{/if}}
+              <tr>
+                <td colspan="5">Không có phòng nào.</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      <a href="/admin/rooms/create" class="btn btn-success"><i class="ti-plus"></i> Thêm phòng</a>
+    </section>
+  </main>
 </div>
-
-
-{{!-- Confirm delete course --}}
-<div id="delete-room-modal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Xóa phòng này?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Bạn chắc chắn muốn xóa phòng này?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button id="btn-delete-room" type="button" class="btn btn-danger">Xóa bỏ</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-{{!-- Delete hidden form --}}
-<form name="delete-course-form" method="POST"></form>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var roomId;
-    var deleteForm = document.forms['delete-course-form'];
-    var btnDeleteRoom = document.getElementById('btn-delete-room');
-
-    // When dialog confirm clicked
-    $('#delete-room-modal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget);
-      roomId = button.data('id');
-    });
-
-    // When delete course btn clicked
-    btnDeleteRoom.onclick = function () {
-      deleteForm.action = '/admin/room/delete/' + roomId + '?_method=DELETE';
-      deleteForm.submit();
-    }
-  });
-</script>

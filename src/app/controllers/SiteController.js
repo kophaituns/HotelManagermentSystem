@@ -19,7 +19,7 @@ const SiteController = {
       }));
 
       // Render trang chủ và truyền dữ liệu vào view
-      res.render('home', {
+      res.render('users/home', {
         rooms: roomsWithFirstImage,
         roomTypes,
       });

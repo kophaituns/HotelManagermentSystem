@@ -24,5 +24,9 @@ module.exports = {
       
     },
     array: (...args) => args.slice(0, -1),
+
+    toString: function (value) {
+      return value.toString();
+    },
   };
   

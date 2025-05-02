@@ -1,28 +1,19 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
+  roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true },
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
-
-  room: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true },
-
-  checkIn: { type: Date, required: true },
-  checkOut: { type: Date, required: true },
-
+  checkin: { type: Date, required: true },
+  checkout: { type: Date, required: true },
+  roomCount: { type: Number, required: true, min: 1 },
+  adults: { type: Number, required: true, min: 1 },
+  children: { type: Number, default: 0, min: 0 },
+  totalPrice: { type: Number, required: true, min: 0 },
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'cancelled', 'completed'],
-    default: 'pending',
+    enum: ['pending', 'confirmed', 'cancelled'],
+    default: 'pending'
   },
-
-  isPaid: { type: Boolean, default: false },
-  paymentMethod: { type: String, enum: ['vnpay', 'momo', 'paypal', 'cash'], default: 'cash' },
-
-  staffConfirmBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // ai duyệt
-  confirmedAt: { type: Date },
-  cancelledAt: { type: Date },
-
-  totalPrice: { type: Number }, // tiền đã tính sẵn
-
   createdAt: { type: Date, default: Date.now }
 });
 

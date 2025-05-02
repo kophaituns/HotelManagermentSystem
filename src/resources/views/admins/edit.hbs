@@ -1,69 +1,103 @@
-<div class="user-edit container py-4">
-  <div class="user-edit__back mb-4">
-    <a href="/admin/users" class="btn btn-outline-secondary">
-      <i class="ti-arrow-left"></i> Quay lại danh sách
-    </a>
-  </div>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">HOTEL</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý người dùng</span>
+      </a>
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/trash" class="dashboard__nav-link nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+      <a href="/logout" class="dashboard__nav-link nav-link dashboard__nav-link--logout">
+        <i class="ti-power-off"></i>
+        <span>Đăng xuất</span>
+      </a>
+    </nav>
+  </aside>
 
-  <div class="card shadow user-edit__card p-4">
-    <h2 class="user-edit__title mb-4"><i class="ti-pencil-alt"></i> Chỉnh sửa người dùng</h2>
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-pencil-alt"></i> Chỉnh sửa người dùng</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{user.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{user.role}}</span>
+      </div>
+    </header>
 
-    <form action="/admin/employee/update/{{user._id}}?_method=PUT" method="POST" enctype="multipart/form-data">
-      <div class="row">
-        <!-- Avatar -->
-        <div class="col-md-4 text-center mb-4 mb-md-0">
-          <img src="{{user.avatar}}" alt="Avatar" class="user-edit__avatar mb-3">
-          <div class="form-group">
-            <label for="avatar">Đổi ảnh đại diện</label>
-            <input type="file" name="avatar" class="form-control mt-2">
-          </div>
+    <section class="dashboard__section">
+      <div class="user-edit">
+        <div class="user-edit__back mb-4">
+          <a href="/admin/employee" class="btn btn-outline-secondary btn-sm">
+            <i class="ti-arrow-left"></i> Quay lại danh sách
+          </a>
         </div>
 
-        <!-- Form thông tin -->
-        <div class="col-md-8">
-          <div class="mb-3">
-            <label for="username" class="form-label">Tài khoản</label>
-            <input type="text" name="username" class="form-control" value="{{user.username}}" required>
-          </div>
+        <div class="card shadow user-edit__card p-4">
+          <form action="/admin/employee/update/{{user._id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <!-- Avatar -->
+              <div class="col-md-4 text-center mb-4 mb-md-0">
+                <img src="{{user.avatar}}" alt="Avatar" class="user-edit__avatar mb-3">
+                <div class="form-group">
+                  <label for="avatar">Đổi ảnh đại diện</label>
+                  <input type="file" name="avatar" class="form-control mt-2">
+                </div>
+              </div>
 
-          <div class="mb-3">
-            <label for="name" class="form-label">Họ tên</label>
-            <input type="text" name="name" class="form-control" value="{{user.name}}" required>
-          </div>
+              <!-- Form thông tin -->
+              <div class="col-md-8">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Tài khoản</label>
+                  <input type="text" name="username" class="form-control" value="{{user.username}}" required>
+                </div>
 
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="{{user.email}}" required>
-          </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Họ tên</label>
+                  <input type="text" name="name" class="form-control" value="{{user.name}}" required>
+                </div>
 
-          <div class="mb-3">
-            <label for="dob" class="form-label">Ngày sinh</label>
-            <input type="date" name="dob" class="form-control" value="{{formatDate user.dob}}">
-          </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" name="email" class="form-control" value="{{user.email}}" required>
+                </div>
 
-          <div class="mb-3">
-            <label for="phone" class="form-label">Số điện thoại</label>
-            <input type="text" name="phone" class="form-control" value="{{user.phone}}">
-          </div>
+                <div class="mb-3">
+                  <label for="dob" class="form-label">Ngày sinh</label>
+                  <input type="date" name="dob" class="form-control" value="{{formatDate user.dob}}">
+                </div>
 
-          <div class="mb-3">
-            <label for="role" class="form-label">Vai trò</label>
-            <select name="role" class="form-select">
-              <option value="Nhân viên" {{#ifEquals user.role "Nhân viên"}}selected{{/ifEquals}}>Nhân viên</option>
-              <option value="Admin" {{#ifEquals user.role "Admin"}}selected{{/ifEquals}}>Admin</option>
-            </select>
-          </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Số điện thoại</label>
+                  <input type="text" name="phone" class="form-control" value="{{user.phone}}">
+                </div>
 
-          <div class="mt-4">
-            <button type="submit" class="btn btn-primary me-2">
-              <i class="ti-save"></i> Lưu thay đổi
-            </button>
-            <a href="/admin/employee" class="btn btn-secondary">
-              Hủy
-            </a>
-          </div>
+                <div class="mb-3">
+                  <label for="isAdmin" class="form-label">Vai trò</label>
+                  <select name="isAdmin" class="form-select">
+                    <option value="false" {{#ifEquals (toString user.isAdmin) "false"}}selected{{/ifEquals}}>Nhân viên</option>
+                    <option value="true" {{#ifEquals (toString user.isAdmin) "true"}}selected{{/ifEquals}}>Quản trị viên</option>
+                  </select>
+                </div>
+
+                <div class="mt-4">
+                  <button type="submit" class="btn btn-primary btn-sm me-2">
+                    <i class="ti-save"></i> Lưu thay đổi
+                  </button>
+                  <a href="/admin/employee" class="btn btn-secondary btn-sm">
+                    Hủy
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
-  </div>
+    </section>
+  </main>
 </div>

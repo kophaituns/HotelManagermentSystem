@@ -1,0 +1,37 @@
+ <div class="container mt-5">
+    <h2>Lịch trống phòng</h2>
+    {{#if error}}
+      <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
+    {{#if room}}
+      <h3>Phòng: {{room.number}} ({{room.typeId.name}})</h3>
+      <form action="/search/{{room._id}}/availability" method="GET" class="mb-4">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="startDate" class="form-label">Ngày bắt đầu</label>
+            <input type="date" name="startDate" id="startDate" class="form-control" value="{{startDate}}" required>
+          </div>
+          <div class="col-md-3">
+            <label for="endDate" class="form-label">Ngày kết thúc</label>
+            <input type="date" name="endDate" id="endDate" class="form-control" value="{{endDate}}" required>
+          </div>
+          <div class="col-md-3 mt-4">
+            <button type="submit" class="btn btn-primary">Kiểm tra</button>
+          </div>
+        </div>
+      </form>
+      {{#if availability.length}}
+        <h4>Các khoảng thời gian trống:</h4>
+        <ul class="list-group">
+          {{#each availability}}
+            <li class="list-group-item">Từ {{start}} đến {{end}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p>Không có khoảng thời gian trống trong khoảng này.</p>
+      {{/if}}
+      <a href="/search" class="btn btn-secondary mt-3">Quay lại tìm kiếm</a>
+    {{else}}
+      <p>Không tìm thấy thông tin phòng.</p>
+    {{/if}}
+  </div>

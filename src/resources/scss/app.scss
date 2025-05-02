@@ -1,86 +1,112 @@
+// Color Variables (Consolidated and Reused)
 $primary-color: #007bff;
 $danger-color: #dc3545;
+$success-color: #28a745;
+$warning-color: #f1c40f;
+$secondary-color: #bdc3c7;
+$neutral-color: #7f8c8d;
 $bg-color: #f8f9fa;
 $text-color: #333;
+$white: #fff;
+$black: #000;
+$border-color: #ced4da;
+$shadow-color: rgba(0, 0, 0, 0.1);
 
-// General Styles
-.btn {
+// Spacing Scale
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 24px;
+$spacing-2xl: 32px;
+
+// Typography Scale
+$font-size-sm: 0.85rem;
+$font-size-base: 1rem;
+$font-size-md: 1.25rem;
+$font-size-lg: 1.5rem;
+$font-size-xl: 2rem;
+$font-size-2xl: 2.5rem;
+
+// Mixins for Reusability
+@mixin button-base {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  font-size: 14px;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
   border: none;
-  border-radius: 4px;
+  border-radius: $spacing-xs;
   cursor: pointer;
   text-decoration: none;
+  transition: background-color 0.3s, opacity 0.3s;
+}
 
-  i {
-    font-size: 16px;
+@mixin hover-darken($color) {
+  &:hover {
+    background-color: darken($color, 10%);
   }
+}
+
+@mixin card-base {
+  background: $white;
+  border-radius: $spacing-md;
+  box-shadow: 0 2px 10px $shadow-color;
+  padding: $spacing-2xl;
+}
+
+// General Button Styles
+.btn {
+  @include button-base;
 
   &--primary {
-    background-color: #3498db;
-    color: white;
-
-    &:hover {
-      background-color: #2980b9;
-    }
+    background-color: $primary-color;
+    color: $white;
+    @include hover-darken($primary-color);
   }
 
   &--edit {
-    background-color: #f1c40f;
-    color: white;
-
-    &:hover {
-      background-color: #d4ac0d;
-    }
+    background-color: $warning-color;
+    color: $white;
+    @include hover-darken($warning-color);
   }
 
-  &--delete {
-    background-color: #e74c3c;
-    color: white;
-
-    &:hover {
-      background-color: #c0392b;
-    }
+  &--delete,
+  &--trash,
+  &--danger {
+    background-color: $danger-color;
+    color: $white;
+    @include hover-darken($danger-color);
   }
 
   &--view {
-    background-color: #2ecc71;
-    color: white;
-
+    background-color: $success-color;
+    color: $white;
     &:hover {
       opacity: 0.8;
     }
   }
 
   &--back {
-    background-color: #7f8c8d;
-    color: white;
-
-    &:hover {
-      background-color: #626e70;
-    }
+    background-color: $neutral-color;
+    color: $white;
+    @include hover-darken($neutral-color);
   }
 
   &--secondary {
-    background-color: #bdc3c7;
-    color: #2c3e50;
-
-    &:hover {
-      background-color: #95a5a6;
-    }
+    background-color: $secondary-color;
+    color: $text-color;
+    @include hover-darken($secondary-color);
   }
 
-  &--trash {
-    background-color: #e74c3c;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    gap: 5px;
+  &--success {
+    background-color: $success-color;
+    color: $white;
+    @include hover-darken($success-color);
+  }
+
+  i {
+    font-size: $font-size-base;
   }
 }
 
@@ -89,42 +115,46 @@ $text-color: #333;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 32px;
-  background-color: #fff;
+  padding: $spacing-lg $spacing-2xl;
+  background: $white;
 
-  .header__left, .header__center, .header__right {
+  &__left,
+  &__center,
+  &__right {
     display: flex;
     align-items: center;
   }
 
   .menu-icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     width: 24px;
     height: 18px;
     border: none;
     background: none;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     span {
       height: 3px;
-      background-color: black;
+      background: $black;
     }
   }
 
   .menu-text {
-    margin-left: 10px;
+    margin-left: $spacing-md;
     font-weight: bold;
   }
 
-  .language-selector {
-    margin-left: 10px;
+  .language-selector,
+  .btn-login,
+  .btn-booking {
+    margin-left: $spacing-md;
   }
 
   .logo {
     height: 40px;
-    margin-right: 12px;
+    margin-right: $spacing-md;
   }
 
   .resort-name {
@@ -133,425 +163,1038 @@ $text-color: #333;
 
     small {
       display: block;
-      font-weight: normal;
       font-size: 0.8em;
+      font-weight: normal;
     }
   }
 
   .btn-login {
-    background-color: #e3e5e3;
+    background: #e3e5e3;
     color: #222;
-    margin-left: 10px;
   }
 
   .btn-booking {
-    background-color: #d3ab95;
+    background: #d3ab95;
     color: #222;
-    margin-left: 10px;
   }
 }
 
 // Dashboard (Admin)
 .dashboard {
   display: flex;
+  min-height: 100vh;
 
   &__sidebar {
     width: 250px;
-    background-color: #2c3e50;
-    padding: 20px;
-    color: #fff;
-    min-height: 100vh;
+    background: #2c3e50;
+    color: $white;
+    padding: $spacing-xl;
   }
 
   &__brand {
-    font-size: 24px;
+    font-size: $font-size-lg;
     font-weight: bold;
-    margin-bottom: 30px;
+    margin-bottom: $spacing-2xl;
     text-align: center;
   }
 
   &__management-btn {
+    @include button-base;
     background: #34495e;
-    color: white;
+    color: $white;
     width: 100%;
-    padding: 10px;
-    border: none;
-    margin-bottom: 20px;
-    cursor: pointer;
-    border-radius: 4px;
-
-    &:hover {
-      background: #3d5a73;
-    }
+    margin-bottom: $spacing-xl;
+    @include hover-darken(#34495e);
   }
 
   &__nav {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: $spacing-md;
   }
 
   &__nav-link {
-    text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 4px;
-    transition: background 0.3s;
-
-    i, span {
-      font-size: 16px;
-    }
+    @include button-base;
+    color: $white;
+    background: transparent;
 
     &:hover {
-      background: white;
-      text-decoration: none;
+      background: $white;
+      color: $text-color;
     }
 
     &--logout {
-      color: #e74c3c;
+      color: $danger-color;
+    }
 
-      &:hover {
-        background: white;
-      }
+    i,
+    span {
+      font-size: $font-size-base;
     }
   }
 
   &__content {
     flex: 1;
-    padding: 30px;
+    padding: $spacing-2xl;
+    background: $bg-color;
   }
 
   &__title {
-    font-size: 28px;
-    margin-bottom: 10px;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
   }
 
   &__info {
-    font-size: 16px;
-    margin-bottom: 6px;
+    font-size: $font-size-base;
+    margin-bottom: $spacing-xs;
   }
 }
 
 // User Manager
-.user-manager {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+.dashboard__user-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  span {
+    margin-bottom: 5px;
 
-    .user-manager__title {
-      margin-left: 250px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .user-manager__actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-
-      .search-container {
-        position: relative;
-        display: flex;
-
-        .search-input {
-          padding: 8px;
-          font-size: 14px;
-          border-radius: 5px;
-          border: 1px solid #ccc;
-          width: 200px;
-        }
-
-        .search-btn {
-          background-color: transparent;
-          border: none;
-          position: absolute;
-          right: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          cursor: pointer;
-
-          .search-icon {
-            font-size: 18px;
-            color: #3498db;
-          }
-        }
-      }
+    .ti {
+      margin-right: 5px;
     }
   }
 
-  &__table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+}
 
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border: 1px solid #ddd;
+.dashboard__section {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.user-manager__actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+
+  .search-input {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    width: 200px;
+
+    @media (max-width: 576px) {
+      width: 150px;
+    }
+  }
+
+  .search-btn {
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background-color: #007bff;
+    color: #fff;
+
+    .search-icon {
+      font-size: 16px;
     }
 
-    th {
-      background-color: #f4f4f4;
+    &:hover {
+      background-color: #0056b3;
     }
+  }
+}
 
-    .user-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+.user-manager__table {
+  width: 100%;
+  border-collapse: collapse;
 
-    .btn {
-      padding: 6px 10px;
-      margin-right: 5px;
-      border-radius: 5px;
-      font-size: 14px;
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+  }
 
-      &:hover {
-        opacity: 0.8;
-      }
-    }
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .no-data {
-    text-align: center;
-    color: #999;
-    font-style: italic;
     padding: 20px;
     font-size: 16px;
+    color: #6c757d;
+  }
 
+  @media (max-width: 768px) {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+.btn__link-show, .btn__link-edit, .btn__link-delete {
+  margin-right: 5px;
+
+  @media (max-width: 576px) {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+
+// User Form and Edit Card
+.user-edit {
+  &__back {
     a {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #3498db;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      font-weight: bold;
+      display: flex;
+      align-items: center;
 
-      &:hover {
-        background-color: #2980b9;
+      .ti {
+        margin-right: 5px;
       }
     }
   }
-}
 
-// Create & Edit Form Shared Styles
-.user-form,
-.user-edit__card {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 32px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  font-family: "Segoe UI", sans-serif;
-
-  &__title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #2c3e50;
-  }
-
-  &__form-group {
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column;
-
-    label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #34495e;
-    }
-
-    input,
-    select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-
-      &:focus {
-        border-color: #3498db;
-        outline: none;
-      }
-    }
-
-    input[type="file"] {
-      padding: 6px;
-    }
-  }
-
-  &__buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-}
-
-// Show User Detail
-.user-detail {
   &__card {
-    max-width: 900px;
-    margin: 0 auto;
+    border: none;
+    background: #fff;
+
+    .user-edit__title {
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+
+      .ti {
+        margin-right: 10px;
+      }
+    }
   }
 
   &__avatar {
-    max-width: 220px;
-    height: 220px;
-    object-fit: cover;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    border: 4px solid #dee2e6;
-  }
-
-  &__name {
-    font-size: 1.25rem;
-    font-weight: 600;
+    object-fit: cover;
+    border: 2px solid #dee2e6;
   }
 }
 
-// Trash Page
-.user-trash {
-  padding: 24px;
+// User Detail
+.user-detail {
+  &__back {
+    a {
+      display: flex;
+      align-items: center;
 
+      .ti {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  &__card {
+    border: none;
+    background: #fff;
+  }
+
+  &__avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #dee2e6;
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .list-group-item {
+    padding: 10px 0;
+    border: none;
+
+    strong {
+      font-weight: 600;
+      margin-right: 5px;
+    }
+  }
+}
+// User Trash
+.user-trash {
   &__header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-    gap: 12px;
+    margin-bottom: 20px;
+    gap: 20px;
 
-    .btn--back {
-      background-color: #f1f1f1;
-      color: #333;
-      border: 1px solid #ccc;
-      padding: 8px 14px;
-      border-radius: 6px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-
-      &:hover {
-        background-color: #e0e0e0;
-      }
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .user-trash__title {
       font-size: 24px;
-      font-weight: 700;
-      color: #2c3e50;
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-  }
 
-  .table-responsive {
-    overflow-x: auto;
+      .ti {
+        margin-right: 10px;
+      }
+    }
   }
 
   &__table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 700px;
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #dee2e6;
+    }
 
-    thead {
+    th {
       background-color: #f8f9fa;
-
-      th {
-        padding: 12px;
-        text-align: left;
-        font-weight: 600;
-        border-bottom: 2px solid #dee2e6;
-      }
+      font-weight: 600;
     }
 
-    tbody {
-      td {
-        padding: 12px;
-        vertical-align: middle;
-        border-bottom: 1px solid #dee2e6;
-      }
-    }
-
-    img.user-avatar {
-      width: 42px;
-      height: 42px;
+    .user-avatar {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid #ddd;
     }
-  }
 
-  &__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    .user-trash__actions {
+      display: flex;
+      gap: 5px;
 
-    .btn {
-      font-size: 14px;
-      padding: 6px 10px;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      text-decoration: none;
-
-      &--success {
-        background-color: #28a745;
-        color: #fff;
-
-        &:hover {
-          background-color: #218838;
-        }
-      }
-
-      &--danger {
-        background-color: #dc3545;
-        color: #fff;
-
-        &:hover {
-          background-color: #c82333;
-        }
+      @media (max-width: 576px) {
+        flex-direction: column;
       }
     }
   }
 
   &__empty {
     text-align: center;
-    font-style: italic;
-    color: #888;
+    padding: 20px;
+    color: #6c757d;
     font-size: 16px;
-    margin-top: 32px;
+
+    .ti {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  }
+}
+// Modal
+.modal-content {
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem $shadow-color;
+
+  .modal-header {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  .modal-footer .btn-danger {
+    background: $danger-color;
+    border-color: $danger-color;
+  }
+}
+
+// Room Manager
+.room-manager {
+  padding: $spacing-lg;
+
+  &__header {
+    flex-wrap: wrap;
+    row-gap: $spacing-lg;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: #343a40;
+    margin-left: 12%;
 
     i {
-      font-size: 20px;
-      margin-right: 6px;
+      color: $primary-color;
+      margin-right: $spacing-sm;
+    }
+  }
+
+  table {
+    @include card-base;
+    padding: 0;
+
+    th,
+    td {
+      vertical-align: middle;
+      font-size: $font-size-sm;
+      padding: $spacing-md;
+    }
+
+    th {
+      background: #343a40;
+      color: $white;
+    }
+
+    img {
+      object-fit: cover;
+      border-radius: $spacing-sm;
+    }
+  }
+
+  .badge {
+    font-size: $font-size-sm;
+    padding: 0.4em 0.6em;
+    border-radius: 1rem;
+  }
+
+  .alert {
+    margin-top: $spacing-2xl;
+    font-size: 1.1rem;
+
+    i {
+      margin-right: $spacing-xs;
     }
   }
 }
 
-// Responsive
+// Create Room
+.create-room {
+  padding: $spacing-2xl $spacing-lg;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-2xl;
+
+    &__title {
+      font-size: $font-size-lg;
+      font-weight: 600;
+      color: #343a40;
+
+      i {
+        color: $primary-color;
+        margin-right: $spacing-sm;
+      }
+    }
+  }
+
+  form {
+    @include card-base;
+
+    .form-group {
+      margin-bottom: $spacing-lg;
+
+      label {
+        font-weight: 500;
+        margin-bottom: $spacing-sm;
+        display: block;
+      }
+
+      input,
+      select,
+      textarea {
+        border-radius: $spacing-xs;
+        padding: $spacing-sm;
+        border: 1px solid $border-color;
+        width: 100%;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+          outline: none;
+        }
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+    }
+  }
+}
+
+// Room Detail and Edit
+.room-detail,
+.edit-room {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-2xl $spacing-lg;
+
+  .room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: $spacing-2xl;
+
+    h1 {
+      font-size: $font-size-xl;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+  }
+
+  .room-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-2xl;
+
+    .room-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-lg;
+
+      img {
+        max-width: 100px;
+        border-radius: $spacing-xs;
+        box-shadow: 0 2px 6px $shadow-color;
+      }
+    }
+
+    .room-info {
+      display: grid;
+      gap: $spacing-sm;
+
+      p {
+        margin: 0;
+        font-size: $font-size-base;
+
+        span {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.room-detail {
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: 600;
+    color: $text-color;
+
+    i {
+      margin-right: $spacing-sm;
+      color: $primary-color;
+    }
+  }
+
+  &__images img.room-image {
+    width: 100%;
+    border-radius: $spacing-md;
+    box-shadow: 0 2px 10px $shadow-color;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
+
+  &__info {
+    .list-group-item {
+      border: none;
+      padding: $spacing-sm $spacing-md;
+      background: #f9f9f9;
+      margin-bottom: $spacing-xs;
+      border-radius: $spacing-sm;
+    }
+
+    .badge {
+      font-size: $font-size-sm;
+      padding: 0.4em 0.7em;
+      border-radius: 1rem;
+
+      &-available {
+        background: $success-color;
+      }
+
+      &-booked {
+        background: #ffc107;
+      }
+
+      &-occupied {
+        background: $danger-color;
+      }
+
+      &-unavailable {
+        background: #6c757d;
+      }
+    }
+  }
+
+  &__description,
+  &__amenities {
+    background: #fefefe;
+    padding: $spacing-lg;
+    border-radius: $spacing-md;
+    box-shadow: 0 2px 6px $shadow-color;
+    margin-bottom: $spacing-lg;
+
+    h4 {
+      font-size: $font-size-md;
+      margin-bottom: $spacing-md;
+
+      i {
+        margin-right: $spacing-xs;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.edit-room {
+  margin-top: $spacing-2xl;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-lg;
+
+    h1 {
+      font-size: $font-size-lg;
+      font-weight: 600;
+    }
+  }
+
+  form {
+    @include card-base;
+  }
+
+  .preview-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+
+    img {
+      border-radius: $spacing-xs;
+      border: 1px solid $border-color;
+    }
+  }
+}
+
+// Room Trash
+.room-trash {
+  &__header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: $spacing-lg;
+  }
+
+  &__title {
+    margin-right: 16%;
+    font-size: $font-size-lg;
+    font-weight: 600;
+  }
+}
+
+// Homepage
+.homepage {
+  display: flex;
+  flex-direction: column;
+}
+
+.home {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+
+  &_video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &_text h1 {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $white;
+    font-size: $font-size-xl;
+    text-shadow: 2px 2px 4px $shadow-color;
+  }
+}
+
+.booking-form {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-lg;
+  background: rgba(0, 0, 0, 0.5);
+  padding: $spacing-xl;
+  border-radius: $spacing-md;
+  max-width: 1500px;
+  width: 97%;
+  flex-wrap: wrap;
+  z-index: 19;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    color: $white;
+    min-width: 130px;
+
+    label {
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-xs;
+      font-weight: 600;
+    }
+
+    input {
+      padding: $spacing-sm $spacing-md;
+      border: 1px solid #ddd;
+      border-radius: $spacing-xs;
+      font-size: $font-size-base;
+      background: $white;
+    }
+  }
+
+  .btn-search {
+    @include button-base;
+    background: #e6d3c3;
+    color: $black;
+    border: 1px solid $black;
+    font-weight: bold;
+    margin-top: $spacing-sm;
+    @include hover-darken(#e6d3c3);
+  }
+}
+
+// Page 1
+.page1 {
+  display: flex;
+  height: 100vh;
+  padding-top: 10%;
+
+  .left {
+    flex: 0.5;
+    position: relative;
+
+    .page1_image {
+      background: url("https://scontent.fdad3-5.fna.fbcdn.net/v/t39.30808-6/487171230_9440971329326243_2049659571080009192_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=-_RTTAnEyXQQ7kNvwHMmfN7&_nc_oc=Adldd1GOCYXb3kH4aMLfjb5xmdJNr9iBQ-zhVZX5UTuzE1S7foQMet-VpwZapHHMvRM&_nc_zt=23&_nc_ht=scontent.fdad3-5.fna&_nc_gid=GAUyIPfNl-B83XV1fL9hCg&oh=00_AfHI-T7PUT5KaRr9Ne4f4cYBtoLC_r5-Kjqcand6n6aMcA&oe=680FD738") no-repeat center center/cover;
+      height: 100%;
+    }
+
+    .btn-dive {
+      @include button-base;
+      position: absolute;
+      bottom: 200px;
+      left: 450px;
+      background: #e4c5bd;
+      color: $black;
+      text-transform: uppercase;
+      font-weight: bold;
+      @include hover-darken(#e4c5bd);
+    }
+  }
+
+  .right {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .page1_text {
+      padding: 60px 80px;
+      background: $white;
+
+      h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: $spacing-xl;
+      }
+
+      p {
+        font-size: 20px;
+        line-height: 1.6;
+      }
+    }
+
+    .gallery_image {
+      height: 400px;
+      background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat center center/cover;
+      position: relative;
+
+      .overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        transform: translateY(-50%);
+        color: $white;
+        text-align: left;
+
+        h1 {
+          font-size: 35px;
+          margin-bottom: $spacing-xl;
+        }
+
+        .btn-khampha {
+          @include button-base;
+          background: #e4c5bd;
+          color: $black;
+          text-transform: uppercase;
+          @include hover-darken(#e4c5bd);
+        }
+      }
+    }
+  }
+}
+
+// Suite
+.suite {
+  display: flex;
+  width: 100%;
+  height: 50vh;
+
+  &_text {
+    flex: 0.5;
+    padding: 60px 80px;
+    background: rgb(233, 230, 230);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h1 {
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: $spacing-xl;
+    }
+
+    p {
+      font-size: 20px;
+      line-height: 1.6;
+    }
+  }
+
+  &_image {
+    flex: 0.5;
+    background: url("https://image.nhandan.vn/1200x630/Uploaded/2025/igpcvcvjntc8510/2023_04_14/inter1-7122.jpg") no-repeat center center/cover;
+  }
+}
+
+// Next Page
+.next {
+  margin: 0;
+  padding-top: $spacing-lg;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+
+  &_video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+// Search Form
+.search-form {
+  @include card-base;
+  margin-bottom: $spacing-2xl;
+
+  h2 {
+    color: $text-color;
+    font-weight: 700;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+  }
+
+  .alert-danger {
+    background: lighten($danger-color, 40%);
+    border-color: $danger-color;
+    color: $danger-color;
+    font-weight: 500;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $spacing-xs;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
+
+    .col-md-3,
+    .col-md-2 {
+      display: flex;
+      flex-direction: column;
+
+      .form-label {
+        color: $text-color;
+        font-size: $font-size-sm;
+        font-weight: 500;
+        margin-bottom: $spacing-sm;
+      }
+
+      .form-control {
+        border: 1px solid $border-color;
+        border-radius: $spacing-xs;
+        padding: $spacing-sm;
+        font-size: $font-size-sm;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+          outline: none;
+        }
+
+        &[type="date"],
+        &[type="number"] {
+          background: $bg-color;
+        }
+      }
+    }
+
+    .col-md-3.mt-3 {
+      margin-top: $spacing-lg;
+    }
+  }
+
+  .btn-primary {
+    @include button-base;
+    background: $primary-color;
+    border-color: $primary-color;
+    margin: $spacing-lg auto 0;
+    @include hover-darken($primary-color);
+  }
+}
+
+// Booking Page
+.booking-page {
+  font-family: Arial, sans-serif;
+
+  h1 {
+    font-size: $font-size-2xl;
+    font-weight: bold;
+    color: $primary-color;
+  }
+
+  .room-info,
+  .customer-form {
+    @include card-base;
+    max-width: 1200px;
+
+    h2 {
+      font-size: $font-size-xl;
+      color: $primary-color;
+    }
+
+    h3 {
+      font-size: $font-size-lg;
+      font-weight: bold;
+    }
+
+    p {
+      margin-bottom: $spacing-md;
+      color: $text-color;
+    }
+
+    img {
+      max-height: 200px;
+      object-fit: cover;
+    }
+  }
+
+  .customer-form {
+    .form-group {
+      .form-control {
+        border-radius: $spacing-xs;
+        border: 1px solid $border-color;
+        padding: $spacing-sm;
+      }
+
+      label {
+        font-weight: bold;
+        color: $text-color;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .btn-confirm {
+      @include button-base;
+      background: $primary-color;
+      color: $white;
+      padding: $spacing-md;
+      font-weight: bold;
+      @include hover-darken($primary-color);
+    }
+  }
+}
+
+// Staff Dashboard
+.dashboard {
+  .booking-table {
+    @include card-base;
+    padding: 0;
+
+    th,
+    td {
+      padding: $spacing-md;
+      text-align: left;
+    }
+
+    th {
+      background: $primary-color;
+      color: $white;
+    }
+
+    tr:nth-child(even) {
+      background: lighten($bg-color, 5%);
+    }
+  }
+
+  .form-container {
+    @include card-base;
+    max-width: 600px;
+  }
+
+  .alert {
+    margin-bottom: $spacing-xl;
+  }
+}
+
+// Responsive Styles
 @media (max-width: 768px) {
   .user-trash {
-    padding: 16px;
+    padding: $spacing-lg;
 
     &__table {
       min-width: unset;
@@ -562,878 +1205,67 @@ $text-color: #333;
       align-items: flex-start;
 
       .user-trash__title {
-        font-size: 20px;
+        font-size: $font-size-lg;
       }
     }
   }
-}
 
-
-// Modal
-.modal-header {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.modal-footer {
-  .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-}
-
-.modal-content {
-  border-radius: 0.5rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 768px) {
   .modal-dialog {
     max-width: 90%;
   }
-}
 
-
-
-// Room Style
-.room-manager {
-  padding: 1rem;
-
-  &__header {
-    flex-wrap: wrap;
-    row-gap: 1rem;
-
-    .btn {
-      i {
-        margin-right: 5px;
-      }
-    }
-
-    @media (max-width: 576px) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  .room-manager__header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  &__title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #343a40;
-    margin-left: 12%;
-
-    i {
-      color: #007bff;
-      margin-right: 8px;
-    }
-  }
-
-  table {
-    background: #fff;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-
-    th, td {
-      vertical-align: middle;
-      font-size: 0.95rem;
-    }
-
-    th {
-      background-color: #343a40;
-      color: #fff;
-    }
-
-    img {
-      object-fit: cover;
-      border-radius: 8px;
-    }
-  }
-
-  .badge {
-    font-size: 0.85rem;
-    padding: 0.4em 0.6em;
-    border-radius: 1rem;
-  }
-
-  .btn {
-    margin: 0 0.2rem;
-
-    i {
-      vertical-align: middle;
-    }
-
-    &.btn-sm {
-      padding: 0.35rem 0.6rem;
-    }
-  }
-
-  .alert {
-    margin-top: 2rem;
-    font-size: 1.1rem;
-
-    i {
-      margin-right: 6px;
-    }
-  }
-}
-
-// End of Room Style
-
-// Create Room 
-.create-room {
-  padding: 2rem 1rem;
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-
-    .btn--back {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background-color: #f8f9fa;
-      color: #333;
-      border: 1px solid #ccc;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: background-color 0.3s;
-
-      i {
-        font-size: 1rem;
-      }
-
-      &:hover {
-        background-color: #e2e6ea;
-        text-decoration: none;
-      }
-    }
-
-    &__title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #343a40;
-
-      i {
-        color: #007bff;
-        margin-right: 8px;
-      }
-    }
-  }
-
-  form {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-
-    .form-group {
-      margin-bottom: 1.5rem;
-
-      label {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        display: block;
-      }
-
-      input,
-      select,
-      textarea {
-        border-radius: 0.5rem;
-        padding: 0.75rem;
-        border: 1px solid #ced4da;
-        width: 100%;
-
-        &:focus {
-          border-color: #007bff;
-          outline: none;
-          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-      }
-
-      textarea {
-        min-height: 100px;
-        resize: vertical;
-      }
-    }
-
-    .btn--primary {
-      background-color: #007bff;
-      color: #fff;
-      padding: 0.6rem 1.5rem;
-      border-radius: 0.5rem;
-      border: none;
-      font-weight: 600;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: #0056b3;
-      }
-
-      i {
-        margin-right: 6px;
-      }
-    }
-  }
-}
-
-
-
-// End of Create Room Style
-
-// Show Room
-.room-detail,
-.edit-room {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-
-  .room-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-
-    h1 {
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-  }
-
-  .room-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-
-    @media (max-width: 768px) {
+  .room-detail,
+  .edit-room {
+    .room-content {
       grid-template-columns: 1fr;
     }
-
-    .room-images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-
-      img {
-        max-width: 100px;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      }
-    }
-
-    .room-info {
-      display: grid;
-      gap: 0.75rem;
-
-      p {
-        margin: 0;
-        font-size: 1rem;
-
-        span {
-          font-weight: 600;
-        }
-      }
-    }
   }
 
-  .form-group {
-    margin-bottom: 1.5rem;
-
-    label {
-      font-weight: 600;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 0.5rem 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-    }
-  }
-
-  .btn--primary {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 0.6rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: 0.2s;
-
-    &:hover {
-      background-color: #0056b3;
-    }
-  }
-}
-
-/* Page-specific styles */
-.room-detail {
-  &__title {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #333;
-    display: flex;
-    align-items: center;
-
-    i {
-      margin-right: 8px;
-      color: #007bff;
-    }
-  }
-
-  &__images {
-    img.room-image {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      &:hover {
-        transform: scale(1.03);
-      }
-    }
-  }
-
-  &__info {
-    font-size: 1rem;
-
-    .list-group-item {
-      border: none;
-      padding: 0.75rem 1rem;
-      background-color: #f9f9f9;
-      margin-bottom: 5px;
-      border-radius: 8px;
-    }
-
-    .badge {
-      font-size: 0.9rem;
-      padding: 0.4em 0.7em;
-      border-radius: 1rem;
-    }
-
-    .badge-available {
-      background-color: #28a745;
-    }
-
-    .badge-booked {
-      background-color: #ffc107;
-    }
-
-    .badge-occupied {
-      background-color: #dc3545;
-    }
-
-    .badge-unavailable {
-      background-color: #6c757d;
-    }
-  }
-
-  &__description,
-  &__amenities {
-    background-color: #fefefe;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1.5rem;
-
-    h4 {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      i {
-        margin-right: 6px;
-        color: #007bff;
-      }
-    }
-
-    p {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  .btn--back {
-    background-color: #e9ecef;
-    color: #333;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-weight: 500;
-    i {
-      margin-right: 5px;
-    }
-
-    &:hover {
-      background-color: #d6d8db;
-      text-decoration: none;
-    }
-  }
-}
-
-// Responsive tweaks
-@media (max-width: 768px) {
   .room-detail__title {
-    font-size: 1.5rem;
+    font-size: $font-size-lg;
   }
 
-  .room-detail__images img {
-    margin-bottom: 1rem;
-  }
-}
+  .search-form {
+    padding: $spacing-lg;
 
+    .row {
+      .col-md-3,
+      .col-md-2 {
+        width: 100%;
+      }
 
-// End of Show Room Style
-
-// Edit Room Styles
-.edit-room {
-  margin-top: 2rem;
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-
-    .btn--back {
-      background-color: #ddd;
-      color: #333;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: 500;
-      i {
-        margin-right: 6px;
+      .col-md-3.mt-3 {
+        margin-top: 0;
       }
     }
 
-    h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
+    .btn-primary {
+      width: 100%;
+      padding: $spacing-sm;
     }
   }
-
-  form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  .form-group label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-
-  .form-control {
-    border-radius: 0.5rem;
-    box-shadow: none;
-  }
-
-  .btn--primary {
-    background-color: #007bff;
-    color: white;
-    font-weight: 500;
-    border-radius: 0.5rem;
-    padding: 10px 20px;
-  }
-}
-.preview-images {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-
-  img {
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-  }
 }
 
-
-// End of Edit Room Styles
-
-// Trash Room Styles
-.room-trash {
-  &__header {
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 1rem;
-  }
-
-  .table th,
-  .table td {
-    vertical-align: middle;
-  }
-
-  .btn {
-    margin: 0 2px;
-    i {
-      vertical-align: middle;
-    }
-  }
-
-  .alert {
-    margin-top: 3rem;
-  }
-  &__title{
-    margin-right: 16%;
-  }
-}
-
-// End of Trash Room Styles
-
-////////////////////////////////////////// User Styles //////////////////////////////////////////
-.homepage {
-  display: flex;
-  flex-direction: column;
-}
-/* trang thu 1 */
-.home{
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.home_video{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.home_text h1{
-  position: absolute;
-  top: 70%; 
-  left: 50%;
-  transform: translate(-50%, -50%); 
-  color: white; 
-  font-size: 2rem; 
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-.booking-form {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  background-color: rgba(0, 0, 0, 0.5); 
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 15000px;
-  width: 97%;
-  flex-wrap: wrap;
-  z-index: 19;
-}
-
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  color: white;
-  min-width: 130px;
-}
-
-.form-group label {
-  font-size: 0.9rem;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-
-.form-group input {
-  padding: 8px 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: white;
-}
-
-
-.btn-search {
-  padding: 10px 20px;
-  background-color: #e6d3c3;
-  color: black;
-  border: 1px solid #000;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-  margin-top: 8px;
-}
-
-.btn-search:hover {
-  background-color: #d1bfae;
-}
-
-/* trang thu 2 */
-.page1 {
-  display: flex;
-  height: 100vh;
-  padding-top: 10%;
-}
-
-.left {
-  flex: 0.5;
-  position: relative;
-}
-
-.page1_image {
-  background: url("https://scontent.fdad3-5.fna.fbcdn.net/v/t39.30808-6/487171230_9440971329326243_2049659571080009192_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=-_RTTAnEyXQQ7kNvwHMmfN7&_nc_oc=Adldd1GOCYXb3kH4aMLfjb5xmdJNr9iBQ-zhVZX5UTuzE1S7foQMet-VpwZapHHMvRM&_nc_zt=23&_nc_ht=scontent.fdad3-5.fna&_nc_gid=GAUyIPfNl-B83XV1fL9hCg&oh=00_AfHI-T7PUT5KaRr9Ne4f4cYBtoLC_r5-Kjqcand6n6aMcA&oe=680FD738") no-repeat center center/cover;
-  height: 100%;
-  position: relative;
-}
-
-.btn-dive {
-  position: absolute;
-  bottom: 200px;
-  left: 450px;
-  background-color: #e4c5bd;
-  color: #000;
-  padding: 16px 24px;
-  text-transform: uppercase;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-}
-
-.right {
-  flex: 0.5;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.page1_text {
-  padding: 60px 80px;
-  background-color: white;
-}
-
-.page1_text h1 {
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.page1_text p {
-  font-size: 20px;
-  line-height: 1.6;
-}
-
-.gallery_image {
-  height: 400px;
-  background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat center center/cover;
-  position: relative;
-}
-
-.overlay-text {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translateY(-50%);
-  color: white;
-  text-align: left;
-}
-
-.overlay-text h1 {
-  font-size: 35px;
-  margin-bottom: 20px;
-}
-
-.btn-khampha {
-  background-color: #e4c5bd;
-  color: #000;
-  padding: 12px 20px;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-}
-
-/* Trang tiep theo */
-
-.suite {
-  display: flex;
-  width: 100%;
-  height: 50vh;
-}
-
-.suite_text {
-  flex: 0.5;
-  padding: 60px 80px;
-  background-color: rgb(233, 230, 230);
-  flex-direction: column;
-  justify-content: center;
-  padding-bottom: 10%;
-}
-
-.suite_text h1 {
-  font-size: 36px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-.suite_text p {
-  font-size: 20px;
-  line-height: 1.6;
-}
-
-.suite_image {
-  flex: 0.5;
-  background: url("https://image.nhandan.vn/1200x630/Uploaded/2025/igpcvcvjntc8510/2023_04_14/inter1-7122.jpg") no-repeat center center;
-  background-size: cover;
-}/*# sourceMappingURL=trang1.css.map */
-
-/* trang thu 4 */
-.next {
-  margin: 0;
-  padding-top: 16px;
-  height: 100vh;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-  
-}
-
-.next_video {
-  width: 100%;
-  height: 100%;
-}
-
-.next_video iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-// Search Page Styles
-// Đặt cấu trúc chung cho toàn bộ trang tìm kiếm
-$primary-color: #007bff;
-$secondary-color: #6c757d;
-$background-light: #f8f9fa;
-
-.search-page {
-  font-family: 'Arial', sans-serif;
-
-  h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: $primary-color;
-  }
-
-  .booking-form {
-    max-width: 1200px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    .form-group {
-      .form-control {
-        border-radius: 5px;
-        border: 1px solid $secondary-color;
-        padding: 8px;
-      }
-
-      label {
-        font-weight: bold;
-        color: $secondary-color;
-      }
-    }
-
-    .btn-search {
-      background-color: $primary-color;
-      border: none;
-      padding: 10px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: darken($primary-color, 10%);
-      }
-    }
-  }
-
-  .search-results {
-    max-width: 1200px;
-    margin: 0 auto;
+@media (max-width: 576px) {
+  .search-form {
+    padding: $spacing-md;
 
     h2 {
-      font-size: 2rem;
-      font-weight: bold;
-      color: $primary-color;
+      font-size: $font-size-lg;
     }
 
-    .card {
-      border: none;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
+    .form-label {
+      font-size: $font-size-sm;
+    }
 
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      .card-img-top {
-        height: 200px;
-        object-fit: cover;
-      }
-
-      .card-body {
-        padding: 20px;
-
-        .card-title {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: $primary-color;
-        }
-
-        .card-text {
-          font-size: 1rem;
-          color: $secondary-color;
-        }
-
-        p {
-          margin-bottom: 10px;
-        }
-
-        .btn-primary {
-          background-color: $primary-color;
-          border: none;
-          padding: 10px 20px;
-          font-weight: bold;
-          transition: background-color 0.3s;
-
-          &:hover {
-            background-color: darken($primary-color, 10%);
-          }
-        }
-      }
+    .form-control {
+      font-size: $font-size-sm;
+      padding: $spacing-xs;
     }
   }
 }
-.search-page .booking-form {
-  position: relative;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  background-color: rgba(0, 0, 0, 0.5); 
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 15000px;
-  width: 97%;
-  flex-wrap: wrap;
-  z-index: 19;
-}
-.search-page .booking-form .btn-search {
-  margin-bottom: 13px;
-}
-// End of Search Page Styles

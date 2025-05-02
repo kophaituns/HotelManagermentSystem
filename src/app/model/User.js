@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Thêm index để tối ưu tìm kiếm theo name
+userSchema.index({ name: 'text' });
+
+// Thêm index để tối ưu truy vấn danh sách nhân viên
+userSchema.index({ isAdmin: 1, deleted: 1 });
+
 // Plugin xóa mềm
 userSchema.plugin(mongooseDelete, {
   deletedAt: true,

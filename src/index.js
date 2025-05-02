@@ -10,6 +10,7 @@ const route = require('./routes');
 const morgan = require('morgan');
 const AuthMiddleWare = require('./app/midleware/AuthMiddleWare.js');
 const hbshelpers = require('./app/helpers/DateHelper.js');
+require('./job/restoreRemaining.js'); // Import job to restore remaining rooms
 dotenv.config();
 
 // Connect to DB

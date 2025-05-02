@@ -1,6 +1,9 @@
 const router = require('express').Router();
-const searchController = require('../app/controllers/SearchController');
+const bookingController = require('../app/controllers/BookingController');
 
-router.get('/', searchController.searchRooms); // Tìm kiếm phòng
+
+router.get('/:id/availability', bookingController.getRoomAvailability);
+
+router.get('/', bookingController.searchAvailableRooms); // Tìm kiếm phòng
 
 module.exports = router;

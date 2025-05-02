@@ -1,18 +1,17 @@
 <div class="dashboard">
   <aside class="dashboard__sidebar">
     <div class="dashboard__brand">HOTEL</div>
-    <button class="dashboard__management-btn">Quản lý</button>
 
     <nav class="dashboard__nav">
-      <a href="/admin/employee" class="dashboard__nav-link">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
         <i class="ti-user"></i>
         <span>Quản lý người dùng</span>
       </a>
-      <a href="/admin/room" class="dashboard__nav-link">
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
         <i class="ti-home"></i>
         <span>Quản lý phòng</span>
       </a>
-      <a href="/logout" class="dashboard__nav-link dashboard__nav-link--logout">
+      <a href="/logout" class="dashboard__nav-link nav-link dashboard__nav-link--logout">
         <i class="ti-power-off"></i>
         <span>Đăng xuất</span>
       </a>
@@ -21,7 +20,7 @@
 
   <main class="dashboard__content">
     <h2 class="dashboard__title">Chào mừng Admin</h2>
-    <p class="dashboard__info">Tên: {{user.name}}</p>
-    <p class="dashboard__info">Quyền: {{user.role}}</p>
+    <p class="dashboard__info"><i class="ti-user"></i> Tên: {{user.name}}</p>
+    <p class="dashboard__info"><i class="ti-id-badge"></i> Quyền: {{user.role}}</p>
   </main>
 </div>

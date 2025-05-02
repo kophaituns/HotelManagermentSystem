@@ -1,85 +1,94 @@
-
-    <div class="search-page container-fluid py-5">
-        <h1 class="text-center mb-4">Tìm kiếm phòng</h1>
-        <form class="booking-form bg-light p-4 rounded shadow mb-5 mx-auto" name="bookingForm" action="/search" method="GET">
-            <div class="row g-3">
-                <div class="col-md-2 form-group">
-                    <label for="checkin">Nhận phòng</label>
-                    <input type="date" class="form-control" id="checkin" name="checkin" required>
-                </div>
-                <div class="col-md-2 form-group">
-                    <label for="checkout">Trả phòng</label>
-                    <input type="date" class="form-control" id="checkout" name="checkout" required>
-                </div>
-                <div class="col-md-2 form-group">
-                    <label for="roomCount">Số phòng</label>
-                    <input type="number" class="form-control" id="roomCount" name="roomCount" value="1" min="1" required>
-                </div>
-                <div class="col-md-2 form-group">
-                    <label for="adults">Người lớn</label>
-                    <input type="number" class="form-control" id="adults" name="adults" value="2" min="1" required>
-                </div>
-                <div class="col-md-2 form-group">
-                    <label for="children">Trẻ em</label>
-                    <input type="number" class="form-control" id="children" name="children" value="0" min="0" required>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn-search btn btn-primary w-100" type="submit">TÌM KIẾM</button>
-                </div>
-            </div>
-        </form>
-
-        <div class="search-results container">
-            {{#if rooms.length}}
-                <h2 class="mb-4">Phòng khả dụng</h2>
-                <div class="row">
-                    {{#each rooms}}
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100">
-                                {{#if this.images.[0]}}
-                                    <img src="{{this.images.[0]}}" class="card-img-top" alt="{{this.roomType.name}}">
-                                {{else}}
-                                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Placeholder">
-                                {{/if}}
-                                <div class="card-body">
-                                    <h5 class="card-title">{{this.roomType.name}} - Phòng {{this.number}}</h5>
-                                    <p class="card-text">{{this.description}}</p>
-                                    <p><strong>Giá:</strong> {{this.price}} VND/đêm</p>
-                                    <p><strong>Sức chứa:</strong> {{this.capacity}} người</p>
-                                    <p><strong>Diện tích:</strong> {{this.size}} m²</p>
-                                    <p><strong>Hướng nhìn:</strong> {{this.view}}</p>
-                                    <p><strong>Tiện nghi:</strong> {{this.amenities.beds}}, {{this.amenities.bathroom}}</p>
-                                    <a href="/book/{{this._id}}" class="btn btn-primary">Đặt phòng</a>
-                                </div>
-                            </div>
-                        </div>
-                    {{/each}}
-                </div>
-            {{else}}
-                <p class="text-center">Không tìm thấy phòng phù hợp. Vui lòng thử lại với các tiêu chí khác.</p>
-            {{/if}}
+ <div class="container mt-5">
+    <h2>Tìm kiếm phòng</h2>
+    {{#if error}}
+      <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
+    <form action="/search" method="GET" class="mb-4">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="checkin" class="form-label">Ngày nhận phòng</label>
+          <input type="date" name="checkin" id="checkin" class="form-control" value="{{checkin}}" required>
         </div>
-    </div>
+        <div class="col-md-3">
+          <label for="checkout" class="form-label">Ngày trả phòng</label>
+          <input type="date" name="checkout" id="checkout" class="form-control" value="{{checkout}}" required>
+        </div>
+        <div class="col-md-2">
+          <label for="roomCount" class="form-label">Số phòng</label>
+          <input type="number" name="roomCount" id="roomCount" class="form-control" min="1" value="{{roomCount}}" required>
+        </div>
+        <div class="col-md-2">
+          <label for="adults" class="form-label">Số người lớn</label>
+          <input type="number" name="adults" id="adults" class="form-control" min="1" value="{{adults}}" required>
+        </div>
+        <div class="col-md-2">
+          <label for="children" class="form-label">Số trẻ em</label>
+          <input type="number" name="children" id="children" class="form-control" min="0" value="{{children}}">
+        </div>
+        <div class="col-md-3 mt-3">
+          <label for="typeId" class="form-label">Loại phòng</label>
+          <select name="typeId" id="typeId" class="form-control">
+            <option value="">Tất cả</option>
+            {{#each roomTypes}}
+              <option value="{{_id}}" {{#if (eq ../selectedTypeId _id)}}selected{{/if}}>{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
+    </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Set minimum date for check-in and check-out to today
-        const today = new Date().toISOString().split('T')[0];
-        const checkinInput = document.getElementById('checkin');
-        const checkoutInput = document.getElementById('checkout');
-
-        checkinInput.setAttribute('min', today);
-        checkoutInput.setAttribute('min', today);
-
-        // Ensure checkout date is not before check-in date
-        checkinInput.addEventListener('change', function() {
-            checkoutInput.setAttribute('min', this.value);
-        });
-
-        // Ensure check-in date is not after checkout date
-        checkoutInput.addEventListener('change', function() {
-            if (checkinInput.value > this.value) {
-                checkinInput.value = this.value;
-            }
-        });
-    </script>
+    {{#if rooms.length}}
+      <h3>Kết quả tìm kiếm</h3>
+      <div class="row">
+        {{#each rooms}}
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              {{#if images.length}}
+                <img src="{{images.[0]}}" class="card-img-top room-card-img" alt="Ảnh phòng {{number}}">
+              {{else}}
+                <img src="/images/default-room.jpg" class="card-img-top room-card-img" alt="Ảnh phòng mặc định">
+              {{/if}}
+              <div class="card-body">
+                <h5 class="card-title"><strong>Phòng: </strong>{{number}} ({{typeId.name}})</h5>
+                <p class="card-text"><strong>Giá:</strong> {{price}} VND/đêm</p>
+                {{#if description}}
+                  <p class="card-text"><strong>Mô tả:</strong> {{description}}</p>
+                {{/if}}
+                {{#if area}}
+                  <p class="card-text"><strong>Diện tích:</strong> {{area}} m²</p>
+                {{/if}}
+                {{#if capacity}}
+                  <p class="card-text"><strong>Số khách tối đa:</strong> {{capacity}} người</p>
+                {{/if}}
+                <p class="card-text"><strong>Tiện nghi:</strong></p>
+                <ul class="amenities-list">
+                  {{#if amenities.wifi}}
+                    <li>WiFi miễn phí</li>
+                  {{/if}}
+                  {{#if amenities.tv}}
+                    <li>TV màn hình phẳng</li>
+                  {{/if}}
+                  {{#if amenities.airConditioner}}
+                    <li>Máy lạnh</li>
+                  {{/if}}
+                  {{#if amenities.minibar}}
+                    <li>Minibar</li>
+                  {{/if}}
+                  {{#if amenities.bathroom.length}}
+                    {{#each amenities.bathroom}}
+                      <li>{{this}}</li>
+                    {{/each}}
+                  {{/if}}
+                </ul>
+                <a href="/book/{{_id}}?checkin={{../checkin}}&checkout={{../checkout}}&roomCount={{../roomCount}}&adults={{../adults}}&children={{../children}}" class="btn btn-primary">Đặt phòng</a>
+                <a href="/search/{{_id}}/availability?startDate={{../checkin}}&endDate={{../checkout}}" class="btn btn-info mt-2">Xem lịch trống</a>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>Không tìm thấy phòng trống trong khoảng thời gian này.</p>
+    {{/if}}
+  </div>

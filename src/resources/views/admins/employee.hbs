@@ -1,95 +1,114 @@
-<div class="user-manager">
-  <div class="user-manager__header">
-    <a href="/admin" class="btn btn--back">
-      <i class="ti-arrow-left"></i> Quay lại
-    </a>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">HOTEL</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý người dùng</span>
+      </a>
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/trash" class="dashboard__nav-link nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+      <a href="/logout" class="dashboard__nav-link nav-link dashboard__nav-link--logout">
+        <i class="ti-power-off"></i>
+        <span>Đăng xuất</span>
+      </a>
+    </nav>
+  </aside>
 
-    <h1 class="user-manager__title">
-      <i class="ti-user"></i> Quản lý người dùng
-    </h1>
-
-    <div class="user-manager__actions">
-      <div class="search-container">
-        <input type="text" class="search-input" placeholder="Tìm kiếm người dùng..." id="searchUser">
-        <button class="search-btn">
-          <i class="ti-search search-icon"></i>
-        </button>
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-user"></i> Quản lý người dùng</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{user.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{user.role}}</span>
       </div>
-      <a href="/admin/employee/create" class="btn btn--primary">
-        <i class="ti-plus"></i> Thêm người dùng
-      </a>
-      <a href="/admin/trash" class="btn btn--trash">
-        <i class="ti-trash"></i> Thùng rác
-      </a>
-    </div>
-  </div>
+    </header>
 
-  <table class="user-manager__table">
-    <thead>
-      <tr>
-        <th>STT</th>
-        <th>Ảnh</th>
-        <th>Họ tên</th>
-        <th>Email</th>
-        <th>Ngày sinh</th>
-        <th>Số điện thoại</th>
-        <th>Vai trò</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#if users}}
-      {{#each users}}
-      <tr>
-        <td>{{@index}}</td>
-        <td><img src="{{this.avatar}}" alt="Ảnh đại diện" class="user-avatar"></td>
-        <td>{{this.name}}</td>
-        <td>{{this.email}}</td>
-        <td>{{this.dob}}</td>
-        <td>{{this.phone}}</td>
-        <td>{{this.role}}</td>
-        <td>
-          <a href="/admin/employee/show/{{this._id}}" class="btn__link-show">
-            <button class="btn btn--view"><i class="ti-eye"></i> Xem</button>
-          </a>
+    <section class="dashboard__section">
+      <div class="user-manager__actions">
+        <div class="search-container">
+          <input type="text" class="form-control search-input" placeholder="Tìm kiếm người dùng..." id="searchUser">
+          <button class="btn btn-outline-primary search-btn">
+            <i class="ti-search search-icon"></i>
+          </button>
+        </div>
+        <a href="/admin/employee/create" class="btn btn-primary btn-sm btn--primary">
+          <i class="ti-plus"></i> Thêm người dùng
+        </a>
+        <a href="/admin/trash" class="btn btn-danger btn-sm btn--trash">
+          <i class="ti-trash"></i> Thùng rác
+        </a>
+      </div>
 
-          <a href="/admin/employee/edit/{{this._id}}" class="btn__link-edit">
-            <button class="btn btn--edit"><i class="ti-pencil"></i> Sửa</button>
-
-          </a>
-          <a href="#" class="btn__link-delete" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-user-modal">
-            <button class="btn btn--delete"><i class="ti-trash"></i> Xóa</button>
-
-          </a>
-        </td>
-      </tr>
-      {{/each}}
-      {{else}}
-      <tr>
-        <td colspan="8" class="no-data text-center">
-          Không có người dùng nào! <br>
-          <a href="/admin/employee/create" class="btn btn--primary">Thêm người dùng</a>
-        </td>
-      </tr>
-      {{/if}}
-    </tbody>
-  </table>
+      <table class="table user-manager__table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Ảnh</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Ngày sinh</th>
+            <th>Số điện thoại</th>
+            <th>Vai trò</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if users}}
+          {{#each users}}
+          <tr>
+            <td>{{@index}}</td>
+            <td><img src="{{this.avatar}}" alt="Ảnh đại diện" class="user-avatar"></td>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.dob}}</td>
+            <td>{{this.phone}}</td>
+            <td>{{#if this.isAdmin}} Quản trị viên {{else}}Nhân viên{{/if}}</td>
+            <td>
+              <a href="/admin/employee/show/{{this._id}}" class="btn btn-primary btn-sm btn__link-show">
+                <i class="ti-eye"></i> Xem
+              </a>
+              <a href="/admin/employee/edit/{{this._id}}" class="btn btn-success btn-sm btn__link-edit">
+                <i class="ti-pencil"></i> Sửa
+              </a>
+              <a href="#" class="btn btn-danger btn-sm btn__link-delete" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-user-modal">
+                <i class="ti-trash"></i> Xóa
+              </a>
+            </td>
+          </tr>
+          {{/each}}
+          {{else}}
+          <tr>
+            <td colspan="8" class="no-data text-center">
+              Không có người dùng nào! <br>
+              <a href="/admin/employee/create" class="btn btn-primary btn-sm">Thêm người dùng</a>
+            </td>
+          </tr>
+          {{/if}}
+        </tbody>
+      </table>
+    </section>
+  </main>
 </div>
 
-
-{{!-- Modal deleteuser --}}
-
-<div id="delete-user-modal" class="modal" tabindex="-1" role="dialog">
+{{!-- Modal delete user --}}
+<div id="delete-user-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Xóa khóa học?</h5>
+        <h5 class="modal-title">Xóa người dùng?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Bạn chắc chắn muốn xóa khóa học này?</p>
+        <p>Bạn chắc chắn muốn xóa người dùng này?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
@@ -99,28 +118,26 @@
   </div>
 </div>
 
-
-
-{{!-- form delete user/ hidden form --}}
+{{!-- Form delete user (hidden form) --}}
 <form name="delete-user-form" method="POST"></form>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var userId;
-        var deleteForm = document.forms['delete-user-form'];
-        var btnDeleteUser = document.getElementById('btn-delete-user');
+  document.addEventListener('DOMContentLoaded', function() {
+    var userId;
+    var deleteForm = document.forms['delete-user-form'];
+    var btnDeleteUser = document.getElementById('btn-delete-user');
 
-        // When dialog confirm clicked
-        $('#delete-user-modal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            userId = button.data('id');
-        });
-        
-        // When delete course btn clicked
-        btnDeleteUser.onclick = function () {
-          console.log('Deleting userId:', userId);
-            deleteForm.action = '/admin/employee/delete/' + userId + '?_method=DELETE';
-            deleteForm.submit();
-        }
+    // When dialog confirm clicked
+    $('#delete-user-modal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget);
+      userId = button.data('id');
     });
+
+    // When delete user btn clicked
+    btnDeleteUser.onclick = function() {
+      console.log('Deleting userId:', userId);
+      deleteForm.action = '/admin/employee/delete/' + userId + '?_method=DELETE';
+      deleteForm.submit();
+    }
+  });
 </script>
