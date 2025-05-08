@@ -4,16 +4,50 @@ const RoomType = require('../../model/RoomType')
 
 const RoomController = {
     // Hiển thị danh sách phòng
-   getRoom(req, res, next) {
-        Room.find({})
-            .populate('typeId')
-            .then((rooms) => {
-                res.render('rooms/index', {
-                    rooms: mutipleMongooseToObject(rooms),
-                });
-            })
-            .catch(next);
-    },
+   getRoom : async (req, res) => {
+    try {
+      const searchQuery = {
+        name: req.query.name || '',
+        typeId: req.query.typeId || ''
+      };
+
+      // Tạo query để tìm kiếm phòng
+      let roomQuery = { deleted: false }; // Chỉ lấy phòng chưa bị xóa
+
+      if (searchQuery.name) {
+        roomQuery.name = { $regex: new RegExp(searchQuery.name, 'i') }; // Tìm kiếm theo tên (case-insensitive)
+      }
+
+      if (searchQuery.typeId) {
+        roomQuery.typeId = searchQuery.typeId; // Lọc theo loại phòng
+      }
+
+      // Lấy danh sách phòng và roomTypes song song
+      const [rooms, roomTypes] = await Promise.all([
+        Room.find(roomQuery).populate('typeId'), // Populate typeId để lấy thông tin loại phòng
+        RoomType.find({}) // Lấy tất cả loại phòng cho dropdown
+      ]);
+
+      res.render('rooms/index', {
+        rooms: mutipleMongooseToObject(rooms),
+        roomTypes: mutipleMongooseToObject(roomTypes),
+        searchQuery,
+        message: req.query.message,
+        error: req.query.error,
+        user: req.user
+      });
+    } catch (error) {
+      console.error('Lỗi khi lấy danh sách phòng:', error);
+      res.status(500).render('rooms/index', {
+        rooms: [],
+        roomTypes: [],
+        searchQuery: { name: req.query.name || '', typeId: req.query.typeId || '' },
+        error: 'Đã xảy ra lỗi khi tải danh sách phòng. Vui lòng thử lại.',
+        user: req.user
+      });
+    }
+  },
+
     
     // Hiển thị trang thêm phòng
     createRoom(req, res, next) {
@@ -34,7 +68,10 @@ const RoomController = {
           roomData.images = req.files.map(file => file.path); // Lưu các URL từ Cloudinary
         }
       
+
+       
         const room = new Room(roomData);
+        room.remaining = room.initialRemaining
         room
           .save()
           .then(() => res.redirect('/admin/room'))

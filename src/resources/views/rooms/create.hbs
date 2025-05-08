@@ -1,107 +1,141 @@
-<div class="create-room container py-4">
-  <div class="create-room__header d-flex justify-content-between align-items-center mb-4">
-    <a href="/admin/room" class="btn btn-outline-secondary">
-      <i class="ti-arrow-left"></i> Quay lại
-    </a>
-    <h2 class="create-room__title m-0">
-      <i class="ti-plus"></i> Thêm phòng mới
-    </h2>
-  </div>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">LuxStay</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý nhân viên</span>
+      </a>
+      <a href="/admin/room/trash" class="dashboard__nav-link nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+      
+    </nav>
+  </aside>
 
-  <form action="/admin/room/store" method="POST" enctype="multipart/form-data" class="row g-3">
-    <div class="col-md-6">
-      <label for="number" class="form-label">Số phòng</label>
-      <input type="text" id="number" name="number" class="form-control" required>
-    </div>
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-plus"></i> Thêm phòng mới</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{currentUser.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{currentUser.role}}</span>
+      </div>
+    </header>
 
-    <div class="col-md-6">
-      <label for="typeId" class="form-label">Loại phòng</label>
-      <select id="typeId" name="typeId" class="form-select" required>
-        {{#each roomTypes}}
-          <option value="{{this._id}}">{{this.name}}</option>
-        {{/each}}
-      </select>
-    </div>
+    <section class="dashboard__section">
+      <div class="create-room">
+        <div class="create-room__header d-flex justify-content-between align-items-center mb-4">
+          <a href="/admin/rooms" class="btn btn-outline-secondary btn-sm">
+            <i class="ti-arrow-left"></i> Quay lại
+          </a>
+        </div>
 
-    <div class="col-md-6">
-      <label for="status" class="form-label">Trạng thái</label>
-      <select id="status" name="status" class="form-select" required>
-        <option value="available">Available</option>
-        <option value="booked">Booked</option>
-        <option value="occupied">Occupied</option>
-        <option value="unavailable">Unavailable</option>
-      </select>
-    </div>
+        <form action="/admin/room/store" method="POST" enctype="multipart/form-data" class="row g-3">
+          <div class="col-md-6">
+            <label for="name" class="form-label">Tên phòng</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+          </div>
 
-    <div class="col-md-6">
-      <label for="images" class="form-label">Ảnh phòng</label>
-      <input type="file" id="images" name="images" class="form-control" multiple>
-    </div>
+          <div class="col-md-6">
+            <label for="typeId" class="form-label">Loại phòng</label>
+            <select id="typeId" name="typeId" class="form-select" required>
+              {{#each roomTypes}}
+                <option value="{{this._id}}">{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
 
-    <div class="col-md-4">
-      <label for="capacity" class="form-label">Sức chứa</label>
-      <input type="number" id="capacity" name="capacity" class="form-control" value="2" required>
-    </div>
+          <div class="col-md-6">
+            <label for="status" class="form-label">Trạng thái</label>
+            <select id="status" name="status" class="form-select" required>
+              <option value="available">Available</option>
+              <option value="booked">Booked</option>
+              <option value="occupied">Occupied</option>
+              <option value="unavailable">Unavailable</option>
+            </select>
+          </div>
 
-    <div class="col-md-4">
-      <label for="size" class="form-label">Diện tích (m²)</label>
-      <input type="number" id="size" name="size" class="form-control">
-    </div>
+          <div class="col-md-6">
+            <label for="images" class="form-label">Ảnh phòng</label>
+            <input type="file" id="images" name="images" class="form-control" multiple>
+          </div>
 
-    <div class="col-md-4">
-      <label for="floor" class="form-label">Tầng</label>
-      <input type="text" id="floor" name="floor" class="form-control">
-    </div>
+          <div class="col-md-4">
+            <label for="capacity" class="form-label">Sức chứa</label>
+            <input type="number" id="capacity" name="capacity" class="form-control" value="2" required>
+          </div>
 
-    <div class="col-md-6">
-      <label for="view" class="form-label">Hướng nhìn</label>
-      <input type="text" id="view" name="view" class="form-control">
-    </div>
+          <div class="col-md-4">
+            <label for="size" class="form-label">Diện tích (m²)</label>
+            <input type="number" id="size" name="size" class="form-control">
+          </div>
 
-    <div class="col-md-6">
-      <label for="beds" class="form-label">Loại giường</label>
-      <input type="text" id="beds" name="amenities[beds]" class="form-control">
-    </div>
+          <div class="col-md-4">
+            <label for="floor" class="form-label">Tầng</label>
+            <input type="text" id="floor" name="floor" class="form-control">
+          </div>
 
-    <div class="col-md-6">
-      <label for="bathroom" class="form-label">Phòng tắm</label>
-      <input type="text" id="bathroom" name="amenities[bathroom]" class="form-control" placeholder="Freestanding Bath, Walk-in Shower">
-    </div>
+          <div class="col-md-6">
+            <label for="view" class="form-label">Hướng nhìn</label>
+            <input type="text" id="view" name="view" class="form-control">
+          </div>
 
-    <div class="col-md-6">
-      <label for="appliances" class="form-label">Thiết bị</label>
-      <input type="text" id="appliances" name="amenities[appliances]" class="form-control" placeholder="Stocked Minibar">
-    </div>
+          <div class="col-md-6">
+            <label for="beds" class="form-label">Loại giường</label>
+            <input type="text" id="beds" name="amenities[beds]" class="form-control">
+          </div>
 
-    <div class="col-md-6">
-      <label for="outdoorItems" class="form-label">Ngoài trời</label>
-      <input type="text" id="outdoorItems" name="amenities[outdoorItems]" class="form-control" placeholder="Furnished Balcony">
-    </div>
+          <div class="col-md-6">
+            <label for="bathroom" class="form-label">Phòng tắm</label>
+            <input type="text" id="bathroom" name="amenities[bathroom]" class="form-control" placeholder="Freestanding Bath, Walk-in Shower">
+          </div>
 
-    <div class="col-md-6">
-      <label for="smokingPolicy" class="form-label">Chính sách hút thuốc</label>
-      <input type="text" id="smokingPolicy" name="amenities[smokingPolicy]" class="form-control" placeholder="Non-Smoking">
-    </div>
+          <div class="col-md-6">
+            <label for="appliances" class="form-label">Thiết bị</label>
+            <input type="text" id="appliances" name="amenities[appliances]" class="form-control" placeholder="Stocked Minibar">
+          </div>
 
-    <div class="col-12">
-      <label for="description" class="form-label">Mô tả chi tiết</label>
-      <textarea id="description" name="description" class="form-control" rows="3"></textarea>
-    </div>
+          <div class="col-md-6">
+            <label for="outdoorItems" class="form-label">Ngoài trời</label>
+            <input type="text" id="outdoorItems" name="amenities[outdoorItems]" class="form-control" placeholder="Furnished Balcony">
+          </div>
 
-    <div class="col-md-6">
-      <label for="price" class="form-label">Giá tiền (1 đêm)</label>
-      <input type="number" id="price" name="price" class="form-control" required>
-    </div>
+          <div class="col-md-6">
+            <label for="smokingPolicy" class="form-label">Chính sách hút thuốc</label>
+            <input type="text" id="smokingPolicy" name="amenities[smokingPolicy]" class="form-control" placeholder="Non-Smoking">
+          </div>
 
-    <div class="col-md-6">
-      <label for="remaining" class="form-label">Số lượng còn lại</label>
-      <input type="number" id="remaining" name="remaining" class="form-control">
-    </div>
+          <div class="col-12">
+            <label for="description" class="form-label">Mô tả chi tiết</label>
+            <textarea id="description" name="description" class="form-control" rows="3"></textarea>
+          </div>
 
-    <div class="col-12 text-end">
-      <button type="submit" class="btn btn-primary">
-        <i class="ti-save"></i> Tạo phòng
-      </button>
-    </div>
-  </form>
+          <div class="col-md-6">
+            <label for="price" class="form-label">Giá tiền (1 đêm)</label>
+            <input type="number" id="price" name="price" class="form-control"  required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="initialRemaining" class="form-label">Số lượng ban đầu</label>
+            <input type="number" id="initialRemaining" name="initialRemaining" class="form-control" required>
+          </div>    
+          <div class="col-md-6">
+            <label for="remaining" class="form-label">Số lượng còn lại</label>
+            <input type="number" id="remaining" name="remaining" class="form-control" required>
+          </div>
+
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary btn-sm">
+              <i class="ti-save"></i> Tạo phòng
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
 </div>

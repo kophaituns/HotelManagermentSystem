@@ -1,54 +1,121 @@
-<div class="room-detail container mt-4 mb-5">
-  <a href="/admin/room" class="btn btn--back mb-3">
-    <i class="ti-arrow-left"></i> Quay lại
-  </a>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">LuxStay</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý người dùng</span>
+      </a>
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/room/trash" class="dashboard__nav-link nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+    
+    </nav>
+  </aside>
 
-  <h1 class="room-detail__title mb-4">
-    <i class="ti-home"></i> Chi tiết phòng: {{room.number}}
-  </h1>
-
-  <div class="room-detail__content row">
-    <div class="col-lg-6">
-      <div class="room-detail__images mb-4">
-        {{#each room.images}}
-          <img src="{{this}}" alt="Ảnh phòng" class="img-fluid room-image mb-2" />
-        {{/each}}
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-home"></i> Chi tiết phòng: {{room.number}}</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{currentUser.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{currentUser.role}}</span>
       </div>
-    </div>
+    </header>
 
-    <div class="col-lg-6">
-      <ul class="room-detail__info list-group">
-        <li class="list-group-item"><strong>Loại phòng:</strong> {{room.typeId.name}}</li>
-        <li class="list-group-item"><strong>Giá:</strong> {{room.price}} VND / đêm</li>
-        <li class="list-group-item"><strong>Sức chứa:</strong> {{room.capacity}} người</li>
-        <li class="list-group-item"><strong>Diện tích:</strong> {{room.size}} m²</li>
-        <li class="list-group-item"><strong>Tầng:</strong> {{room.floor}}</li>
-        <li class="list-group-item"><strong>Hướng nhìn:</strong> {{room.view}}</li>
-        <li class="list-group-item"><strong>Trạng thái:</strong> 
-          <span class="badge badge-{{statusClass room.status}}">{{room.status}}</span>
-        </li>
-        <li class="list-group-item"><strong>Số lượng còn:</strong> {{room.remaining}}</li>
-      </ul>
-    </div>
-  </div>
+    <section class="dashboard__section">
+      <div class="room-detail">
+        <div class="room-detail__back mb-4">
+          <a href="/admin/room" class="btn btn-outline-secondary btn-sm">
+            <i class="ti-arrow-left"></i> Quay lại
+          </a>
+        </div>
 
-  <div class="room-detail__description mt-4">
-    <h4><i class="ti-info-alt"></i> Mô tả</h4>
-    <p>{{room.description}}</p>
-  </div>
+        <div class="room-detail__content row">
+          <div class="col-lg-6">
+            <div id="roomCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {{#if room.images.length}}
+                        {{#each room.images}}
+                        <div class="carousel-item {{#if @first}}active{{/if}}">
+                            <div class="room-img-wrapper">
+                                <img src="{{this}}" class="d-block w-100 rounded-3"
+                                    alt="Ảnh phòng {{../room.roomType.name}}">
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{else}}
+                        <div class="carousel-item active">
+                            <div class="room-img-wrapper">
+                                <img src="/images/default-room.jpg" class="d-block w-100 rounded-3"
+                                    alt="Hình ảnh phòng mặc định">
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon d-none"></span> <!-- Vẫn giữ để đảm bảo layout -->
+                        <i class="ti-angle-left fs-2 text-dark mr-2"></i>
+                    </button>
 
-  <div class="room-detail__amenities mt-4">
-    <h4><i class="ti-layout-grid2"></i> Tiện nghi</h4>
-    <div class="row">
-      <div class="col-md-6">
-        <p><strong>Giường:</strong> {{room.amenities.beds}}</p>
-        <p><strong>Phòng tắm:</strong> {{#each room.amenities.bathroom}}{{this}}, {{/each}}</p>
-        <p><strong>Thiết bị:</strong> {{#each room.amenities.appliances}}{{this}}, {{/each}}</p>
+                    <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon d-none"></span>
+                        <i class="ti-angle-right fs-2 text-dark mr-2"></i>
+                    </button>
+                    {{#if room.images.length}}
+                    <div class="carousel-indicators">
+                        {{#each room.images}}
+                        <button type="button" data-bs-target="#roomCarousel" data-bs-slide-to="{{@index}}" {{#if
+                            @first}}class="active" aria-current="true" {{/if}}
+                            aria-label="Slide {{add @index 1}}"></button>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+                </div>
+          </div>
+
+          <div class="col-lg-6">
+            <ul class="room-detail__info list-group">
+              <li class="list-group-item"><strong>Loại phòng:</strong> {{room.typeId.name}}</li>
+              <li class="list-group-item"><strong>Giá:</strong> {{formatNumber room.price}} VND / đêm</li>
+              <li class="list-group-item"><strong>Sức chứa:</strong> {{room.capacity}} người</li>
+              <li class="list-group-item"><strong>Diện tích:</strong> {{room.size}} m²</li>
+              <li class="list-group-item"><strong>Tầng:</strong> {{room.floor}}</li>
+              <li class="list-group-item"><strong>Hướng nhìn:</strong> {{room.view}}</li>
+              <li class="list-group-item"><strong>Trạng thái:</strong> 
+                <span class="badge badge-{{statusClass room.status}}">{{room.status}}</span>
+              </li>
+              <li class="list-group-item"><strong>Số lượng còn:</strong> {{room.remaining}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="room-detail__description mt-4">
+          <h4><i class="ti-info-alt"></i> Mô tả</h4>
+          <p>{{room.description}}</p>
+        </div>
+
+        <div class="room-detail__amenities mt-4">
+          <h4><i class="ti-layout-grid2"></i> Tiện nghi</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Giường:</strong> {{room.amenities.beds}}</p>
+              <p><strong>Phòng tắm:</strong> {{#each room.amenities.bathroom}}{{this}}, {{/each}}</p>
+              <p><strong>Thiết bị:</strong> {{#each room.amenities.appliances}}{{this}}, {{/each}}</p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Ngoài trời:</strong> {{#each room.amenities.outdoorItems}}{{this}}, {{/each}}</p>
+              <p><strong>Hút thuốc:</strong> {{room.amenities.smokingPolicy}}</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-6">
-        <p><strong>Ngoài trời:</strong> {{#each room.amenities.outdoorItems}}{{this}}, {{/each}}</p>
-        <p><strong>Hút thuốc:</strong> {{room.amenities.smokingPolicy}}</p>
-      </div>
-    </div>
-  </div>
+    </section>
+  </main>
 </div>

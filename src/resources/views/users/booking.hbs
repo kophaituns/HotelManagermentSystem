@@ -1,115 +1,191 @@
- <div class="booking-page container-fluid py-5">
-        <h1 class="text-center mb-4">Đặt phòng</h1>
-        
-        <!-- Thông tin phòng -->
-        <div class="room-info bg-light p-4 rounded shadow mb-5 mx-auto" style="max-width: 1200px;">
-            <h2>Thông tin phòng</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    {{#if room.images.[0]}}
-                        <img src="{{room.images.[0]}}" class="img-fluid rounded" alt="{{room.roomType.name}}">
-                    {{else}}
-                        <img src="https://via.placeholder.com/300x200" class="img-fluid rounded" alt="Hình ảnh phòng">
+<div class="booking-page col-12 py-5 ">
+    <h1 class="text-center mb-5 fw-bold text-primary-emphasis"><i class="ti-agenda me-2 mr-2"></i>Đặt phòng</h1>
+
+    <!-- Thông tin phòng -->
+    <div class="room-info p-4 rounded-4 shadow-lg mx-auto">
+        <h2 class="mb-4 fw-semibold text-primary-emphasis font-size-15"><i class="ti-home me-2 mr-2"></i>Thông tin phòng</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div id="roomCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {{#if room.images.length}}
+                        {{#each room.images}}
+                        <div class="carousel-item {{#if @first}}active{{/if}}">
+                            <div class="room-img-wrapper">
+                                <img src="{{this}}" class="d-block w-100 rounded-3"
+                                    alt="Ảnh phòng {{../room.roomType.name}}">
+                            </div>
+                        </div>
+                        {{/each}}
+                        {{else}}
+                        <div class="carousel-item active">
+                            <div class="room-img-wrapper">
+                                <img src="/images/default-room.jpg" class="d-block w-100 rounded-3"
+                                    alt="Hình ảnh phòng mặc định">
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon d-none"></span> <!-- Vẫn giữ để đảm bảo layout -->
+                        <i class="ti-angle-left fs-2 text-dark mr-2"></i>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon d-none"></span>
+                        <i class="ti-angle-right fs-2 text-dark mr-2"></i>
+                    </button>
+                    {{#if room.images.length}}
+                    <div class="carousel-indicators">
+                        {{#each room.images}}
+                        <button type="button" data-bs-target="#roomCarousel" data-bs-slide-to="{{@index}}" {{#if
+                            @first}}class="active" aria-current="true" {{/if}}
+                            aria-label="Slide {{add @index 1}}"></button>
+                        {{/each}}
+                    </div>
                     {{/if}}
                 </div>
-                <div class="col-md-8">
-                    <h3>{{room.roomType.name}} - Phòng {{room.number}}</h3>
-                    <p><strong>Giá:</strong> {{room.price}} VND/đêm</p>
-                    <p><strong>Sức chứa:</strong> {{room.capacity}} người</p>
-                    <p><strong>Diện tích:</strong> {{room.size}} m²</p>
-                    <p><strong>Hướng nhìn:</strong> {{room.view}}</p>
-                    <p><strong>Tiện nghi:</strong> {{room.amenities.beds}}, {{room.amenities.bathroom}}</p>
-                    <p><strong>Ngày nhận phòng:</strong> {{checkin}}</p>
-                    <p><strong>Ngày trả phòng:</strong> {{checkout}}</p>
-                    <p><strong>Số phòng:</strong> {{roomCount}}</p>
-                    <p><strong>Người lớn:</strong> {{adults}}</p>
-                    <p><strong>Trẻ em:</strong> {{children}}</p>
-                    <p><strong>Tổng giá:</strong> {{#if totalPrice}}{{totalPrice}} VND{{else}}Đang tính toán{{/if}}</p>
-                </div>
             </div>
-        </div>
-
-        <!-- Form thông tin khách hàng -->
-        <form class="customer-form bg-light p-4 rounded shadow mx-auto" id="bookingForm" style="max-width: 1200px;" action="/book/{{room._id}}/confirm" method="POST">
-            <h2>Thông tin khách hàng</h2>
-            {{#if error}}
-                <p class="text-danger text-center">{{error}}</p>
-            {{/if}}
-            <div class="row g-3">
-                <div class="col-md-6 form-group">
-                    <label for="fullName">Họ và tên</label>
-                    <input type="text" class="form-control" id="fullName" name="fullName" value="{{formData.fullName}}" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{formData.email}}" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" value="{{formData.phone}}" required>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="idNumber">CMND/CCCD</label>
-                    <input type="text" class="form-control" id="idNumber" name="idNumber" value="{{formData.idNumber}}">
-                </div>
-                <div class="col-md-12 form-group">
-                    <label for="address">Địa chỉ</label>
-                    <textarea class="form-control" id="address" name="address" rows="4">{{formData.address}}</textarea>
-                </div>
-                <!-- Thông tin từ form tìm kiếm -->
-                <input type="hidden" name="checkin" value="{{checkin}}">
-                <input type="hidden" name="checkout" value="{{checkout}}">
-                <input type="hidden" name="roomCount" value="{{roomCount}}">
-                <input type="hidden" name="adults" value="{{adults}}">
-                <input type="hidden" name="children" value="{{children}}">
-                <input type="hidden" name="totalPrice" value="{{totalPrice}}">
-            </div>
-            <button type="button" class="btn btn-primary w-100 mt-4 btn-confirm" onclick="showPaymentModal()">Xác nhận đặt phòng</button>
-        </form>
-
-        <!-- Modal giả lập thanh toán -->
-        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="paymentModalLabel">Xác nhận thanh toán</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="col-md-8">
+                <h3 class="fw-bold text-primary-emphasis  ">{{room.roomType.name}} <span class="text-muted fs-5 font-size-15">(Phòng
+                        {{room.name}})</span></h3>
+                <div class="row g-2 mt-2">
+                    <div class="col-md-6">
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-money me-1 mr-2"></i>Giá:</strong> {{formatNumber room.price}} VND/đêm</p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-user me-1 mr-2"></i>Sức chứa:</strong> {{room.capacity}} người
+                        </p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-ruler me-1 mr-2"></i>Diện tích:</strong> {{room.size}} m²</p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-image me-1 mr-2"></i>Hướng nhìn:</strong> {{room.view}}</p>
                     </div>
-                    <div class="modal-body">
-                        <p>Vui lòng xác nhận thanh toán cho đơn đặt phòng.</p>
-                        <p><strong>Tổng giá:</strong> {{#if totalPrice}}{{totalPrice}} VND{{else}}Đang tính toán{{/if}}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary" onclick="document.getElementById('bookingForm').submit()">Thanh toán</button>
+                    <div class="col-md-6">
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-calendar me-1 mr-2"></i>Nhận phòng:</strong> {{checkin}}</p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-calendar me-1 mr-2"></i>Trả phòng:</strong> {{checkout}}</p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-home me-1 mr-2"></i>Số phòng:</strong> {{roomCount}}</p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-user me-1 mr-2"></i>Người lớn:</strong> {{adults}}</p>
+                        <p class="mb-2 font-size-15 "><strong><i class="ti-face-smile me-1 mr-2"></i>Trẻ em:</strong> {{children}}</p>
                     </div>
                 </div>
+                <p class="mt-3 mb-2 font-size-15 "><strong><i class="ti-check-box me-1 mr-2"></i>Tiện nghi:</strong></p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-primary-subtle font-size-14 text-primary">{{room.amenities.beds}}</span>
+                    <span class="badge bg-primary-subtle font-size-14 text-primary">{{room.amenities.bathroom}}</span>
+                </div>
+                <p class="mt-3 fw-bold text-primary font-size-14"><strong><i class="ti-wallet  me-1 mr-2"></i>Tổng giá:</strong> {{#if
+                    totalPrice}}{{totalPrice}} VND{{else}}Đang tính toán{{/if}}</p>
             </div>
         </div>
     </div>
 
-    <script>
-        function showPaymentModal() {
-            const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
-            modal.show();
-        }
+    <!-- Form thông tin khách hàng -->
+    <form class="customer-form p-4 rounded-4 shadow-lg mx-auto mt-5" id="bookingForm"
+        action="/book/{{room._id}}/confirm" method="POST">
+        <h2 class="mb-4 fw-semibold text-primary-emphasis"><i class="ti-user me-2 mr-2"></i>Thông tin khách hàng</h2>
+        {{#if error}}
+        <div class="alert alert-danger rounded-3 shadow-sm d-flex align-items-center">
+            <i class="ti-alert me-2 mr-2"></i>{{error}}
+        </div>
+        {{/if}}
+        <div class="row g-4">
+            <div class="col-md-6 mt-3">
+                <label for="fullName" class="form-label font-size-15  fw-semibold"><i class="ti-user me-1 mr-2"></i>Họ và tên</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-user mr-2"></i></span>
+                    <input type="text" class="form-control rounded-end" id="fullName" name="fullName"
+                        value="{{formData.fullName}}" required>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="email" class="form-label font-size-15  fw-semibold"><i class="ti-email me-1 mr-2"></i>Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-email mr-2"></i></span>
+                    <input type="email" class="form-control rounded-end" id="email" name="email"
+                        value="{{formData.email}}" required>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="phone" class="form-label font-size-15  fw-semibold"><i class="ti-mobile me-1 mr-2"></i>Số điện thoại</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-mobile mr-2"></i></span>
+                    <input type="tel" class="form-control rounded-end" id="phone" name="phone"
+                        value="{{formData.phone}}" required>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label for="idNumber" class="form-label font-size-15  fw-semibold"><i class="ti-id-badge me-1 mr-2"></i>CMND/CCCD</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-id-badge mr-2"></i></span>
+                    <input type="text" class="form-control rounded-end" id="idNumber" name="idNumber"
+                        value="{{formData.idNumber}}">
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <label for="address" class="form-label font-size-15  fw-semibold"><i class="ti-location-pin me-1 mr-2"></i>Địa chỉ</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-location-pin mr-2"></i></span>
+                    <textarea class="form-control rounded-end" id="address" name="address"
+                        rows="4">{{formData.address}}</textarea>
+                </div>
+            </div>
+            <!-- Thông tin từ form tìm kiếm -->
+            <input type="hidden" name="checkin" value="{{checkin}}">
+            <input type="hidden" name="checkout" value="{{checkout}}">
+            <input type="hidden" name="roomCount" value="{{roomCount}}">
+            <input type="hidden" name="adults" value="{{adults}}">
+            <input type="hidden" name="children" value="{{children}}">
+            <input type="hidden" name="totalPrice" value="{{totalPrice}}">
+        </div>
+        <button type="button" class="btn btn-primary d-flex justify-content-center font-size-15 w-100 mt-4 rounded-3 btn-confirm" onclick="showPaymentModal()"> <span class="font-size-15">Xác
+            nhận đặt phòng</span></button>
+    </form>
 
-        // Kiểm tra email để tự động điền thông tin khách hàng
-        document.getElementById('email').addEventListener('blur', async function() {
-            const email = this.value;
-            if (email) {
-                try {
-                    const response = await fetch(`/customer/check?email=${encodeURIComponent(email)}`);
-                    const customer = await response.json();
-                    if (customer) {
-                        document.getElementById('fullName').value = customer.fullName || '';
-                        document.getElementById('phone').value = customer.phone || '';
-                        document.getElementById('address').value = customer.address || '';
-                        document.getElementById('idNumber').value = customer.idNumber || '';
-                    }
-                } catch (error) {
-                    console.error('Lỗi khi kiểm tra email:', error);
+    <!-- Modal giả lập thanh toán -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-3 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold  text-primary-emphasis" id="paymentModalLabel"><i
+                            class="ti-wallet me-2"></i>Xác nhận thanh toán</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Vui lòng xác nhận thanh toán cho đơn đặt phòng.</p>
+                    <p class="fw-bold"><strong><i class="ti-money me-1 mr-2"></i>Tổng giá:</strong> {{#if
+                        totalPrice}}{{totalPrice}} VND{{else}}Đang tính toán{{/if}}</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-primary rounded-3" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary rounded-3"
+                        onclick="document.getElementById('bookingForm').submit()">Thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showPaymentModal() {
+        const modal = new bootstrap.Modal(document.getElementById('paymentModal'));
+        modal.show();
+    }
+
+    // Kiểm tra email để tự động điền thông tin khách hàng
+    document.getElementById('email').addEventListener('blur', async function () {
+        const email = this.value;
+        if (email) {
+            try {
+                const response = await fetch(`/customer/check?email=${encodeURIComponent(email)}`);
+                const customer = await response.json();
+                if (customer) {
+                    document.getElementById('fullName').value = customer.fullName || '';
+                    document.getElementById('phone').value = customer.phone || '';
+                    document.getElementById('address').value = customer.address || '';
+                    document.getElementById('idNumber').value = customer.idNumber || '';
                 }
+            } catch (error) {
+                console.error('Lỗi khi kiểm tra email:', error);
             }
-        });
-    </script>
+        }
+    });
+</script>

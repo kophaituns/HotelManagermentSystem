@@ -1,0 +1,178 @@
+<link rel="stylesheet" href="/css/revenue-report.css">
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__brand">LuxStay</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý người dùng</span>
+      </a>
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/revenue-report" class="dashboard__nav-link nav-link active">
+        <i class="ti-stats-up"></i>
+        <span>Báo cáo doanh thu</span>
+      </a>
+      <a href="/admin/customer-stats" class="dashboard__nav-link nav-link">
+        <i class="ti-pie-chart"></i>
+        <span>Thống kê khách hàng</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="dashboard__content">
+    <h2 class="dashboard__title"><i class="ti-stats-up mr-2"></i> Báo cáo doanh thu theo loại phòng</h2>
+    {{#if currentUser.name}}
+      <p class="dashboard__info"><i class="ti-user mr-2"></i> Tên: {{currentUser.name}}</p>
+      <p class="dashboard__info"><i class="ti-id-badge mr-2"></i> Quyền: {{currentUser.role}}</p>
+    {{else}}
+      <p class="dashboard__info"><i class="ti-alert mr-2"></i> Không tìm thấy thông tin người dùng</p>
+    {{/if}}
+
+    <!-- Form chọn khoảng thời gian -->
+    <form action="/admin/revenue-report" method="GET" class="mb-4 p-12px form-revenue">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="period" class="form-label"><i class="ti-calendar mr-2"></i> Khoảng thời gian</label>
+            <select name="period" id="period" class="form-control">
+              <option value="week" {{#if (eq period 'week')}}selected{{/if}}>Theo tuần</option>
+              <option value="month" {{#if (eq period 'month')}}selected{{/if}}>Theo tháng</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="date" class="form-label"><i class="ti-calendar mr-2"></i> Chọn ngày/tháng</label>
+            <input type="date" name="date" id="date" value="{{date}}" class="form-control" required>
+          </div>
+        </div>
+        <div class="col-md-4 mt-4">
+          <button type="submit" class="btn btn-primary"><i class="ti-search mr-2"></i> Xem báo cáo</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Thông báo lỗi -->
+    {{#if error}}
+      <div class="alert alert-danger"><i class="ti-alert mr-2"></i> {{error}}</div>
+    {{/if}}
+
+    <!-- Debug dữ liệu -->
+    <div style="display: none;">
+      Debug: {{log data}}
+    </div>
+
+    <!-- Biểu đồ và bảng -->
+    {{#if data}}
+      {{#if data.labels.length}}
+        <div class="card mb-4">
+          <div class="card-body">
+            <canvas id="revenueChart" height="100"></canvas>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Loại phòng</th>
+                <th>Doanh thu (VND)</th>
+                <th>Số phòng được đặt</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each data.labels}}
+                <tr>
+                  <td>{{this}}</td>
+                  <td>{{ formatNumber (lookup ../data.revenue @index)}}</td>
+                  <td>{{ formatNumberWithoutCurrency (lookup ../data.roomCount @index)}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{else}}
+        <div class="alert alert-warning"><i class="ti-alert mr-2"></i> Không có dữ liệu để hiển thị.</div>
+      {{/if}}
+    {{/if}}
+  </main>
+</div>
+
+<!-- Thêm Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+  {{#if data}}
+    {{#if data.labels.length}}
+      const ctx = document.getElementById('revenueChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: {{{json data.labels}}},
+          datasets: [
+            {
+              label: 'Doanh thu (VND)',
+              data: {{{json data.revenue}}},
+              backgroundColor: 'rgba(75, 192, 192, 0.5)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+              yAxisID: 'y',
+            },
+            {
+              label: 'Số phòng được đặt',
+              data: {{{json data.roomCount}}},
+              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1,
+              yAxisID: 'y1',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Doanh thu (VND)' },
+              position: 'left',
+              ticks: {
+                callback: function (value) {
+                  return value.toLocaleString('vi-VN');
+                },
+              },
+            },
+            y1: {
+              beginAtZero: true,
+              title: { display: true, text: 'Số phòng' },
+              position: 'right',
+              grid: { drawOnChartArea: false },
+            },
+            x: {
+              title: { display: true, text: 'Loại phòng' },
+            },
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += context.dataset.yAxisID === 'y'
+                      ? context.parsed.y.toLocaleString('vi-VN') + ' VND'
+                      : context.parsed.y;
+                  }
+                  return label;
+                },
+              },
+            },
+          },
+        },
+      });
+    {{/if}}
+  {{/if}}
+</script>

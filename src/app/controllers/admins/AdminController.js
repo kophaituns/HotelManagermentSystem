@@ -1,24 +1,14 @@
 const User = require('../../model/User');
 const { mutipleMongooseToObject, mongooseToObject } = require('../../../util/mongoose');
 const bcrypt = require('bcrypt');
+const Booking = require('../../model/Booking');
 
 const AdminController = {
-  // Middleware kiểm tra quyền admin
-  ensureAdmin: (req, res, next) => {
-    if (!req.user || !req.user.isAdmin) {
-      return res.status(403).render('error', {
-        message: 'Bạn không có quyền truy cập trang admin.',
-        
-      });
-    }
-    next();
-  },
 
   // Hiển thị trang chính của admin
   index: (req, res) => {
     res.render('admins/index', {
       title: 'Admin Dashboard',
-      user: req.user,
       
     });
   },
@@ -26,21 +16,35 @@ const AdminController = {
   // Lấy danh sách người dùng (phân trang)
   getEmployee: async (req, res) => {
     try {
-        Promise.all([User.find({}), User.countDocumentsDeleted()])
-        .then(([users, deletedCount]) =>
-            res.render('admins/employee', {
-                deletedCount,
-                users: mutipleMongooseToObject(users),
-            }),
-        )
+      const searchQuery = req.query.name || '';
+      let usersQuery = { deleted: false }; // Chỉ lấy người dùng chưa bị xóa
+
+      if (searchQuery) {
+        // Tìm kiếm theo tên (case-insensitive)
+        usersQuery.name = { $regex: new RegExp(searchQuery, 'i') };
+      }
+
+      const [users, deletedCount] = await Promise.all([
+        User.find(usersQuery),
+        User.countDocumentsDeleted()
+      ]);
+
+      res.render('admins/employee', {
+        users: mutipleMongooseToObject(users),
+        deletedCount,
+        searchQuery: { name: searchQuery },
+        message: req.query.message,
+        error: req.query.error,
+        // user: req.user
+    });
     } catch (error) {
       console.error('Lỗi khi lấy danh sách nhân viên:', error);
       res.status(500).render('admins/employee', {
-        title: 'Danh sách nhân viên',
         users: [],
         deletedCount: 0,
+        searchQuery: { name: req.query.name || '' },
         error: 'Đã xảy ra lỗi khi tải danh sách nhân viên. Vui lòng thử lại.',
-        
+        user: req.user
       });
     }
   },
@@ -103,17 +107,17 @@ const AdminController = {
       const avatar = req.file?.path || '/images/default-avatar.jpg';
 
       // Đồng bộ role với isAdmin
-      const userRole = isAdmin === 'true' ? 'Admin' : role || 'Nhân viên';
+
 
       const user = new User({
         username,
         passwordHash,
-        isAdmin: isAdmin === 'true',
+        isAdmin,
         name,
         email,
         dob: dob ? new Date(dob) : null,
         phone,
-        role: userRole,
+        role,
         avatar
       });
 
@@ -131,31 +135,35 @@ const AdminController = {
   },
 
   // Hiển thị thông tin người dùng
+  // 
+  
   showEmployee: async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       if (!user) {
         return res.status(404).render('admins/show', {
-          title: 'Chi tiết nhân viên',
+          title: 'Thông tin nhân viên',
           error: 'Nhân viên không tồn tại.',
-          
+          user: null,
+          message: req.query.message || null,
         });
       }
       res.render('admins/show', {
-        title: 'Chi tiết nhân viên',
+        title: 'Thông tin nhân viên',
         user: mongooseToObject(user),
-        
+        message: req.query.message || null,
+        error: req.query.error || null,
       });
     } catch (error) {
       console.error('Lỗi khi tìm nhân viên:', error);
       res.status(500).render('admins/show', {
-        title: 'Chi tiết nhân viên',
+        title: 'Thông tin nhân viên',
         error: 'Đã xảy ra lỗi khi tải thông tin nhân viên. Vui lòng thử lại.',
-        
+        user: null,
+        message: null,
       });
     }
   },
-
   // Chỉnh sửa thông tin người dùng
   editEmployee: async (req, res) => {
     try {
@@ -224,9 +232,7 @@ const AdminController = {
       // Xử lý ảnh
       const avatar = req.file?.path || req.body.existingAvatar || '/images/default-avatar.jpg';
 
-      // Đồng bộ role với isAdmin
-      const userRole = isAdmin === 'true' ? 'Admin' : role || 'Nhân viên';
-
+    
       const user = await User.findByIdAndUpdate(
         req.params.id,
         {
@@ -236,7 +242,7 @@ const AdminController = {
           email,
           dob: dob ? new Date(dob) : null,
           phone,
-          role: userRole,
+          role,
           avatar
         },
         { new: true }
@@ -358,7 +364,103 @@ const AdminController = {
         
       });
     }
-  }
+  },
+  getRevenueReport: async (req, res) => {
+    const period = req.query.period || 'week'; // Đặt mặc định ngay khi lấy query
+    const date = req.query.date || '';
+    console.log('Tham số báo cáo:', { period, date });
+
+    try {
+      // Xác định khoảng thời gian
+      let startDate, endDate;
+      if (period === 'week' && date) {
+        startDate = new Date(date);
+        startDate.setHours(0, 0, 0, 0);
+        endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6);
+        endDate.setHours(23, 59, 59, 999);
+      } else if (period === 'month' && date) {
+        startDate = new Date(date);
+        startDate.setDate(1);
+        startDate.setHours(0, 0, 0, 0);
+        endDate = new Date(startDate);
+        endDate.setMonth(startDate.getMonth() + 1);
+        endDate.setDate(0);
+        endDate.setHours(23, 59, 59, 999);
+      } else {
+        return res.render('admins/revenue-report', {
+          title: 'Báo cáo doanh thu',
+          data: null,
+          period,
+          date,
+          error: 'Vui lòng chọn khoảng thời gian hợp lệ.',
+          
+        });
+      }
+
+      // Aggregation pipeline
+      const report = await Booking.aggregate([
+        {
+          $match: {
+            checkin: { $gte: startDate, $lte: endDate },
+            status: { $in: ['pending', 'confirmed'] },
+          },
+        },
+        {
+          $lookup: {
+            from: 'rooms',
+            localField: 'roomId',
+            foreignField: '_id',
+            as: 'room',
+          },
+        },
+        { $unwind: '$room' },
+        {
+          $lookup: {
+            from: 'roomtypes',
+            localField: 'room.typeId',
+            foreignField: '_id',
+            as: 'roomType',
+          },
+        },
+        { $unwind: '$roomType' },
+        {
+          $group: {
+            _id: '$roomType._id',
+            roomTypeName: { $first: '$roomType.name' },
+            totalRevenue: { $sum: '$totalPrice' },
+            roomCount: { $sum: '$roomCount' },
+          },
+        },
+        { $sort: { roomTypeName: 1 } },
+      ]);
+   
+      const chartData = {
+        labels: report.map((item) => item.roomTypeName),
+        revenue: report.map((item) => Number(item.totalRevenue)),
+        roomCount: report.map((item) => Number(item.roomCount)),
+      };
+      console.log('Dữ liệu báo cáo:', chartData.revenue, chartData.roomCount);
+      res.render('admins/revenue-report', {
+        title: 'Báo cáo doanh thu',
+        data: chartData,
+        period,
+        date,
+        error: null,
+        
+      });
+    } catch (error) {
+      console.error('Lỗi khi tạo báo cáo doanh thu:', error);
+      res.status(500).render('admins/revenue-report', {
+        title: 'Báo cáo doanh thu',
+        data: null,
+        period,
+        date,
+        error: 'Đã xảy ra lỗi khi tạo báo cáo. Vui lòng thử lại.',
+        
+      });
+    }
+  },
 };
 
 module.exports = AdminController;

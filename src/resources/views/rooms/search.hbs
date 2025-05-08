@@ -1,94 +1,118 @@
- <div class="container mt-5">
-    <h2>Tìm kiếm phòng</h2>
+<div class="container search-container">
+    <h2 class="mb-4 fw-bold text-primary-emphasis"><i class="ti-search me-2 mr-2"></i>Tìm kiếm phòng</h2>
+
     {{#if error}}
-      <div class="alert alert-danger">{{error}}</div>
+        <div class="alert alert-danger rounded-3 shadow-sm d-flex align-items-center">
+            <i class="ti-alert me-2"></i>{{error}}
+        </div>
     {{/if}}
-    <form action="/search" method="GET" class="mb-4">
-      <div class="row">
-        <div class="col-md-3">
-          <label for="checkin" class="form-label">Ngày nhận phòng</label>
-          <input type="date" name="checkin" id="checkin" class="form-control" value="{{checkin}}" required>
+
+    <form action="/search" method="GET" class="search-form p-4 rounded-4 shadow-lg">
+        <div class="row gy-4">
+            <div class="col-md-3">
+                <label for="checkin" class="form-label fw-semibold "><i class="ti-calendar me-1  mr-2"></i>Ngày nhận phòng</label>
+                <div class="input-group">
+                    <span class="input-group-text "><i class="ti-calendar mr-2"></i></span>
+                    <input type="date" name="checkin" id="checkin" class="form-control rounded-end" value="{{checkin}}" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="checkout" class="form-label fw-semibold"><i class="ti-calendar me-1 mr-2"></i>Ngày trả phòng</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-calendar mr-2"></i></span>
+                    <input type="date" name="checkout" id="checkout" class="form-control rounded-end" value="{{checkout}}" required>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="roomCount" class="form-label fw-semibold"><i class="ti-home me-1 mr-2"></i>Số phòng</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-home mr-2"></i></span>
+                    <input type="number" name="roomCount" id="roomCount" class="form-control rounded-end" min="1" value="{{roomCount}}" required>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="adults" class="form-label fw-semibold"><i class="ti-user me-1 mr-2"></i>Người lớn</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-user mr-2"></i></span>
+                    <input type="number" name="adults" id="adults" class="form-control rounded-end" min="1" value="{{adults}}" required>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="children" class="form-label fw-semibold"><i class="ti-face-smile me-1 mr-2"></i>Trẻ em</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-face-smile mr-2"></i></span>
+                    <input type="number" name="children" id="children" class="form-control rounded-end" min="0" value="{{children}}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="typeId" class="form-label fw-semibold"><i class="ti-tag me-1 mr-2"></i>Loại phòng</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="ti-tag mr-2"></i></span>
+                    <select name="typeId" id="typeId" class="form-select rounded-end">
+                        <option value="">Tất cả</option>
+                        {{#each roomTypes}}
+                            <option value="{{_id}}" {{#if (eq ../selectedTypeId _id)}}selected{{/if}}>{{name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-          <label for="checkout" class="form-label">Ngày trả phòng</label>
-          <input type="date" name="checkout" id="checkout" class="form-control" value="{{checkout}}" required>
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary px-5 py-2 rounded-4">
+                <i class="ti-search me-2 mr-2"></i>Tìm kiếm
+            </button>
         </div>
-        <div class="col-md-2">
-          <label for="roomCount" class="form-label">Số phòng</label>
-          <input type="number" name="roomCount" id="roomCount" class="form-control" min="1" value="{{roomCount}}" required>
-        </div>
-        <div class="col-md-2">
-          <label for="adults" class="form-label">Số người lớn</label>
-          <input type="number" name="adults" id="adults" class="form-control" min="1" value="{{adults}}" required>
-        </div>
-        <div class="col-md-2">
-          <label for="children" class="form-label">Số trẻ em</label>
-          <input type="number" name="children" id="children" class="form-control" min="0" value="{{children}}">
-        </div>
-        <div class="col-md-3 mt-3">
-          <label for="typeId" class="form-label">Loại phòng</label>
-          <select name="typeId" id="typeId" class="form-control">
-            <option value="">Tất cả</option>
-            {{#each roomTypes}}
-              <option value="{{_id}}" {{#if (eq ../selectedTypeId _id)}}selected{{/if}}>{{name}}</option>
-            {{/each}}
-          </select>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
     </form>
 
     {{#if rooms.length}}
-      <h3>Kết quả tìm kiếm</h3>
-      <div class="row">
-        {{#each rooms}}
-          <div class="col-md-4 mb-4">
-            <div class="card">
-              {{#if images.length}}
-                <img src="{{images.[0]}}" class="card-img-top room-card-img" alt="Ảnh phòng {{number}}">
-              {{else}}
-                <img src="/images/default-room.jpg" class="card-img-top room-card-img" alt="Ảnh phòng mặc định">
-              {{/if}}
-              <div class="card-body">
-                <h5 class="card-title"><strong>Phòng: </strong>{{number}} ({{typeId.name}})</h5>
-                <p class="card-text"><strong>Giá:</strong> {{price}} VND/đêm</p>
-                {{#if description}}
-                  <p class="card-text"><strong>Mô tả:</strong> {{description}}</p>
-                {{/if}}
-                {{#if area}}
-                  <p class="card-text"><strong>Diện tích:</strong> {{area}} m²</p>
-                {{/if}}
-                {{#if capacity}}
-                  <p class="card-text"><strong>Số khách tối đa:</strong> {{capacity}} người</p>
-                {{/if}}
-                <p class="card-text"><strong>Tiện nghi:</strong></p>
-                <ul class="amenities-list">
-                  {{#if amenities.wifi}}
-                    <li>WiFi miễn phí</li>
-                  {{/if}}
-                  {{#if amenities.tv}}
-                    <li>TV màn hình phẳng</li>
-                  {{/if}}
-                  {{#if amenities.airConditioner}}
-                    <li>Máy lạnh</li>
-                  {{/if}}
-                  {{#if amenities.minibar}}
-                    <li>Minibar</li>
-                  {{/if}}
-                  {{#if amenities.bathroom.length}}
-                    {{#each amenities.bathroom}}
-                      <li>{{this}}</li>
-                    {{/each}}
-                  {{/if}}
-                </ul>
-                <a href="/book/{{_id}}?checkin={{../checkin}}&checkout={{../checkout}}&roomCount={{../roomCount}}&adults={{../adults}}&children={{../children}}" class="btn btn-primary">Đặt phòng</a>
-                <a href="/search/{{_id}}/availability?startDate={{../checkin}}&endDate={{../checkout}}" class="btn btn-info mt-2">Xem lịch trống</a>
-              </div>
-            </div>
-          </div>
-        {{/each}}
-      </div>
+        <h3 class="mt-5 mb-4 fw-bold text-success-emphasis"><i class="ti-home me-2 mr-2"></i>Kết quả tìm kiếm</h3>
+        <div class="row gy-4">
+            {{#each rooms}}
+                <div class="col-md-4">
+                    <div class="card room-card border-0 shadow-lg h-100">
+                        {{#if images.length}}
+                            <div class="room-img-wrapper">
+                                <img src="{{images.[0]}}" class="card-img-top room-card-img" alt="Ảnh phòng {{number}}">
+                            </div>
+                        {{else}}
+                            <div class="room-img-wrapper">
+                                <img src="/images/default-room.jpg" class="card-img-top room-card-img" alt="Ảnh phòng mặc định">
+                            </div>
+                        {{/if}}
+                        <div class="card-body">
+                            <h5 class="card-title mb-2 text-dark fw-bold">{{typeId.name}} <span class="text-muted fs-6">(Phòng {{name}})</span></h5>
+                            <p class="card-text font-size-14 text-primary fw-semibold mb-2">{{formatNumber price}} VND/đêm</p>
+                            {{#if description}}<p class="card-text font-size-14 text-muted">{{description}}</p>{{/if}}
+                            {{#if area}}<p class="card-text font-size-14 text-muted"><i class="ti-ruler me-1 mr-2"></i>{{area}} m²</p>{{/if}}
+                            {{#if capacity}}<p class="card-text font-size-14 text-muted"><i class="ti-user me-1 mr-2"></i>{{capacity}} người</p>{{/if}}
+                            <p class="card-text font-size-14 fw-semibold mt-3">Tiện nghi:</p>
+                            <div class="amenities-list d-flex flex-wrap gap-2">
+                                {{#if amenities.wifi}}<span class="badge bg-primary-subtle text-primary">WiFi</span>{{/if}}
+                                {{#if amenities.tv}}<span class="badge bg-primary-subtle text-primary">TV</span>{{/if}}
+                                {{#if amenities.airConditioner}}<span class="badge bg-primary-subtle text-primary">Máy lạnh</span>{{/if}}
+                                {{#if amenities.minibar}}<span class="badge bg-primary-subtle text-primary">Minibar</span>{{/if}}
+                                {{#if amenities.bathroom.length}}
+                                    {{#each amenities.bathroom}}
+                                        <span class="badge bg-primary-subtle text-primary">{{this}}</span>
+                                    {{/each}}
+                                {{/if}}
+                            </div>
+                            <div class="mt-3 d-flex gap-2">
+                                <a href="/book/{{_id}}?checkin={{../checkin}}&checkout={{../checkout}}&roomCount={{../roomCount}}&adults={{../adults}}&children={{../children}}" class="btn btn-primary w-100 rounded-3">
+                                    <i class="ti-agenda me-1 mr-2"></i>Đặt phòng
+                                </a>
+                                <a href="/search/{{_id}}/availability?startDate={{../checkin}}&endDate={{../checkout}}" class="btn btn-outline-primary w-100 rounded-3">
+                                    <i class="ti-calendar me-1 mr-2"></i>Xem lịch
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
     {{else}}
-      <p>Không tìm thấy phòng trống trong khoảng thời gian này.</p>
+        <div class="alert alert-warning mt-4 rounded-3 shadow-sm d-flex align-items-center">
+            <i class="ti-info-alt me-2 mr-2"></i>Không tìm thấy phòng trống trong khoảng thời gian này.
+        </div>
     {{/if}}
-  </div>
+</div>

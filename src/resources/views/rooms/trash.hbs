@@ -1,95 +1,143 @@
-<div class="room-trash container-fluid">
-  <div class="room-trash__header d-flex justify-content-between align-items-center my-4">
-    <a href="/admin/room" class="btn btn-outline-secondary">
-      <i class="ti-arrow-left"></i> Quay lại danh sách
-    </a>
-    <h2 class="room-trash__title mb-0 flex-2">
-      <i class="ti-trash"></i> Phòng đã xóa
-    </h2>
-    <div>
-      
-    </div>
-  </div>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div  class="dashboard__brand">LuxStay</div>
+    <nav class="dashboard__nav">
+      <a href="/admin/employee" class="dashboard__nav-link nav-link">
+        <i class="ti-user"></i>
+        <span>Quản lý người dùng</span>
+      </a>
+      <a href="/admin/room" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý phòng</span>
+      </a>
+      <a href="/admin/trash" class="dashboard__nav-link nav-link">
+        <i class="ti-trash"></i>
+        <span>Thùng rác</span>
+      </a>
+    
+    </nav>
+  </aside>
 
-  {{#if rooms.length}}
-  <div class="table-responsive">
-    <table class="table table-hover table-bordered text-center">
-      <thead class="thead-dark">
-        <tr>
-          <th>STT</th>
-          <th>Số phòng</th>
-          <th>Loại phòng</th>
-          <th>Giá (VNĐ)</th>
-          <th>Thao tác</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each rooms}}
-        <tr>
-          <td>{{increment @index}}</td>
-          <td>{{this.number}}</td>
-          <td>{{this.typeId.name}}</td>
-          <td>{{this.price}}</td>
-          <td>
-            <form action="/admin/room/restore/{{this._id}}?_method=PATCH" method="POST" class="d-inline">
-              <button type="submit" class="btn btn-success btn-sm" title="Khôi phục">
-                <i class="ti-reload"></i>
-              </button>
-            </form>
+  <main class="dashboard__content">
+    <header class="dashboard__header">
+      <h2 class="dashboard__title"><i class="ti-trash"></i> Thùng rác phòng</h2>
+      <div class="dashboard__user-info">
+        <span><i class="ti-user"></i> Tên: {{currentUser.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{currentUser.role}}</span>
+      </div>
+    </header>
 
-            <button class="btn btn-danger btn-sm" title="Xóa vĩnh viễn" data-toggle="modal" data-id="{{this._id}}" data-target="#force-delete-room-modal">
-              <i class="ti-close"></i>
-            </button>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-  {{else}}
-    <div class="alert alert-info text-center">
-      <i class="ti-info-alt"></i> Không có phòng nào trong thùng rác.
-    </div>
-  {{/if}}
+    <section class="dashboard__section">
+      <div class="room-trash">
+        <div class="room-trash__header">
+          <a href="/admin/room" class="btn btn-outline-secondary btn-sm btn--back">
+            <i class="ti-arrow-left"></i> Quay lại
+          </a>
+        </div>
+
+        {{#if rooms.length}}
+        <div class="table-responsive">
+          <table class="table room-trash__table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Ảnh</th>
+                <th>Tên phòng</th>
+                <th>Loại phòng</th>
+                <th>Giá (VND/đêm)</th>
+                <th>Số lượng phòng</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each rooms}}
+              <tr>
+                <td>{{increment @index}}</td>
+                <td>
+                  {{#if this.images.length}}
+                    <img src="{{this.images.[0]}}" alt="Room Image" class="room-image" />
+                  {{else}}
+                    <span>Không có ảnh</span>
+                  {{/if}}
+                </td>
+                <td>{{this.name}}</td>
+                <td>{{this.typeId.name}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.initialRemaining}}</td>
+                <td class="room-trash__actions">
+                  <a href="#" class="btn btn-success btn-sm btn-restore" data-id="{{this._id}}">
+                    <i class="ti-reload"></i> Khôi phục
+                  </a>
+                  <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-room-modal">
+                    <i class="ti-close"></i> Xóa
+                  </a>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+        {{else}}
+        <div class="room-trash__empty">
+          <i class="ti-info-alt"></i> Không có phòng nào trong thùng rác.
+        </div>
+        {{/if}}
+      </div>
+    </section>
+  </main>
 </div>
 
-{{!-- Modal xác nhận xóa vĩnh viễn --}}
-<div id="force-delete-room-modal" class="modal" tabindex="-1" role="dialog">
+{{!-- Confirm delete room --}}
+<div id="delete-room-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Xóa vĩnh viễn phòng này?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
-          <span aria-hidden="true">&times;</span>
+        <h5 class="modal-title">Xóa phòng?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Bạn chắc chắn muốn xóa vĩnh viễn phòng này? Hành động này không thể hoàn tác.</p>
+        <p>Hành động này không thể khôi phục. Bạn vẫn muốn xóa phòng này?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-        <button id="btn-force-delete-room" type="button" class="btn btn-danger">Xóa vĩnh viễn</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Hủy</button>
+        <button id="btn-delete-room" type="button" class="btn btn-danger btn-sm">Xóa vĩnh viễn</button>
       </div>
     </div>
   </div>
 </div>
 
-<form name="force-delete-form" method="POST"></form>
+<form name="delete-room-form" method="POST"></form>
+<form name="restore-room-form" method="POST"></form>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     var roomId;
-    var forceDeleteForm = document.forms['force-delete-form'];
-    var btnForceDeleteRoom = document.getElementById('btn-force-delete-room');
+    var deleteForm = document.forms['delete-room-form'];
+    var restoreForm = document.forms['restore-room-form'];
+    var btnDeleteRoom = document.getElementById('btn-delete-room');
+    var restoreBtn = $('.btn-restore');
 
-    $('#force-delete-room-modal').on('show.bs.modal', function (event) {
+    // When dialog confirm clicked
+    $('#delete-room-modal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);
       roomId = button.data('id');
     });
 
-    btnForceDeleteRoom.onclick = function () {
-      forceDeleteForm.action = '/admin/room/force-delete/' + roomId + '?_method=DELETE';
-      forceDeleteForm.submit();
-    };
+    // When delete room btn clicked
+    btnDeleteRoom.onclick = function () {
+      deleteForm.action = '/admin/room/forceDelete/' + roomId + '?_method=DELETE';
+      deleteForm.submit();
+    }
+
+    // Restore btn clicked
+    restoreBtn.click(function (e) {
+      e.preventDefault();
+
+      var roomId = $(this).data('id');
+      restoreForm.action = '/admin/room/restore/' + roomId + '?_method=PATCH';
+      restoreForm.submit();
+    });
   });
 </script>

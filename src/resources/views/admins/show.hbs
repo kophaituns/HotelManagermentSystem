@@ -1,6 +1,6 @@
 <div class="dashboard">
   <aside class="dashboard__sidebar">
-    <div class="dashboard__brand">HOTEL</div>
+    <div class="dashboard__brand">LuxStay</div>
     <nav class="dashboard__nav">
       <a href="/admin/employee" class="dashboard__nav-link nav-link">
         <i class="ti-user"></i>
@@ -14,10 +14,7 @@
         <i class="ti-trash"></i>
         <span>Thùng rác</span>
       </a>
-      <a href="/logout" class="dashboard__nav-link nav-link dashboard__nav-link--logout">
-        <i class="ti-power-off"></i>
-        <span>Đăng xuất</span>
-      </a>
+     
     </nav>
   </aside>
 
@@ -25,8 +22,8 @@
     <header class="dashboard__header">
       <h2 class="dashboard__title"><i class="ti-info-alt"></i> Chi tiết người dùng</h2>
       <div class="dashboard__user-info">
-        <span><i class="ti-user"></i> Tên: {{user.name}}</span>
-        <span><i class="ti-id-badge"></i> Quyền: {{user.role}}</span>
+        <span><i class="ti-user"></i> Tên: {{currentUser.name}}</span>
+        <span><i class="ti-id-badge"></i> Quyền: {{currentUser.role}}</span>
       </div>
     </header>
 

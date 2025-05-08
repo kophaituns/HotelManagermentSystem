@@ -1,6 +1,7 @@
 const Room = require('../model/Room');
 const RoomType = require('../model/RoomType');
-
+const {mongooseToObject} = require('../../util/mongoose');
+const User = require('../model/User');
 const SiteController = {
   index : async (req, res) => {
     try {
@@ -28,6 +29,18 @@ const SiteController = {
       res.status(500).send('Error fetching rooms for homepage');
     }
   }, 
+
+  getProfile: async (req, res) => {
+    try {
+      
+         res.render('profile');
+    }
+    // req.user đã được gán bởi verifyToken middleware
+  catch (error) {
+   next(error);
+ }
+},
+
 }
 
 module.exports = SiteController;

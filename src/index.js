@@ -8,8 +8,8 @@ const path = require('path');
 const db = require('./config/db/index.js');
 const route = require('./routes');
 const morgan = require('morgan');
-const AuthMiddleWare = require('./app/midleware/AuthMiddleWare.js');
 const hbshelpers = require('./app/helpers/DateHelper.js');
+
 require('./job/restoreRemaining.js'); // Import job to restore remaining rooms
 dotenv.config();
 
@@ -34,6 +34,7 @@ app.engine(
         extname: '.hbs',
      
         helpers: hbshelpers,
+        
     }),
 );
 app.use(cors());

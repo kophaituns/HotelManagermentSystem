@@ -1,6 +1,6 @@
 <div class="dashboard">
   <aside class="dashboard__sidebar">
-    <div class="dashboard__brand">HOTEL</div>
+    <div class="dashboard__brand">LuxStay</div>
 
     <nav class="dashboard__nav">
       <a href="/admin/employee" class="dashboard__nav-link nav-link">
@@ -11,16 +11,17 @@
         <i class="ti-home"></i>
         <span>Quản lý phòng</span>
       </a>
-      <a href="/logout" class="dashboard__nav-link nav-link dashboard__nav-link--logout">
-        <i class="ti-power-off"></i>
-        <span>Đăng xuất</span>
+      <a href="/admin/revenue-report" class="dashboard__nav-link nav-link">
+        <i class="ti-home"></i>
+        <span>Quản lý doanh thu</span>
       </a>
+     
     </nav>
   </aside>
 
   <main class="dashboard__content">
     <h2 class="dashboard__title">Chào mừng Admin</h2>
-    <p class="dashboard__info"><i class="ti-user"></i> Tên: {{user.name}}</p>
-    <p class="dashboard__info"><i class="ti-id-badge"></i> Quyền: {{user.role}}</p>
+    <p class="dashboard__info"><i class="ti-user"></i> Tên: {{currentUser.name}}</p>
+    <p class="dashboard__info"><i class="ti-id-badge"></i> Quyền: {{currentUser.role}}</p>
   </main>
 </div>

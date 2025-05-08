@@ -25,42 +25,52 @@ const roomSchema = new mongoose.Schema({
   description: { type: String }, // Mô tả tùy chỉnh
   price: { type: Number, required: true }, // Giá tiền 1 đêm
   initialRemaining: { type: Number, required: true }, // Số lượng phòng ban đầu
-  remaining: { type: Number, required: true }, // Số lượng phòng còn lại
+  remaining: { type: Number}, // Số lượng phòng còn lại
 });
 
-// Middleware để cập nhật remaining khi tạo booking
+// Cập nhật remaining khi đặt phòng
 roomSchema.statics.updateRemainingOnBooking = async function (booking) {
   const room = await this.findById(booking.roomId);
-  if (!room) return;
-
-  if (booking.status === 'pending' || booking.status === 'confirmed') {
-    room.remaining = Math.max(0, room.remaining - booking.roomCount);
-  } else if (booking.status === 'cancelled') {
-    room.remaining = Math.min(room.initialRemaining, room.remaining + booking.roomCount);
+  if (!room) {
+    throw new Error('Không tìm thấy phòng');
   }
-  await room.save();
-};
 
-// Middleware để khôi phục remaining sau checkout
-roomSchema.statics.restoreRemainingAfterCheckout = async function () {
-  const now = new Date();
-  const expiredBookings = await Booking.find({
-    checkout: { $lt: now },
+  // Tính lại remaining dựa trên các đơn đặt phòng hiện tại
+  const conflictingBookings = await mongoose.model('Booking').find({
+    roomId: booking.roomId,
     status: { $in: ['pending', 'confirmed'] },
-  });
+    $or: [
+      { checkin: { $lte: booking.checkout } },
+      { checkout: { $gte: booking.checkin } },
+    ],
+  }).lean();
 
-  for (const booking of expiredBookings) {
-    const room = await this.findById(booking.roomId);
-    if (room) {
-      room.remaining = Math.min(room.initialRemaining, room.remaining + booking.roomCount);
-      await room.save();
-      // Cập nhật trạng thái booking thành 'completed' hoặc xóa
-      booking.status = 'completed';
-      await booking.save();
-    }
-  }
+  const bookedCount = conflictingBookings.reduce((sum, b) => sum + b.roomCount, 0);
+  room.remaining = Math.max(0, room.initialRemaining - bookedCount);
+  await room.save();
+
+  console.log(`Cập nhật remaining cho phòng ${room._id}:`, { remaining: room.remaining, bookedCount });
 };
 
+// Khôi phục remaining khi đặt phòng hết hạn
+roomSchema.statics.restoreRemaining = async function (roomId, checkoutDate) {
+  const room = await this.findById(roomId);
+  if (!room) {
+    return;
+  }
+
+  const activeBookings = await mongoose.model('Booking').find({
+    roomId,
+    status: { $in: ['pending', 'confirmed'] },
+    checkout: { $gt: checkoutDate },
+  }).lean();
+
+  const bookedCount = activeBookings.reduce((sum, booking) => sum + booking.roomCount, 0);
+  room.remaining = room.initialRemaining - bookedCount;
+  await room.save();
+
+  console.log(`Khôi phục remaining cho phòng ${room._id}:`, { remaining: room.remaining, bookedCount });
+};
 roomSchema.plugin(mongooseDelete, {
   deletedAt: true,
   overrideMethods: 'all',

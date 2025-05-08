@@ -1,0 +1,103 @@
+<main class="dashboard__content flex-grow-1 p-4">
+
+
+    <!-- Edit Profile Section -->
+    <section class="dashboard__section">
+      <div class="profile-edit">
+        <!-- Back Button -->
+        <div class="profile-edit__back mb-4">
+          <a href="/profile" class="btn btn-outline-secondary btn-sm">
+            <i class="ti-arrow-left me-1"></i>Quay lại hồ sơ
+          </a>
+        </div>
+
+        <!-- Success Message (từ query string) -->
+        {{#if @root.query.success}}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{@root.query.success}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {{/if}}
+
+        <!-- Error Message -->
+        {{#if error}}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {{/if}}
+
+        <!-- Edit Form -->
+        <div class="card shadow profile-edit__card p-4">
+          <form action="/profile/update/{{currentUser._id}}" method="POST">
+            <div class="row">
+              <!-- Avatar -->
+              <div class="col-md-4 text-center mb-4 mb-md-0">
+                <img src="{{user.avatar}}" alt="Avatar" class="user-edit__avatar mb-3">
+                <div class="form-group">
+                  <label for="avatar">Đổi ảnh đại diện</label>
+                  <input type="file" name="avatar" class="form-control mt-2">
+                </div>
+              </div>
+
+              <!-- Form Fields -->
+              <div class="col-md-8">
+                <h4 class="mb-3 fw-bold"><i class="ti-info-alt me-2"></i>Chỉnh sửa thông tin</h4>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Họ tên <span class="text-danger">*</span></label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="name" 
+                    name="name" 
+                    value="{{user.name}}" 
+                    required
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                  <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    value="{{user.email}}" 
+                    required
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="dob" class="form-label">Ngày sinh</label>
+                  <input 
+                    type="date" 
+                    class="form-control" 
+                    id="dob" 
+                    name="dob" 
+                    value="{{#if user.dob}}{{formatDate user.dob}}{{/if}}"
+                  >
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Số điện thoại</label>
+                  <input 
+                    type="tel" 
+                    class="form-control" 
+                    id="phone" 
+                    name="phone" 
+                    value="{{user.phone}}"
+                  >
+                </div>
+                <div class="mt-4">
+                  <button type="submit" class="btn btn-success">
+                    <i class="ti-save me-1"></i>Lưu thay đổi
+                  </button>
+                  <a href="/profile" class="btn btn-outline-secondary ms-2">
+                    Hủy
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
