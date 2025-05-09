@@ -1148,7 +1148,7 @@ $font-size-2xl: 1.778rem; // 32px;
     position: relative;
 
     .page1_image {
-      background: url("https://scontent.fdad3-5.fna.fbcdn.net/v/t39.30808-6/487171230_9440971329326243_2049659571080009192_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=-_RTTAnEyXQQ7kNvwHMmfN7&_nc_oc=Adldd1GOCYXb3kH4aMLfjb5xmdJNr9iBQ-zhVZX5UTuzE1S7foQMet-VpwZapHHMvRM&_nc_zt=23&_nc_ht=scontent.fdad3-5.fna&_nc_gid=GAUyIPfNl-B83XV1fL9hCg&oh=00_AfHI-T7PUT5KaRr9Ne4f4cYBtoLC_r5-Kjqcand6n6aMcA&oe=680FD738") no-repeat center center/cover;
+      background: url("https://scontent.fdad3-5.fna.fbcdn.net/v/t39.30808-6/487171230_9440971329326243_2049659571080009192_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=yahw6bn7WIkQ7kNvwEU41l0&_nc_oc=Adl2mXDozdWfCFq1SACBiGvijDDVp68YRrKbRx_QTAFPKjT4JwCRULkwvI5OA-x8xNY&_nc_zt=23&_nc_ht=scontent.fdad3-5.fna&_nc_gid=CnlA1u-dmAzJd1zSwpV0Xw&oh=00_AfKAGXLRKMs2S520J2Xf9LNQ3JXPi2QQn8MloZXAilygEA&oe=6823D5F8") no-repeat center center/cover;
       height: 100%;
     }
 
@@ -1252,7 +1252,8 @@ $font-size-2xl: 1.778rem; // 32px;
 // Next Page
 .next {
   margin: 0;
-  padding-top: $spacing-lg;
+  // padding-top: $spacing-lg;
+  padding: 0;
   height: 100vh;
   box-sizing: border-box;
   overflow: hidden;
@@ -1264,6 +1265,211 @@ $font-size-2xl: 1.778rem; // 32px;
     border: none;
   }
 }
+/* === Trang 5: Carousel === */
+.image {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
+  overflow: hidden;
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+
+    .carousel-item {
+      flex: 0 0 33.33%;
+      box-sizing: border-box;
+      padding: 10px;
+
+      img {
+        width: 100%;
+        height: 500px;
+        border-radius: 0;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background-color: rgba(205, 170, 150, 0.7);
+  border-radius: 0;
+  border: none;
+  color: white;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(205, 170, 150, 1);
+  }
+}
+
+.left {
+  left: 10px;
+}
+
+.right {
+  right: 10px;
+}
+
+/* === Trang 6: Spa Section === */
+.spa {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #f7f5f2;
+
+  .left, .right {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .left {
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  .right {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #2d2d2d;
+
+    .category, .sub-category {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin: 20px 0;
+    }
+
+    .description {
+      font-size: 20px;
+      line-height: 2.0;
+      margin-bottom: 30px;
+    }
+
+    .explore-btn {
+      padding: 10px 25px;
+      border: 1px solid #2d2d2d;
+      text-decoration: none;
+      color: #2d2d2d;
+      font-size: 14px;
+      width: fit-content;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #2d2d2d;
+        color: #fff;
+      }
+    }
+  }
+}
+
+/* === Trang 7: Testimonial === */
+.testimonial {
+  max-width: 1000px;
+  margin: 100px auto;
+  text-align: center;
+  font-style: italic;
+  font-size: 22px;
+  color: #333;
+  position: relative;
+  padding: 16px 20px;
+
+  &::before,
+  &::after {
+    content: "“";
+    font-size: 100px;
+    color: #eee;
+    position: absolute;
+  }
+
+  &::before {
+    top: -50px;
+    left: 50px;
+  }
+
+  &::after {
+    content: "”";
+    bottom: -30px;
+    right: 30px;
+  }
+
+  .author {
+    margin-top: 30px;
+    font-style: normal;
+    font-size: 14px;
+    color: #555;
+    letter-spacing: 1px;
+  }
+}
+
+/* === Trang 8: Booking === */
+.booking {
+  background-color: #f5f4f1;
+  text-align: center;
+  padding: 60px 20px;
+
+  h2 {
+    font-size: 32px;
+    color: #2d2d2d;
+    margin-bottom: 40px;
+  }
+
+  .booking-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    .option {
+      max-width: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 15px;
+        opacity: 0.6;
+      }
+
+      p {
+        font-size: 16px;
+        color: #4a4a4a;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+
+
 
 
 
@@ -1304,6 +1510,7 @@ $font-size-2xl: 1.778rem; // 32px;
     }
   }
 
+
   .customer-form {
     .form-group {
       .form-control {
@@ -1333,6 +1540,10 @@ $font-size-2xl: 1.778rem; // 32px;
     }
   }
 }
+
+
+
+
 
 // Staff Dashboard
 .dashboard {
