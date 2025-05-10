@@ -1139,9 +1139,13 @@ $font-size-2xl: 1.778rem; // 32px;
 
 // Page 1
 .page1 {
+  // display: flex;
+  // height: 100vh;
+  // padding-top: 10%;
+  // margin-top: 100px;
   display: flex;
-  height: 100vh;
-  padding-top: 10%;
+height: 100vh;
+margin-top: 20px;
 
   .left {
     flex: 0.5;
@@ -1157,6 +1161,7 @@ $font-size-2xl: 1.778rem; // 32px;
       position: absolute;
       bottom: 200px;
       left: 450px;
+      font-size: 20px;
       background: #e4c5bd;
       color: $black;
       text-transform: uppercase;
@@ -1176,21 +1181,23 @@ $font-size-2xl: 1.778rem; // 32px;
       background: $white;
 
       h1 {
-        font-size: $font-size-2xl;
+        font-size: 20px $font-size-2xl;
         font-weight: 700;
         margin-bottom: $spacing-xl;
       }
 
       p {
-        font-size: $font-size-lg;
+        font-size: 20px;
         line-height: 1.6;
       }
     }
 
     .gallery_image {
       height: 400px;
-      background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat center center/cover;
-      position: relative;
+      background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat;
+      // position: relative;
+      background-size: cover;
+      background-position: 50% center;
 
       .overlay-text {
         position: absolute;
@@ -1209,6 +1216,7 @@ $font-size-2xl: 1.778rem; // 32px;
           @include button-base;
           background: #e4c5bd;
           color: $black;
+          font-size: 20px;
           text-transform: uppercase;
           @include hover-darken(#e4c5bd);
         }
@@ -1232,14 +1240,19 @@ $font-size-2xl: 1.778rem; // 32px;
     justify-content: center;
 
     h1 {
-      font-size: $font-size-2xl;
+      font-size: 20px;
+      // font-size: $font-size-2xl;
       font-weight: 600;
       margin-bottom: $spacing-xl;
     }
 
     p {
-      font-size: $font-size-lg;
+      font-size: 20px;
+      // font-size: $font-size-lg;
       line-height: 1.6;
+    }
+    .btn-explore{
+      font-size:  20px;
     }
   }
 
@@ -1252,23 +1265,34 @@ $font-size-2xl: 1.778rem; // 32px;
 // Next Page
 .next {
   margin: 0;
-  // padding-top: $spacing-lg;
+  padding-top: $spacing-lg;
   padding: 0;
   height: 100vh;
+  width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
 
   &_video iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+   width: 100%;   
+  height: 100vh;  
+  border: none;
+  object-fit: cover; 
+  margin-top: 20px;
   }
 }
 /* === Trang 5: Carousel === */
 .image {
   text-align: center;
   padding: 40px 0;
+  font-size: 20px;
+}
+
+.image-title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .carousel-wrapper {
@@ -1276,44 +1300,73 @@ $font-size-2xl: 1.778rem; // 32px;
   width: 100%;
   max-width: 1500px;
   margin: auto;
-  overflow: hidden;
+  overflow: visible !important;
+ 
+.carousel-track {
+  display: flex;
+  justify-content: space-between; // Thêm dòng này để cách đều các item
+  width:50%;
+}
 
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease;
+.carousel-item {
+  flex: 0 0 32%; // Giảm một chút để không bị tràn, mỗi item chiếm 32%
+  box-sizing: border-box;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 
-    .carousel-item {
-      flex: 0 0 33.33%;
-      box-sizing: border-box;
-      padding: 10px;
+  img {
+    width: 200%;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
-      img {
-        width: 100%;
-        height: 500px;
-        border-radius: 0;
-        object-fit: cover;
-      }
+  h3 {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2d2d2d;
+  }
+
+  p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: #555;
+  }
+
+  a {
+    font-size: 14px;
+    color: #0077cc;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #004a99;
     }
   }
+ }
 }
 
 .nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   background-color: rgba(205, 170, 150, 0.7);
-  border-radius: 0;
   border: none;
   color: white;
-  font-size: 16px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 99;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -1329,11 +1382,13 @@ $font-size-2xl: 1.778rem; // 32px;
   right: 10px;
 }
 
+
 /* === Trang 6: Spa Section === */
 .spa {
   display: flex;
   flex-wrap: wrap;
   background-color: #f7f5f2;
+  gap: 20px;
 
   .left, .right {
     flex: 1;
@@ -1343,13 +1398,13 @@ $font-size-2xl: 1.778rem; // 32px;
   .left {
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
     }
   }
 
   .right {
-    padding: 60px;
+    padding: clamp(30px, 5vw, 60px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1359,31 +1414,36 @@ $font-size-2xl: 1.778rem; // 32px;
       font-size: 14px;
       color: #666;
       margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     h1 {
-      font-size: 36px;
+      font-size: clamp(24px, 4vw, 36px);
       margin: 20px 0;
     }
 
     .description {
-      font-size: 20px;
-      line-height: 2.0;
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.8;
       margin-bottom: 30px;
     }
 
     .explore-btn {
-      padding: 10px 25px;
-      border: 1px solid #2d2d2d;
+      padding: 12px 30px;
+      border: 2px solid #2d2d2d;
       text-decoration: none;
       color: #2d2d2d;
       font-size: 14px;
       width: fit-content;
       transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
 
       &:hover {
         background-color: #2d2d2d;
         color: #fff;
+        transform: translateY(-2px);
       }
     }
   }
@@ -1392,20 +1452,21 @@ $font-size-2xl: 1.778rem; // 32px;
 /* === Trang 7: Testimonial === */
 .testimonial {
   max-width: 1000px;
-  margin: 100px auto;
+  margin: clamp(50px, 10vw, 100px) auto;
   text-align: center;
   font-style: italic;
-  font-size: 22px;
+  font-size: clamp(18px, 2.5vw, 22px);
   color: #333;
   position: relative;
   padding: 16px 20px;
 
   &::before,
   &::after {
-    content: "“";
-    font-size: 100px;
+    content: "''";
+    font-size: clamp(60px, 10vw, 100px);
     color: #eee;
     position: absolute;
+    font-family: serif;
   }
 
   &::before {
@@ -1414,10 +1475,11 @@ $font-size-2xl: 1.778rem; // 32px;
   }
 
   &::after {
-    content: "”";
+    content: "''";
     bottom: -30px;
     right: 30px;
   }
+
 
   .author {
     margin-top: 30px;
@@ -1425,17 +1487,66 @@ $font-size-2xl: 1.778rem; // 32px;
     font-size: 14px;
     color: #555;
     letter-spacing: 1px;
+    text-transform: uppercase;
   }
 }
+/* === Contact Box === */
+.contact-box {
+  max-width: 1000px;
+  margin: clamp(50px, 10vw, 100px) auto;
+  text-align: center;
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: #333;
+  position: relative;
+  padding: 16px 20px;
+  background-color: #f5e8e0;  /* Lighter beige background */
+  border-radius: 10px;  /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Soft shadow effect */
+  
+  p {
+    font-weight: normal;
+    margin-bottom: 15px;
+    color: #6c6c6c;  /* Slightly darker text color */
+  }
+
+  .contact-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    span {
+      font-size: 18px;
+      font-weight: 500;
+      color: #333;
+      border-bottom: 2px solid #ccc;  /* Underline phone number */
+    }
+
+    .contact-btn {
+      padding: 12px 30px;
+      background-color: #d99e8b;  /* Soft brown color */
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #bc856d;  /* Darker brown on hover */
+      }
+    }
+  }
+}
+
 
 /* === Trang 8: Booking === */
 .booking {
   background-color: #f5f4f1;
   text-align: center;
-  padding: 60px 20px;
+  padding: clamp(40px, 5vw, 60px) 20px;
 
   h2 {
-    font-size: 32px;
+    font-size: clamp(24px, 3vw, 32px);
     color: #2d2d2d;
     margin-bottom: 40px;
   }
@@ -1444,19 +1555,29 @@ $font-size-2xl: 1.778rem; // 32px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 50px;
+    gap: clamp(30px, 5vw, 50px);
 
     .option {
       max-width: 220px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
 
       img {
         width: 48px;
         height: 48px;
         margin-bottom: 15px;
         opacity: 0.6;
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover img {
+        opacity: 1;
       }
 
       p {
