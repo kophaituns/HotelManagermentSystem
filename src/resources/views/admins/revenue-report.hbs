@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/css/revenue-report.css">
 <div class="dashboard">
   <aside class="dashboard__sidebar">
     <div class="dashboard__brand">LuxStay</div>
@@ -25,10 +24,10 @@
   <main class="dashboard__content">
     <h2 class="dashboard__title"><i class="ti-stats-up mr-2"></i> Báo cáo doanh thu theo loại phòng</h2>
     {{#if currentUser.name}}
-      <p class="dashboard__info"><i class="ti-user mr-2"></i> Tên: {{currentUser.name}}</p>
-      <p class="dashboard__info"><i class="ti-id-badge mr-2"></i> Quyền: {{currentUser.role}}</p>
+    <p class="dashboard__info"><i class="ti-user mr-2"></i> Tên: {{currentUser.name}}</p>
+    <p class="dashboard__info"><i class="ti-id-badge mr-2"></i> Quyền: {{currentUser.role}}</p>
     {{else}}
-      <p class="dashboard__info"><i class="ti-alert mr-2"></i> Không tìm thấy thông tin người dùng</p>
+    <p class="dashboard__info"><i class="ti-alert mr-2"></i> Không tìm thấy thông tin người dùng</p>
     {{/if}}
 
     <!-- Form chọn khoảng thời gian -->
@@ -38,8 +37,8 @@
           <div class="form-group">
             <label for="period" class="form-label"><i class="ti-calendar mr-2"></i> Khoảng thời gian</label>
             <select name="period" id="period" class="form-control">
-              <option value="week" {{#if (eq period 'week')}}selected{{/if}}>Theo tuần</option>
-              <option value="month" {{#if (eq period 'month')}}selected{{/if}}>Theo tháng</option>
+              <option value="week" {{#if (eq period 'week' )}}selected{{/if}}>Theo tuần</option>
+              <option value="month" {{#if (eq period 'month' )}}selected{{/if}}>Theo tháng</option>
             </select>
           </div>
         </div>
@@ -55,9 +54,16 @@
       </div>
     </form>
 
+    <!-- Nút xuất PDF -->
+    {{#if data}}
+    {{#if data.labels.length}}
+    <button id="exportPdf" class="btn btn-success mb-4"><i class="ti-download mr-2"></i> Xuất PDF</button>
+    {{/if}}
+    {{/if}}
+
     <!-- Thông báo lỗi -->
     {{#if error}}
-      <div class="alert alert-danger"><i class="ti-alert mr-2"></i> {{error}}</div>
+    <div class="alert alert-danger"><i class="ti-alert mr-2"></i> {{error}}</div>
     {{/if}}
 
     <!-- Debug dữ liệu -->
@@ -67,112 +73,151 @@
 
     <!-- Biểu đồ và bảng -->
     {{#if data}}
-      {{#if data.labels.length}}
-        <div class="card mb-4">
-          <div class="card-body">
-            <canvas id="revenueChart" height="100"></canvas>
-          </div>
-        </div>
+    {{#if data.labels.length}}
+    <div class="card mb-4">
+      <div class="card-body">
+        <canvas id="revenueChart" height="100"></canvas>
+      </div>
+    </div>
 
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Loại phòng</th>
-                <th>Doanh thu (VND)</th>
-                <th>Số phòng được đặt</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each data.labels}}
-                <tr>
-                  <td>{{this}}</td>
-                  <td>{{ formatNumber (lookup ../data.revenue @index)}}</td>
-                  <td>{{ formatNumberWithoutCurrency (lookup ../data.roomCount @index)}}</td>
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
-      {{else}}
-        <div class="alert alert-warning"><i class="ti-alert mr-2"></i> Không có dữ liệu để hiển thị.</div>
-      {{/if}}
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Loại phòng</th>
+            <th>Doanh thu (VND)</th>
+            <th>Số phòng được đặt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data.labels}}
+          <tr>
+            <td>{{this}}</td>
+            <td>{{formatNumber (lookup ../data.revenue @index)}}</td>
+            <td>{{formatNumberWithoutCurrency (lookup ../data.roomCount @index)}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{else}}
+    <div class="alert alert-warning"><i class="ti-alert mr-2"></i> Không có dữ liệu để hiển thị.</div>
+    {{/if}}
     {{/if}}
   </main>
 </div>
 
-<!-- Thêm Chart.js -->
+<!-- Thêm Chart.js và các thư viện export PDF -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- html2pdf-pro bundle (tích hợp html2canvas & jsPDF) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
-  {{#if data}}
-    {{#if data.labels.length}}
-      const ctx = document.getElementById('revenueChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: {{{json data.labels}}},
-          datasets: [
-            {
-              label: 'Doanh thu (VND)',
-              data: {{{json data.revenue}}},
-              backgroundColor: 'rgba(75, 192, 192, 0.5)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-              yAxisID: 'y',
-            },
-            {
-              label: 'Số phòng được đặt',
-              data: {{{json data.roomCount}}},
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1,
-              yAxisID: 'y1',
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: { display: true, text: 'Doanh thu (VND)' },
-              position: 'left',
-              ticks: {
-                callback: function (value) {
-                  return value.toLocaleString('vi-VN');
-                },
-              },
-            },
-            y1: {
-              beginAtZero: true,
-              title: { display: true, text: 'Số phòng' },
-              position: 'right',
-              grid: { drawOnChartArea: false },
-            },
-            x: {
-              title: { display: true, text: 'Loại phòng' },
-            },
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function (context) {
-                  let label = context.dataset.label || '';
-                  if (label) {
-                    label += ': ';
-                  }
-                  if (context.parsed.y !== null) {
-                    label += context.dataset.yAxisID === 'y'
-                      ? context.parsed.y.toLocaleString('vi-VN') + ' VND'
-                      : context.parsed.y;
-                  }
-                  return label;
-                },
-              },
-            },
-          },
-        },
+document.addEventListener('DOMContentLoaded', () => {
+  const exportBtn = document.getElementById('exportPdf');
+  if (!exportBtn) return;
+
+  exportBtn.addEventListener('click', () => {
+    const chartCanvas = document.getElementById('revenueChart');
+    const chartImage = new Image();
+    chartImage.src = chartCanvas.toDataURL('image/png');
+
+ 
+    chartCanvas.parentNode.replaceChild(chartImage, chartCanvas);
+
+    const element = document.querySelector('.table-responsive').parentNode; // lấy cả chart + bảng
+
+    html2pdf()
+      .set({
+        margin: 10,
+        filename: 'revenue-report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, width: element.offsetWidth, height: element.offsetHeight},
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(element)
+      .save()
+      .then(() => {
+
+        chartImage.parentNode.replaceChild(chartCanvas, chartImage);
       });
-    {{/if}}
+  });
+});
+
+</script>
+
+{{#if data}}
+  {{#if data.labels.length}}
+<script>
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{{ json data.labels }}},
+      datasets: [
+        {
+          label: 'Doanh thu (VND)',
+          data: {{{ json data.revenue }}},
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          yAxisID: 'y',
+        },
+        {
+          label: 'Số phòng được đặt',
+          data: {{{ json data.roomCount }}},
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+          yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Doanh thu (VND)' },
+          position: 'left',
+          ticks: {
+            callback: function (value) {
+              return value.toLocaleString('vi-VN');
+            }
+          }
+        },
+        y1: {
+          beginAtZero: true,
+          title: { display: true, text: 'Số phòng' },
+          position: 'right',
+          grid: { drawOnChartArea: false }
+        },
+        x: {
+          title: { display: true, text: 'Loại phòng' }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = context.dataset.label || '';
+              if (label) label += ': ';
+              if (context.parsed.y !== null) {
+                label += context.dataset.yAxisID === 'y'
+                  ? context.parsed.y.toLocaleString('vi-VN') + ' VND'
+                  : context.parsed.y;
+              }
+              return label;
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
   {{/if}}
+{{/if}}
+
+
 </script>

@@ -49,7 +49,6 @@ module.exports = {
   },
 
   formatNumberWithoutCurrency(value) {
-    console.log('formatNumberWithoutCurrency input:', value, typeof value);
     const cleanedValue = String(value).replace(/[^0-9.-]/g, ''); // Loại bỏ ký tự không phải số
     const num = Number(cleanedValue);
     return isNaN(num) ? '0' : num.toLocaleString('vi-VN', {

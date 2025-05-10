@@ -1745,3 +1745,84 @@ $font-size-2xl: 1.778rem; // 32px;
   }
 }
 // End of Revenue Page
+
+.not-found-container {
+  text-align: center;
+  padding: $spacing-xl * 2;
+
+  @media (max-width: 768px) {
+    padding: $spacing-xl;
+  }
+}
+
+// Content
+.not-found-content {
+  margin: auto;
+  background: #fff;
+  padding: $spacing-xl * 3;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+
+  @media (max-width: 576px) {
+    padding: $spacing-xl * 2;
+  }
+
+  i {
+    color: $primary-color;
+    margin-bottom: $spacing-xl;
+  }
+
+  h1 {
+    font-size: 6rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin-bottom: $spacing-xl / 2;
+
+    @media (max-width: 576px) {
+      font-size: 4rem;
+    }
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: $spacing-xl * 2;
+
+    @media (max-width: 576px) {
+      font-size: 1rem;
+    }
+  }
+
+  .btn-back {
+    display: inline-block;
+    padding: $spacing-xl / 2 $spacing-xl;
+    background-color: $primary-color;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    @media (max-width: 576px) {
+      padding: $spacing-xl / 2;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .not-found-content {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    padding: $spacing-xl;
+  }
+}

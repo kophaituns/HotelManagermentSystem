@@ -311,6 +311,7 @@ exports.showBookingPage = async (req, res) => {
     }).lean();
 
     console.log('Các đơn đặt phòng xung đột:', conflictingBookings.map(b => ({
+      deleted: b.deleted,
       _id: b._id,
       checkin: b.checkin,
       checkout: b.checkout,
@@ -610,7 +611,7 @@ exports.updateBookingStatus = async (req, res) => {
 // Hiển thị danh sách đơn đặt phòng
 exports.showStaffBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find()
+    const bookings = await Booking.find({deleted: false})
       .populate({
         path: 'roomId',
         populate: { path: 'typeId' }
@@ -648,7 +649,7 @@ exports.showStaffBookings = async (req, res) => {
 // Hiển thị lịch sử đặt phòng
 exports.showBookingHistory = async (req, res) => {
   try {
-    const history = await Booking.find()
+    const history = await Booking.find({deleted: false})
       .populate({
         path: 'roomId',
         populate: { path: 'typeId' }
@@ -1470,6 +1471,7 @@ exports.deleteBooking = async (req, res) => {
       totalPrice: booking.totalPrice,
       status: booking.status
     }));
+    console.log('Bookings sau khi xóa mềm:', formattedBookings);
 
     res.render('staffs/index', {
       bookings: formattedBookings,

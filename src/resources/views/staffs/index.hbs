@@ -32,9 +32,7 @@
     {{#if error}}
       <div class="alert alert-danger"><i class="ti-alert mr-2"></i> {{error}}</div>
       {{/if}}
-      {{#if message}}
-      <div class="alert alert-success"><i class="ti-check mr-2"></i> {{message}}</div>
-      {{/if}}
+    
 
     {{#if bookings}}
     <section class="dashboard__section">
@@ -108,18 +106,22 @@
                 {{#if (eq status "pending")}}
                 <form action="/book/{{_id}}/status" method="POST" style="display:inline;">
                   <input type="hidden" name="status" value="confirmed">
-                  <button type="submit" class="btn btn-success btn-sm action-btn"><i class="ti-check mr-2"></i> Xác
+                  <button type="submit" class="btn btn-success btn-sm action-btn"><i class="ti-check "></i> Xác
                     nhận</button>
                 </form>
                 <form action="/book/{{_id}}/status" method="POST" style="display:inline;">
                   <input type="hidden" name="status" value="cancelled">
-                  <button type="submit" class="btn btn-danger btn-sm action-btn"><i class="ti-close mr-2"></i> Hủy</button>
+                  <button type="submit" class="btn btn-danger btn-sm action-btn"><i class="ti-close "></i> Hủy</button>
                 </form>
-                {{/if}}
-                <a href="/staff/bookings/{{_id}}/edit" class="btn btn-success btn-sm btn__link-edit"><i class="ti-pencil mr-2"></i>
+                {{else if (eq status "confirmed")}}
+                <a href="/staff/bookings/{{_id}}/edit" class="btn btn-success btn-sm btn__link-edit"><i class="ti-pencil "></i>
                   Sửa</a>
                 <button type="button" class="btn btn-danger btn-sm action-btn"
-                  onclick="openModal('{{_id}}', 'delete')"><i class="ti-trash mr-2"></i> Xóa</button>
+                  onclick="openModal('{{_id}}', 'delete')"><i class="ti-trash "></i> Xóa</button>
+                  {{else if (eq status "cancelled")}}
+                  <button type="button" class="btn btn-danger btn-sm action-btn"
+                  onclick="openModal('{{_id}}', 'delete')"><i class="ti-trash "></i> Xóa</button>
+                {{/if}}
               </td>
             </tr>
             {{/each}}
