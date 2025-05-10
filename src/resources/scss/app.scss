@@ -1195,7 +1195,7 @@ margin-top: 20px;
     .gallery_image {
       height: 400px;
       background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat;
-      // position: relative;
+       position: relative;
       background-size: cover;
       background-position: 50% center;
 
@@ -1462,7 +1462,7 @@ margin-top: 20px;
 
   &::before,
   &::after {
-    content: "''";
+    content: "”";
     font-size: clamp(60px, 10vw, 100px);
     color: #eee;
     position: absolute;
@@ -1475,7 +1475,7 @@ margin-top: 20px;
   }
 
   &::after {
-    content: "''";
+    content: "”";
     bottom: -30px;
     right: 30px;
   }
