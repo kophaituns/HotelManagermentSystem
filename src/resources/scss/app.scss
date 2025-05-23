@@ -1083,7 +1083,8 @@ $font-size-2xl: 1.778rem; // 32px;
     left: 50%;
     transform: translate(-50%, -50%);
     color: $white;
-    font-size: $font-size-2xl;
+    // font-size: $font-size-2xl ;
+    font-size: 30px;
     text-shadow: 2px 2px 4px $shadow-color;
   }
 }
@@ -1165,7 +1166,7 @@ margin-top: 20px;
       background: #e4c5bd;
       color: $black;
       text-transform: uppercase;
-      font-weight: bold;
+      font-weight: normal;
       @include hover-darken(#e4c5bd);
     }
   }
@@ -1189,39 +1190,43 @@ margin-top: 20px;
       p {
         font-size: 20px;
         line-height: 1.6;
+        opacity: 0.7;
       }
     }
 
     .gallery_image {
-      height: 400px;
-      background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat;
-       position: relative;
-      background-size: cover;
-      background-position: 50% center;
+  height: 100%;
+  width: 100%;
+  background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
+  position: relative; // Thêm thuộc tính này để `.overlay-text` căn theo hình
+ 
+}
 
-      .overlay-text {
-        position: absolute;
-        top: 50%;
-        left: 10%;
-        transform: translateY(-50%);
-        color: $white;
-        text-align: left;
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); // Căn giữa cả chiều ngang và dọc
+  color: white;
+  text-align: center;
 
-        h1 {
-          font-size: $font-size-xl;
-          margin-bottom: $spacing-xl;
-        }
+  h1 {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-xl;
+  }
 
-        .btn-khampha {
-          @include button-base;
-          background: #e4c5bd;
-          color: $black;
-          font-size: 20px;
-          text-transform: uppercase;
-          @include hover-darken(#e4c5bd);
-        }
-      }
-    }
+  .btn-khampha {
+    @include button-base;
+    background: #e4c5bd;
+    color: $black;
+    font-size: 20px;
+    text-transform: uppercase;
+    @include hover-darken(#e4c5bd);
+  }
+}
+
   }
 }
 
@@ -1240,8 +1245,8 @@ margin-top: 20px;
     justify-content: center;
 
     h1 {
-      font-size: 20px;
-      // font-size: $font-size-2xl;
+      // font-size: 20px;
+      font-size: $font-size-2xl;
       font-weight: 600;
       margin-bottom: $spacing-xl;
     }
@@ -1250,10 +1255,26 @@ margin-top: 20px;
       font-size: 20px;
       // font-size: $font-size-lg;
       line-height: 1.6;
+      opacity: 0.7;
     }
     .btn-explore{
-      font-size:  20px;
+      padding: 12px 30px;
+      border: 2px solid #2d2d2d;
+      text-decoration: none;
+      color: #2d2d2d;
+      font-size: 14px;
+      width: fit-content;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      &:hover {
+        background-color: #2d2d2d;
+        color: #fff;
+        transform: translateY(-2px);
+      }
     }
+    
   }
 
   &_image {

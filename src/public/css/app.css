@@ -881,7 +881,7 @@ html {
   left: 50%;
   transform: translate(-50%, -50%);
   color: #fff;
-  font-size: 1.778rem;
+  font-size: 30px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -972,7 +972,7 @@ html {
   background: #e4c5bd;
   color: #000;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: normal;
 }
 .page1 .left .btn-dive:hover {
   background-color: rgb(213.1935483871, 165.1935483871, 152.8064516129);
@@ -995,27 +995,29 @@ html {
 .page1 .right .page1_text p {
   font-size: 20px;
   line-height: 1.6;
+  opacity: 0.7;
 }
 .page1 .right .gallery_image {
-  height: 400px;
-  background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat;
-  position: relative;
+  height: 100%;
+  width: 100%;
+  background: url("https://handyuni.vn/wp-content/uploads/2025/01/dong-phuc-fo-intercontinental-danang-sun-peninsula-resort.jpg") no-repeat center center;
   background-size: cover;
-  background-position: 50% center;
+  overflow: hidden;
+  position: relative;
 }
-.page1 .right .gallery_image .overlay-text {
+.page1 .right .overlay-text {
   position: absolute;
   top: 50%;
-  left: 10%;
-  transform: translateY(-50%);
-  color: #fff;
-  text-align: left;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
 }
-.page1 .right .gallery_image .overlay-text h1 {
+.page1 .right .overlay-text h1 {
   font-size: 1.333rem;
   margin-bottom: 24px;
 }
-.page1 .right .gallery_image .overlay-text .btn-khampha {
+.page1 .right .overlay-text .btn-khampha {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1031,7 +1033,7 @@ html {
   font-size: 20px;
   text-transform: uppercase;
 }
-.page1 .right .gallery_image .overlay-text .btn-khampha:hover {
+.page1 .right .overlay-text .btn-khampha:hover {
   background-color: rgb(213.1935483871, 165.1935483871, 152.8064516129);
 }
 
@@ -1049,16 +1051,30 @@ html {
   justify-content: center;
 }
 .suite_text h1 {
-  font-size: 20px;
+  font-size: 1.778rem;
   font-weight: 600;
   margin-bottom: 24px;
 }
 .suite_text p {
   font-size: 20px;
   line-height: 1.6;
+  opacity: 0.7;
 }
 .suite_text .btn-explore {
-  font-size: 20px;
+  padding: 12px 30px;
+  border: 2px solid #2d2d2d;
+  text-decoration: none;
+  color: #2d2d2d;
+  font-size: 14px;
+  width: fit-content;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.suite_text .btn-explore:hover {
+  background-color: #2d2d2d;
+  color: #fff;
+  transform: translateY(-2px);
 }
 .suite_image {
   flex: 0.5;
